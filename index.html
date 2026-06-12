@@ -559,7 +559,7 @@ const AudioSys = {
       this.master = this.ctx.createGain(); this.master.gain.value = S.settings.vol;
       this.master.connect(this.ctx.destination);
       this.ambGain = this.ctx.createGain(); this.ambGain.gain.value = S.settings.amb*0.06;
-      this.ambGain.connect(this.master); this.startAmbient();
+      this.ambGain.connect(this.master);
     }catch(e){}
   },
   startAmbient(){ if(!this.ctx||this.ambNodes.length) return;
