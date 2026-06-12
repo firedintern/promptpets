@@ -57,193 +57,235 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  /* ════════════════════ GAME ART DIRECTION ════════════════════
-     Warm, rounded, hand-crafted "small studio" look: chunky 3D
-     buttons, collectible cards, glossy bars, playful type. */
+  /* ═══════════════ DESIGN SYSTEM — "small studio" game UI ═══════════════
+     Warm rounded shapes, hard offset shadows (sticker/board-game feel),
+     white pill primary buttons, serif display type, HSL token palette. */
   :root{
-    --cyan:#00f0ff; --magenta:#ff4dff; --gold:#ffd166; --purple:#a78bfa;
-    --bg0:#131022; --bg1:#1d1838;
-    --surface0:#2c2656; --surface1:#221d45; --line:#3f3875;
-    --ink:#f2efff; --ink-dim:#a9a3d4;
-    --font-display:'Fredoka','Baloo 2',ui-rounded,'SF Pro Rounded','Comic Sans MS',system-ui,sans-serif;
-    --font-body:'Nunito',ui-rounded,'Segoe UI',system-ui,sans-serif;
+    --background: 222 47% 11%;
+    --card: 222 40% 15%;
+    --card-raised: 222 38% 19%;
+    --foreground: 0 0% 98%;
+    --muted-foreground: 220 15% 65%;
+    --border: 222 26% 27%;
+    --primary: 195 85% 55%;
+    --accent: 45 95% 65%;
+    --success: 142 70% 45%;
+    --rarity-common: 215 20% 70%;
+    --rarity-uncommon: 142 70% 50%;
+    --rarity-rare: 195 85% 55%;
+    --rarity-epic: 265 70% 65%;
+    --rarity-legendary: 45 95% 65%;
+    --rarity-mythic: 320 95% 66%;
+    --font-display: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+    --font-body: 'Inter', system-ui, -apple-system, sans-serif;
   }
   html,body{height:100%; overscroll-behavior:none;}
   body{
     background:
-      radial-gradient(900px 520px at 88% -6%, rgba(255,138,84,.10), transparent 60%),
-      radial-gradient(820px 620px at -12% 112%, rgba(255,77,255,.09), transparent 55%),
-      radial-gradient(1300px 900px at 50% -20%, #2d2358 0%, var(--bg1) 45%, var(--bg0) 100%);
-    color:var(--ink);
+      radial-gradient(1100px 600px at 85% -8%, hsl(28 60% 30% / .14), transparent 60%),
+      radial-gradient(900px 700px at -10% 110%, hsl(320 60% 40% / .10), transparent 55%),
+      radial-gradient(1400px 950px at 50% -25%, hsl(232 45% 20%) 0%, hsl(var(--background)) 55%, hsl(228 50% 8%) 100%);
+    color:hsl(var(--foreground));
     font-family:var(--font-body);
-    -webkit-tap-highlight-color: transparent;
+    -webkit-tap-highlight-color:transparent;
     user-select:none;
   }
-  /* gentle drifting twinkle layer behind everything */
+  /* faint drifting star layer for life */
   body::before{ content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
     background-image:
-      radial-gradient(2px 2px at 12% 25%, rgba(255,255,255,.28), transparent 55%),
-      radial-gradient(1.6px 1.6px at 76% 12%, rgba(255,209,102,.35), transparent 55%),
-      radial-gradient(2px 2px at 55% 48%, rgba(0,240,255,.2), transparent 55%),
-      radial-gradient(1.6px 1.6px at 28% 72%, rgba(255,255,255,.18), transparent 55%),
-      radial-gradient(2px 2px at 90% 62%, rgba(255,77,255,.2), transparent 55%),
-      radial-gradient(1.4px 1.4px at 42% 88%, rgba(255,209,102,.22), transparent 55%);
-    animation: twinkle 6.5s ease-in-out infinite alternate;
-  }
-  @keyframes twinkle{ from{opacity:.45} to{opacity:1} }
+      radial-gradient(2px 2px at 12% 25%, rgba(255,255,255,.22), transparent 55%),
+      radial-gradient(1.6px 1.6px at 76% 12%, hsl(var(--accent)/.3), transparent 55%),
+      radial-gradient(2px 2px at 55% 48%, hsl(var(--primary)/.18), transparent 55%),
+      radial-gradient(1.6px 1.6px at 28% 72%, rgba(255,255,255,.15), transparent 55%),
+      radial-gradient(2px 2px at 90% 62%, hsl(320 90% 70% / .16), transparent 55%);
+    animation: twinkle 7s ease-in-out infinite alternate; }
+  @keyframes twinkle{ from{opacity:.4} to{opacity:1} }
   #gameRoot{ position:relative; z-index:1; }
 
-  h1,h2,h3,.font-black,.font-bold,.num,.btn,.navbtn{ font-family:var(--font-display); }
-  .font-black{ font-weight:600; } h2.font-black,.text-lg.font-black,.text-xl.font-black{ font-weight:700; letter-spacing:.015em; }
-  .num{ font-variant-numeric:tabular-nums; font-weight:600; }
-  .flavor{ font-style:italic; color:#c4bde8; font-family:var(--font-body); font-weight:600; }
+  /* ---- typography ---- */
+  h1,h2,h3,.font-black{ font-family:var(--font-display) !important; font-weight:400 !important;
+    letter-spacing:-.01em; }
+  .num{ font-family:var(--font-body) !important; font-weight:700 !important;
+    font-variant-numeric:tabular-nums; letter-spacing:-.01em; }
+  .flavor{ font-style:italic; color:hsl(225 25% 78%); font-family:var(--font-display); font-size:1.05em; }
+  .game-logo{ font-family:var(--font-display); font-size:1.875rem; line-height:1.05; letter-spacing:-.02em;
+    color:hsl(var(--foreground)); text-shadow:0 3px 16px rgba(0,0,0,.45); }
+  .game-logo i{ color:hsl(var(--accent)); }
   ::-webkit-scrollbar{ width:9px; height:9px; }
-  ::-webkit-scrollbar-thumb{ background:#4a4284; border-radius:9px; border:2px solid #1d1838; }
+  ::-webkit-scrollbar-thumb{ background:hsl(222 25% 30%); border-radius:9px; border:2px solid hsl(var(--background)); }
   ::-webkit-scrollbar-track{ background:transparent; }
 
-  /* ---- the game logo ---- */
-  .game-logo{ font-family:var(--font-display); font-weight:700; font-size:1.5rem; letter-spacing:.035em;
-    background:linear-gradient(180deg,#fff 8%, #ffe9a8 38%, #ff9bea 72%, #a387ff 100%);
-    -webkit-background-clip:text; background-clip:text; color:transparent;
-    filter:drop-shadow(0 2px 0 rgba(38,20,80,.95)) drop-shadow(0 5px 12px rgba(255,77,255,.35)); }
+  /* ---- panels: rounded board pieces with hard drop ---- */
+  .game-panel{ background:hsl(var(--card)); border-radius:24px;
+    border:2px solid hsl(var(--border));
+    box-shadow: 0 10px 0 rgba(0,0,0,.12), inset 0 1.5px 0 rgba(255,255,255,.05); }
 
-  /* ---- panels: soft toy-box surfaces ---- */
-  .panel{ background:linear-gradient(180deg,var(--surface0) 0%,var(--surface1) 100%);
-    border:2px solid var(--line); border-radius:1.4rem;
-    box-shadow: inset 0 2px 0 rgba(255,255,255,.09), 0 8px 22px rgba(8,5,25,.45); }
-
-  /* ---- collectible cards ---- */
-  .card{ cursor:pointer;
-    transition: transform .2s cubic-bezier(.2,.9,.3,1.45), box-shadow .2s ease, filter .2s ease; }
-  .card canvas{ transition: transform .28s cubic-bezier(.2,.9,.3,1.6); }
-  .card:active{ transform:scale(.955); }
+  /* ---- collectible pet cards ---- */
+  .pet-card{ background:hsl(var(--card)); border-radius:20px; border:3px solid;
+    box-shadow: 0 8px 0 rgba(0,0,0,.15);
+    transition: transform .2s cubic-bezier(.23,1,.32,1), box-shadow .2s ease; cursor:pointer;
+    position:relative; }
+  .pet-card canvas{ transition: transform .25s cubic-bezier(.23,1,.32,1); }
   @media(hover:hover){
-    .card:hover{ transform:translateY(-5px) scale(1.02); filter:brightness(1.07); }
-    .card:hover canvas{ transform:scale(1.09); }
+    .pet-card:hover{ transform:translateY(-4px); box-shadow: 0 16px 0 rgba(0,0,0,.2); }
+    .pet-card:hover canvas{ transform:scale(1.08); }
   }
-  .petframe{ border-radius:1rem; overflow:hidden; border:2px solid rgba(255,255,255,.07);
-    background:radial-gradient(circle at 50% 62%, #3e366f 0%, #261f4b 70%, #1e1939 100%);
-    box-shadow: inset 0 6px 16px rgba(0,0,0,.38), inset 0 -2px 0 rgba(255,255,255,.05); }
-  .lvbadge{ display:inline-block; font-family:var(--font-display); font-weight:600; font-size:.68rem;
-    color:#ffe9b0; background:linear-gradient(180deg,#534674,#3c325c); border:1.5px solid #6f5f9e;
-    border-radius:999px; padding:.1rem .55rem; line-height:1.15rem;
-    box-shadow: inset 0 1.5px 0 rgba(255,255,255,.18), 0 2px 3px rgba(0,0,0,.3); }
-  .powtag{ font-family:var(--font-display); font-weight:700; color:var(--gold); font-size:.82rem;
-    text-shadow:0 1.5px 0 rgba(60,30,0,.55); }
+  .pet-card:active{ transform:translateY(2px) scale(.985); box-shadow:0 4px 0 rgba(0,0,0,.15); }
+  .petframe{ border-radius:14px; overflow:hidden; border:2px solid hsl(222 28% 22%);
+    background:radial-gradient(circle at 50% 62%, hsl(228 35% 23%) 0%, hsl(228 44% 12%) 78%);
+    box-shadow: inset 0 5px 14px rgba(0,0,0,.42); }
+  .lvbadge{ display:inline-flex; align-items:center; gap:.18rem; font-family:var(--font-body);
+    font-weight:700; font-size:.68rem; color:#1a2233; line-height:1.2;
+    background:linear-gradient(180deg,#ffffff,#e8ecf4); border-radius:9999px; padding:.14rem .55rem;
+    box-shadow:0 2px 0 #aeb8cc; }
+  .powtag{ font-family:var(--font-body); font-weight:800; font-size:.85rem;
+    color:hsl(var(--accent)); text-shadow:0 1px 3px rgba(0,0,0,.55); }
 
-  /* ---- rarity frames: vivid borders, glow, shimmer on Epic+ ---- */
-  .r-Common   { border-color:#56518e; }
-  .r-Uncommon { border-color:#3ddc97; box-shadow: inset 0 2px 0 rgba(255,255,255,.09), 0 0 14px rgba(61,220,151,.28), 0 8px 22px rgba(8,5,25,.45); }
-  .r-Rare     { border-color:var(--cyan); box-shadow: inset 0 2px 0 rgba(255,255,255,.09), 0 0 16px rgba(0,240,255,.33), 0 8px 22px rgba(8,5,25,.45); }
-  .r-Epic     { border-color:var(--purple); box-shadow: inset 0 2px 0 rgba(255,255,255,.1), 0 0 18px rgba(167,139,250,.5), 0 8px 22px rgba(8,5,25,.45); }
-  .r-Legendary{ border-color:var(--gold); box-shadow: inset 0 2px 0 rgba(255,255,255,.12), 0 0 20px rgba(255,209,102,.55), 0 8px 22px rgba(8,5,25,.45); animation:legendPulse 2.4s ease-in-out infinite; }
-  .r-Mythic   { border-color:var(--magenta); box-shadow: inset 0 2px 0 rgba(255,255,255,.12), 0 0 24px rgba(255,77,255,.6), 0 8px 22px rgba(8,5,25,.45); animation:mythicPulse 1.8s ease-in-out infinite; }
-  @keyframes legendPulse{ 50%{ box-shadow: inset 0 2px 0 rgba(255,255,255,.12), 0 0 32px rgba(255,209,102,.85), 0 8px 22px rgba(8,5,25,.45);} }
-  @keyframes mythicPulse{ 50%{ box-shadow: inset 0 2px 0 rgba(255,255,255,.12), 0 0 38px rgba(255,77,255,.95), 0 0 64px rgba(0,240,255,.3), 0 8px 22px rgba(8,5,25,.45);} }
+  /* ---- rarity frames (glow via filter so hover shadow stays clean) ---- */
+  .r-Common   { border-color:hsl(var(--rarity-common)/.55); }
+  .r-Uncommon { border-color:hsl(var(--rarity-uncommon)); filter:drop-shadow(0 0 7px hsl(var(--rarity-uncommon)/.3)); }
+  .r-Rare     { border-color:hsl(var(--rarity-rare)); filter:drop-shadow(0 0 8px hsl(var(--rarity-rare)/.35)); }
+  .r-Epic     { border-color:hsl(var(--rarity-epic)); filter:drop-shadow(0 0 10px hsl(var(--rarity-epic)/.45)); }
+  .r-Legendary{ border-color:hsl(var(--rarity-legendary)); animation:legendGlow 2.6s ease-in-out infinite; }
+  .r-Mythic   { border-color:hsl(var(--rarity-mythic)); animation:mythicGlow 1.9s ease-in-out infinite; }
+  @keyframes legendGlow{ 0%,100%{ filter:drop-shadow(0 0 8px hsl(var(--rarity-legendary)/.45)); }
+    50%{ filter:drop-shadow(0 0 18px hsl(var(--rarity-legendary)/.8)); } }
+  @keyframes mythicGlow{ 0%,100%{ filter:drop-shadow(0 0 10px hsl(var(--rarity-mythic)/.5)); }
+    50%{ filter:drop-shadow(0 0 22px hsl(var(--rarity-mythic)/.85)); } }
   .r-Epic,.r-Legendary,.r-Mythic{ position:relative; overflow:hidden; }
   .r-Epic::after,.r-Legendary::after,.r-Mythic::after{
     content:''; position:absolute; top:-25%; bottom:-25%; left:0; width:42%; pointer-events:none;
-    background:linear-gradient(105deg, transparent 5%, rgba(255,255,255,.16) 50%, transparent 95%);
-    transform:skewX(-14deg) translateX(-160%); animation:shimmer 3.4s ease-in-out infinite; }
-  @keyframes shimmer{ 0%,55%{ transform:skewX(-14deg) translateX(-160%);} 100%{ transform:skewX(-14deg) translateX(420%);} }
-  .tc-Common{color:#a8a4cf} .tc-Uncommon{color:#3ddc97} .tc-Rare{color:var(--cyan)}
-  .tc-Epic{color:#c4b1ff} .tc-Legendary{color:var(--gold)} .tc-Mythic{color:#ff8aff}
+    background:linear-gradient(105deg, transparent 5%, rgba(255,255,255,.13) 50%, transparent 95%);
+    transform:skewX(-14deg) translateX(-170%); animation:shimmer 3.6s ease-in-out infinite; }
+  @keyframes shimmer{ 0%,55%{ transform:skewX(-14deg) translateX(-170%);} 100%{ transform:skewX(-14deg) translateX(430%);} }
+  .tc-Common{color:hsl(var(--rarity-common))} .tc-Uncommon{color:hsl(var(--rarity-uncommon))}
+  .tc-Rare{color:hsl(var(--rarity-rare))} .tc-Epic{color:hsl(var(--rarity-epic))}
+  .tc-Legendary{color:hsl(var(--rarity-legendary))} .tc-Mythic{color:hsl(var(--rarity-mythic))}
 
-  /* ---- chunky game buttons with pressable 3D edge ---- */
-  .btn{ font-family:var(--font-display); font-weight:600; letter-spacing:.02em;
-    border-radius:1.1rem; padding:.7rem 1.2rem; position:relative;
-    transition: transform .13s cubic-bezier(.2,.9,.3,1.6), box-shadow .13s ease, filter .15s ease;
-    touch-action:manipulation; }
-  @media(hover:hover){ .btn:hover{ filter:brightness(1.09) saturate(1.06); transform:translateY(-1px); } }
-  .btn:active{ transform:translateY(3px) scale(.985); }
-  .btn:disabled{ opacity:.45; pointer-events:none; filter:saturate(.5); }
-  .btn-cyan{ background:linear-gradient(180deg,#55edff 0%,#00c2e0 100%); color:#053a46;
-    text-shadow:0 1px 0 rgba(255,255,255,.3);
-    box-shadow: inset 0 2px 0 rgba(255,255,255,.55), 0 4px 0 #0083a3, 0 10px 22px rgba(0,240,255,.28); }
-  .btn-cyan:active{ box-shadow: inset 0 2px 0 rgba(255,255,255,.55), 0 1px 0 #0083a3, 0 4px 10px rgba(0,240,255,.2); }
-  .btn-magenta{ background:linear-gradient(180deg,#ff8af4 0%,#e93de0 100%); color:#fff;
-    text-shadow:0 1.5px 2px rgba(120,0,110,.45);
-    box-shadow: inset 0 2px 0 rgba(255,255,255,.45), 0 4px 0 #a4189c, 0 10px 22px rgba(255,77,255,.32); }
-  .btn-magenta:active{ box-shadow: inset 0 2px 0 rgba(255,255,255,.45), 0 1px 0 #a4189c, 0 4px 10px rgba(255,77,255,.22); }
-  .btn-gold{ background:linear-gradient(180deg,#ffe494 0%,#ffba3a 100%); color:#5b3300;
-    text-shadow:0 1px 0 rgba(255,255,255,.4);
-    box-shadow: inset 0 2px 0 rgba(255,255,255,.65), 0 4px 0 #c27a10, 0 10px 22px rgba(255,209,102,.3); }
-  .btn-gold:active{ box-shadow: inset 0 2px 0 rgba(255,255,255,.65), 0 1px 0 #c27a10, 0 4px 10px rgba(255,209,102,.2); }
-  .btn-ghost{ background:linear-gradient(180deg,#3d3770,#322c5d); border:2px solid #4c4488; color:#e6e0ff;
-    box-shadow: inset 0 2px 0 rgba(255,255,255,.13), 0 3px 0 #211c46; }
-  .btn-ghost:active{ box-shadow: inset 0 2px 0 rgba(255,255,255,.13), 0 1px 0 #211c46; }
-  .btn-danger{ background:linear-gradient(180deg,#532b46,#41213a); border:2px solid #92405c; color:#ffa6b8;
-    box-shadow: inset 0 2px 0 rgba(255,255,255,.08), 0 3px 0 #2a1428; }
-  .btn-danger:active{ box-shadow: inset 0 2px 0 rgba(255,255,255,.08), 0 1px 0 #2a1428; }
-  #moveBtns .btn{ border-radius:1.1rem;
-    box-shadow: inset 0 2px 0 rgba(255,255,255,.09), 0 3px 0 rgba(10,6,30,.65); }
-  #moveBtns .btn:active{ box-shadow: inset 0 2px 0 rgba(255,255,255,.09), 0 1px 0 rgba(10,6,30,.65); }
+  /* ---- the game button: white pill with hard edge (primary actions) ---- */
+  .game-button{ background:linear-gradient(180deg,#ffffff 0%,#f0f0f0 100%); color:#111827;
+    border-radius:9999px; font-family:var(--font-body); font-weight:600; letter-spacing:-.2px;
+    padding:.72rem 1.35rem; touch-action:manipulation;
+    box-shadow: 0 4px 0 #d1d5db, 0 6px 12px rgba(0,0,0,.15);
+    transition: all .1s ease; }
+  @media(hover:hover){ .game-button:hover{ transform:translateY(-1px) scale(1.02);
+    box-shadow: 0 5px 0 #d1d5db, 0 10px 18px rgba(0,0,0,.22); } }
+  .game-button:active{ transform:translateY(2px) !important; box-shadow: 0 2px 0 #d1d5db; }
+  .game-button:disabled{ opacity:.45; pointer-events:none; }
+  /* tinted variants keep type/action color coding while staying light & premium */
+  .gb-cyan{ background:linear-gradient(180deg,#ecfcff,#bff0fa); color:#085365;
+    box-shadow: 0 4px 0 #79cfe2, 0 6px 12px rgba(0,0,0,.15); }
+  .gb-cyan:active{ box-shadow: 0 2px 0 #79cfe2; }
+  .gb-gold{ background:linear-gradient(180deg,#fff8e2,#ffe096); color:#6b4500;
+    box-shadow: 0 4px 0 #e2b14b, 0 6px 12px rgba(0,0,0,.15); }
+  .gb-gold:active{ box-shadow: 0 2px 0 #e2b14b; }
+  .gb-magenta{ background:linear-gradient(180deg,#ffeefb,#ffc7ef); color:#8d166e;
+    box-shadow: 0 4px 0 #eb91d3, 0 6px 12px rgba(0,0,0,.15); }
+  .gb-magenta:active{ box-shadow: 0 2px 0 #eb91d3; }
 
-  /* ---- header: currency pills with coin icons ---- */
-  .coin-pill{ display:flex; align-items:center; gap:.45rem; padding:.32rem .85rem .32rem .35rem;
-    border-radius:999px; background:linear-gradient(180deg,#332c61,#272148);
-    border:2px solid #483f80; font-size:.92rem;
-    box-shadow: inset 0 2px 0 rgba(255,255,255,.1), 0 3px 0 #191534; }
-  .coin-ico{ width:1.55rem; height:1.55rem; border-radius:999px; display:grid; place-items:center;
+  /* ---- charm button: soft secondary pill ---- */
+  .charm-button{ border-radius:9999px; font-family:var(--font-body); font-weight:700; letter-spacing:-.2px;
+    padding:.65rem 1.2rem; touch-action:manipulation;
+    transition: all .15s cubic-bezier(.23,1,.32,1); }
+  @media(hover:hover){ .charm-button:hover{ transform:scale(1.04); } }
+  .charm-button:active{ transform:scale(.985); }
+  .charm-button:disabled{ opacity:.45; pointer-events:none; }
+  .cb-ghost{ background:hsl(222 32% 22%); color:hsl(222 30% 90%);
+    border:2px solid hsl(var(--border)); box-shadow: 0 3px 0 rgba(0,0,0,.28); }
+  .cb-danger{ background:hsl(350 40% 21%); color:hsl(350 90% 80%);
+    border:2px solid hsl(350 45% 36%); box-shadow: 0 3px 0 rgba(0,0,0,.28); }
+
+  /* ---- battle move buttons: large, rounded, typed ---- */
+  .move-btn{ display:flex; align-items:center; gap:.7rem; text-align:left;
+    border-radius:18px; border:2px solid; padding:.8rem .95rem; min-height:3.9rem;
+    font-family:var(--font-body); font-weight:600; font-size:.92rem;
+    box-shadow: 0 4px 0 rgba(0,0,0,.32); transition: all .12s ease; touch-action:manipulation; }
+  @media(hover:hover){ .move-btn:hover{ filter:brightness(1.18); transform:translateY(-1px); } }
+  .move-btn:active{ transform:translateY(2px); box-shadow: 0 1px 0 rgba(0,0,0,.32); }
+  .move-btn:disabled{ opacity:.45; pointer-events:none; }
+  .move-ico{ width:2.1rem; height:2.1rem; flex:none; border-radius:12px; border:1.5px solid;
+    display:grid; place-items:center; font-size:1rem; }
+
+  /* ---- header & currencies ---- */
+  .coin-pill{ display:flex; align-items:center; gap:.5rem; padding:.36rem .95rem .36rem .4rem;
+    border-radius:9999px; background:hsl(222 40% 13%); border:1.5px solid hsl(var(--border));
+    font-family:var(--font-body); font-weight:600; font-size:.92rem;
+    box-shadow: inset 0 2px 6px rgba(0,0,0,.4), 0 1px 0 rgba(255,255,255,.05); }
+  .coin-ico{ width:1.6rem; height:1.6rem; border-radius:9999px; display:grid; place-items:center;
     font-size:.8rem; flex:none;
     background:radial-gradient(circle at 35% 28%, rgba(255,255,255,.5), transparent 48%), var(--ico-bg,#555);
-    box-shadow: inset 0 -2px 3px rgba(0,0,0,.35), 0 1px 2px rgba(0,0,0,.4); }
-  .gear-btn{ transition: transform .25s cubic-bezier(.2,.9,.3,1.4); }
-  @media(hover:hover){ .gear-btn:hover{ transform:rotate(55deg); } }
+    box-shadow: inset 0 -2px 3px rgba(0,0,0,.35), 0 1.5px 2px rgba(0,0,0,.4); }
+  .gear-btn{ transition: transform .25s cubic-bezier(.23,1,.32,1); }
+  @media(hover:hover){ .gear-btn:hover{ transform:rotate(55deg) scale(1.04); } }
 
-  /* ---- playful nav tabs ---- */
-  .navbtn{ font-family:var(--font-display); font-weight:600; font-size:.92rem;
-    padding:.55rem 1.05rem; border-radius:999px; color:var(--ink-dim);
-    border:2px solid transparent; white-space:nowrap; touch-action:manipulation;
-    transition: all .18s cubic-bezier(.2,.9,.3,1.45); }
-  .navbtn:hover{ color:#fff; background:rgba(167,139,250,.14); }
-  .navbtn.active{ color:#fff; background:linear-gradient(180deg,#8f7df2,#6c56d8);
-    border-color:#ab97ff; transform:translateY(-1px);
-    text-shadow:0 1px 2px rgba(40,20,110,.5);
-    box-shadow: inset 0 2px 0 rgba(255,255,255,.32), 0 3px 0 #4636a8, 0 7px 16px rgba(124,98,255,.4); }
-  .navbtn:active{ transform:translateY(1px) scale(.97); }
+  /* ---- friendly nav: active tab = raised white pill ---- */
+  .navbtn{ font-family:var(--font-body); font-weight:600; font-size:.92rem;
+    color:hsl(var(--muted-foreground)); padding:.6rem 1.15rem; border-radius:9999px;
+    white-space:nowrap; touch-action:manipulation;
+    transition: all .18s cubic-bezier(.23,1,.32,1); }
+  .navbtn:hover{ color:hsl(var(--foreground)); background:hsl(222 32% 19%); transform:scale(1.04); }
+  .navbtn.active{ color:#0d1426; font-weight:700;
+    background:linear-gradient(180deg,#ffffff,#e9edf5);
+    box-shadow: 0 3px 0 #b4bed2, 0 7px 14px rgba(0,0,0,.3); }
+  .navbtn:active{ transform:scale(.97); }
 
-  /* ---- event banner: special announcement ribbon ---- */
-  .event-banner{ position:relative; margin:.3rem 0 1.1rem; padding:1.05rem 1.1rem .85rem;
-    border-radius:1.4rem; display:flex; align-items:center; gap:.9rem; overflow:hidden;
-    background:
-      repeating-linear-gradient(-45deg, rgba(255,209,102,.055) 0 16px, transparent 16px 32px),
-      linear-gradient(180deg,#3d3158,#2c2449);
-    border:2px solid rgba(255,196,80,.6);
-    box-shadow: inset 0 2px 0 rgba(255,255,255,.09), 0 0 22px rgba(255,196,80,.18), 0 8px 18px rgba(8,5,25,.4);
-    animation:eventGlow 3s ease-in-out infinite; }
-  @keyframes eventGlow{ 50%{ box-shadow: inset 0 2px 0 rgba(255,255,255,.09), 0 0 34px rgba(255,196,80,.34), 0 8px 18px rgba(8,5,25,.4);} }
-  .event-tag{ position:absolute; top:-2px; left:1.05rem;
-    font-family:var(--font-display); font-size:.6rem; font-weight:700; letter-spacing:.14em;
-    padding:.22rem .7rem .18rem; border-radius:0 0 .65rem .65rem; color:#3c2800;
-    background:linear-gradient(180deg,#ffe494,#ffc23e); box-shadow:0 2.5px 0 #b97c14; }
-  .event-emoji{ font-size:2.3rem; animation:floaty 3.2s ease-in-out infinite;
-    filter:drop-shadow(0 4px 8px rgba(0,0,0,.45)); }
-  .event-live{ font-family:var(--font-display); font-size:.62rem; font-weight:700; letter-spacing:.08em;
-    padding:.25rem .6rem; border-radius:999px; color:#3ddc97;
-    background:rgba(61,220,151,.16); border:1.5px solid rgba(61,220,151,.45); flex:none; }
+  /* ---- weekly event: charming announcement card ---- */
+  .event-banner{ position:relative; margin:.3rem 0 1.4rem; padding:1.05rem 1.2rem; border-radius:24px;
+    display:flex; align-items:center; gap:1rem;
+    background:linear-gradient(180deg, hsl(228 36% 18%), hsl(var(--card)));
+    border:2px solid hsl(var(--accent)/.5);
+    box-shadow: 0 10px 0 rgba(0,0,0,.12), inset 0 1.5px 0 rgba(255,255,255,.06); }
+  .event-icon{ width:3.1rem; height:3.1rem; flex:none; border-radius:16px; display:grid; place-items:center;
+    font-size:1.55rem; background:linear-gradient(180deg, hsl(46 100% 78%), hsl(40 95% 60%));
+    box-shadow: 0 3.5px 0 hsl(38 75% 40%), inset 0 2px 0 rgba(255,255,255,.5);
+    animation:floaty 3.2s ease-in-out infinite; }
+  .event-tag{ font-family:var(--font-body); font-weight:800; font-size:.6rem; letter-spacing:.14em;
+    text-transform:uppercase; color:hsl(var(--accent)); }
+  .event-title{ font-family:var(--font-display); font-size:1.06rem; line-height:1.25; }
+  .event-live{ font-family:var(--font-body); font-size:.64rem; font-weight:800; letter-spacing:.06em;
+    padding:.28rem .65rem; border-radius:9999px; flex:none;
+    color:hsl(var(--success)); background:hsl(var(--success)/.13); border:1.5px solid hsl(var(--success)/.4); }
 
-  /* ---- selects: rounded game dropdowns ---- */
-  select{ font-family:var(--font-display) !important; font-weight:600;
-    border-radius:999px !important; border:2px solid #483f80 !important;
-    background-color:#332c61 !important; color:var(--ink) !important;
-    padding:.45rem 1rem !important; box-shadow: inset 0 2px 0 rgba(255,255,255,.1), 0 3px 0 #191534;
+  /* ---- selects ---- */
+  select{ font-family:var(--font-body) !important; font-weight:600;
+    border-radius:9999px !important; border:1.5px solid hsl(var(--border)) !important;
+    background-color:hsl(222 40% 13%) !important; color:hsl(var(--foreground)) !important;
+    padding:.5rem 1.05rem !important; box-shadow: inset 0 2px 6px rgba(0,0,0,.35);
     appearance:none; -webkit-appearance:none; cursor:pointer; }
 
-  /* ---- screen + fx animations ---- */
-  main > section{ animation:screenIn .32s cubic-bezier(.2,.9,.3,1.2); }
-  @keyframes screenIn{ from{ opacity:0; transform:translateY(12px) scale(.992);} }
+  /* ---- generic interactive tiles ---- */
+  .card{ cursor:pointer; transition: transform .18s cubic-bezier(.23,1,.32,1), filter .18s ease; }
+  @media(hover:hover){ .card:hover{ transform:translateY(-3px) scale(1.015); filter:brightness(1.08); } }
+  .card:active{ transform:scale(.96); }
+
+  /* ---- chips ---- */
+  .chip{ display:inline-flex; align-items:center; gap:.3rem; font-family:var(--font-body);
+    font-size:.66rem; font-weight:700; letter-spacing:.02em; padding:.2rem .62rem; border-radius:9999px;
+    border:1.5px solid rgba(255,255,255,.12); box-shadow: 0 1.5px 0 rgba(0,0,0,.28); }
+
+  /* ---- motion ---- */
+  main > section{ animation:screenIn .34s cubic-bezier(.23,1,.32,1); }
+  @keyframes screenIn{ from{ opacity:0; transform:translateY(14px);} }
+  @keyframes riseIn{ from{ opacity:0; transform:translateY(16px);} }
+  #hubGrid>*, #summonResults>*, #questList>*, #marketGrid>*{ animation:riseIn .42s cubic-bezier(.23,1,.32,1) both; }
+  #hubGrid>*:nth-child(2),#summonResults>*:nth-child(2),#questList>*:nth-child(2),#marketGrid>*:nth-child(2){ animation-delay:.05s }
+  #hubGrid>*:nth-child(3),#summonResults>*:nth-child(3),#questList>*:nth-child(3),#marketGrid>*:nth-child(3){ animation-delay:.1s }
+  #hubGrid>*:nth-child(4),#summonResults>*:nth-child(4),#marketGrid>*:nth-child(4){ animation-delay:.15s }
+  #hubGrid>*:nth-child(5),#summonResults>*:nth-child(5),#marketGrid>*:nth-child(5){ animation-delay:.2s }
+  #hubGrid>*:nth-child(6),#summonResults>*:nth-child(6),#marketGrid>*:nth-child(6){ animation-delay:.25s }
   @keyframes shakeIt{ 0%,100%{transform:translate(0,0)} 20%{transform:translate(-7px,4px)} 40%{transform:translate(6px,-5px)} 60%{transform:translate(-5px,-3px)} 80%{transform:translate(4px,4px)} }
   .shaking{ animation:shakeIt .32s ease; }
-  @keyframes toastPop{ from{ transform:translateY(22px) scale(.8); opacity:0;} }
-  .toast{ animation:toastPop .35s cubic-bezier(.2,.9,.3,1.5); border-radius:999px !important;
-    font-family:var(--font-display); border-width:2px !important;
-    box-shadow: 0 8px 24px rgba(0,0,0,.5), inset 0 2px 0 rgba(255,255,255,.12); }
-  @keyframes modalIn{ from{ transform:scale(.88) translateY(16px); opacity:0;} to{ transform:scale(1) translateY(0); opacity:1;} }
-  .modal-box{ animation:modalIn .3s cubic-bezier(.2,.9,.3,1.35); border-radius:1.75rem !important;
-    box-shadow: 0 24px 60px rgba(5,3,20,.7), 0 0 44px rgba(124,98,255,.13), inset 0 2px 0 rgba(255,255,255,.1); }
+  @keyframes toastPop{ from{ transform:translateY(22px) scale(.85); opacity:0;} }
+  .toast{ background:linear-gradient(180deg,#ffffff,#eef1f7) !important; color:#16213c !important;
+    border:none !important; border-radius:9999px !important;
+    font-family:var(--font-body); font-weight:700; font-size:.88rem;
+    box-shadow: 0 4px 0 #c2cadb, 0 12px 28px rgba(0,0,0,.45) !important;
+    animation:toastPop .35s cubic-bezier(.23,1,.32,1.4); }
+  @keyframes modalIn{ from{ transform:scale(.9) translateY(18px); opacity:0;} to{ transform:scale(1) translateY(0); opacity:1;} }
+  .modal-box{ animation:modalIn .32s cubic-bezier(.23,1,.32,1.25); border-radius:28px !important;
+    box-shadow: 0 14px 0 rgba(0,0,0,.18), 0 30px 70px rgba(0,0,0,.55) !important; }
   @keyframes floaty{ 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(-6px);} }
   .floaty{ animation:floaty 3.2s ease-in-out infinite; }
   @keyframes spinSlow{ to{ transform:rotate(360deg);} }
@@ -255,20 +297,14 @@
   .xpbar{ transition:width .5s ease;
     box-shadow: inset 0 1.5px 1.5px rgba(255,255,255,.4), inset 0 -1.5px 2px rgba(0,0,0,.25); }
 
-  /* ---- chips: candy type badges ---- */
-  .chip{ display:inline-flex; align-items:center; gap:.28rem; font-size:.68rem; font-weight:600;
-    font-family:var(--font-display); padding:.16rem .6rem; border-radius:999px; letter-spacing:.03em;
-    border:1.5px solid rgba(255,255,255,.14);
-    box-shadow: inset 0 1.5px 0 rgba(255,255,255,.12), 0 1.5px 3px rgba(0,0,0,.25); }
-
   canvas{ image-rendering:auto; display:block; }
   #arenaCanvas,#summonCanvas,#rhythmCanvas,#medCanvas{
-    border:2px solid rgba(255,255,255,.08); border-radius:1.2rem !important;
-    box-shadow: inset 0 4px 16px rgba(0,0,0,.4), 0 6px 16px rgba(8,5,25,.35); }
+    border:2px solid hsl(222 28% 24%); border-radius:20px !important;
+    box-shadow: inset 0 4px 16px rgba(0,0,0,.4), 0 8px 0 rgba(0,0,0,.12); }
 
-  .weave-cell{ transition:transform .12s cubic-bezier(.2,.9,.3,1.5), opacity .25s ease;
-    border-radius:.95rem !important;
-    box-shadow: inset 0 2px 0 rgba(255,255,255,.12), 0 2.5px 0 rgba(10,6,30,.55); }
+  .weave-cell{ transition:transform .12s cubic-bezier(.23,1,.32,1.4), opacity .25s ease;
+    border-radius:14px !important;
+    box-shadow: inset 0 2px 0 rgba(255,255,255,.12), 0 3px 0 rgba(0,0,0,.4); }
   .weave-cell:active{ transform:scale(.88); }
   .weave-cell.sel{ transform:scale(.85); filter:brightness(1.6); }
   .weave-cell.pop{ transform:scale(0); opacity:0; }
@@ -276,12 +312,12 @@
 </head>
 <body class="overflow-hidden">
 
-<div id="gameRoot" class="h-full flex flex-col max-w-5xl mx-auto relative">
+<div id="gameRoot" class="h-full flex flex-col max-w-7xl mx-auto relative">
 
   <!-- ════════ TOP BAR ════════ -->
-  <header class="flex items-center gap-2 px-4 pt-4 pb-2.5 flex-wrap">
+  <header class="flex items-center gap-3 px-4 sm:px-8 pt-4 sm:pt-5 pb-3 flex-wrap">
     <div class="flex items-center gap-2.5 mr-auto">
-      <div class="game-logo">Prompt Pets</div>
+      <div class="game-logo">Prompt <i>Pets</i></div>
       <div class="hidden sm:block text-[11px] text-[#a9a3d4] italic mt-1.5 font-semibold">Summon · Bond · Battle</div>
     </div>
     <div class="flex items-center gap-2">
@@ -294,12 +330,12 @@
       <div class="coin-pill" title="Intelligence Cores — permanent prestige bonus">
         <span class="coin-ico" style="--ico-bg:#a87413">◈</span><span id="coresVal" class="num">0</span>
       </div>
-      <button id="settingsBtn" class="btn btn-ghost gear-btn !px-3 !py-2" title="Settings">⚙</button>
+      <button id="settingsBtn" class="charm-button cb-ghost gear-btn !px-3 !py-2" title="Settings">⚙</button>
     </div>
   </header>
 
   <!-- ════════ NAV ════════ -->
-  <nav class="px-3 pb-2 flex gap-1.5 overflow-x-auto" id="mainNav">
+  <nav class="px-3 sm:px-7 pb-2.5 flex gap-1.5 overflow-x-auto" id="mainNav">
     <button class="navbtn active" data-screen="hub">🏠 Hub</button>
     <button class="navbtn" data-screen="summon">✨ Summon</button>
     <button class="navbtn" data-screen="train">🎯 Train</button>
@@ -309,7 +345,7 @@
     <button class="navbtn" data-screen="archive">🧠 Archive</button>
   </nav>
 
-  <main class="flex-1 overflow-y-auto px-4 pb-8 pt-1.5" id="mainScroll">
+  <main class="flex-1 overflow-y-auto px-4 sm:px-8 pb-10 pt-2" id="mainScroll">
 
     <!-- ════════ HUB / COLLECTION ════════ -->
     <section id="screen-hub">
@@ -332,26 +368,26 @@
           <option value="name">Sort: Name</option>
         </select>
       </div>
-      <div id="hubGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4"></div>
-      <div id="hubEmpty" class="hidden-i panel p-8 text-center mt-4">
+      <div id="hubGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6"></div>
+      <div id="hubEmpty" class="hidden-i game-panel p-8 text-center mt-4">
         <div class="text-4xl mb-2">🥚</div>
         <div class="font-bold mb-1">No Prompt Pets yet!</div>
         <div class="flavor text-sm mb-4">Latent space is teeming with creatures waiting to be summoned…</div>
-        <button class="btn btn-magenta" onclick="showScreen('summon')">✨ Go Summon</button>
+        <button class="game-button gb-magenta" onclick="showScreen('summon')">✨ Go Summon</button>
       </div>
     </section>
 
     <!-- ════════ SUMMON ════════ -->
     <section id="screen-summon" class="hidden-i">
       <div id="eventBannerSummon"></div>
-      <div class="panel p-4 relative overflow-hidden">
+      <div class="game-panel p-4 relative overflow-hidden">
         <h2 class="text-lg font-black mb-1">Latent Pool</h2>
         <div class="flavor text-sm mb-2">Reach into latent space and pull a new mind into the world.</div>
         <canvas id="summonCanvas" class="w-full rounded-xl bg-[#0c0b16]" style="aspect-ratio:16/10"></canvas>
         <div id="summonReveal" class="absolute inset-x-0 bottom-20 text-center pointer-events-none"></div>
         <div class="flex gap-2 mt-3 flex-wrap items-center">
-          <button id="summon1Btn" class="btn btn-cyan flex-1 min-w-[130px]">✨ Summon ×1 <span class="num text-xs opacity-80">(⚡100)</span></button>
-          <button id="summon10Btn" class="btn btn-magenta flex-1 min-w-[130px]">🌟 Summon ×10 <span class="num text-xs opacity-80">(⚡900)</span></button>
+          <button id="summon1Btn" class="game-button gb-cyan flex-1 min-w-[130px]">✨ Summon ×1 <span class="num text-xs opacity-80">(⚡100)</span></button>
+          <button id="summon10Btn" class="game-button gb-magenta flex-1 min-w-[130px]">🌟 Summon ×10 <span class="num text-xs opacity-80">(⚡900)</span></button>
         </div>
         <div id="pityInfo" class="text-xs text-[#8d88b8] mt-2 num"></div>
         <div class="text-[10px] text-[#6b668f] mt-1">Rates — Common 50% · Uncommon 27% · Rare 14% · Epic 6.5% · Legendary 2% · Mythic 0.5% · Rare+ guaranteed every 10 · Legendary+ every 40</div>
@@ -364,22 +400,22 @@
       <div id="trainPick">
         <h2 class="text-lg font-black mb-2">Training Grounds</h2>
         <div class="flavor text-sm mb-3">Pick a Pet, pick a session. Short, focused, rewarding.</div>
-        <div class="panel p-3 mb-3">
+        <div class="game-panel p-3 mb-3">
           <div class="text-xs font-bold text-[#8d88b8] mb-2">TRAINEE</div>
           <div id="trainPetRow" class="flex gap-2 overflow-x-auto pb-1"></div>
         </div>
         <div id="trainGames" class="grid sm:grid-cols-3 gap-3">
-          <div class="panel p-4 card" data-game="rhythm">
+          <div class="game-panel p-4 card" data-game="rhythm">
             <div class="text-3xl mb-1">🎵</div><div class="font-black">Prompt Rhythm</div>
             <div class="text-xs text-[#9b96c4] mt-1">Tap in time with the prompt wave. Perfect timing = big Bond Essence.</div>
             <div class="chip mt-2" style="background:rgba(0,240,255,.15);color:#00f0ff">timing · juicy</div>
           </div>
-          <div class="panel p-4 card" data-game="weave">
+          <div class="game-panel p-4 card" data-game="weave">
             <div class="text-3xl mb-1">🧩</div><div class="font-black">Data Weave</div>
             <div class="text-xs text-[#9b96c4] mt-1">Connect matching data tiles to organize the training set.</div>
             <div class="chip mt-2" style="background:rgba(255,77,255,.15);color:#ff4dff">puzzle · 60s</div>
           </div>
-          <div class="panel p-4 card" data-game="meditate">
+          <div class="game-panel p-4 card" data-game="meditate">
             <div class="text-3xl mb-1">🧘</div><div class="font-black">Latent Meditation</div>
             <div class="text-xs text-[#9b96c4] mt-1">Watch your Pet process. Catch drifting insight orbs for bonuses.</div>
             <div class="chip mt-2" style="background:rgba(255,209,102,.15);color:#ffd166">chill · passive</div>
@@ -388,14 +424,14 @@
       </div>
       <div id="trainArea" class="hidden-i">
         <div class="flex items-center gap-2 mb-2">
-          <button id="trainBackBtn" class="btn btn-ghost !py-1.5 !px-3 text-sm">← Back</button>
+          <button id="trainBackBtn" class="charm-button cb-ghost !py-1.5 !px-3 text-sm">← Back</button>
           <div id="trainTitle" class="font-black"></div>
           <div id="trainScore" class="ml-auto num text-[#ffd166]"></div>
         </div>
-        <div id="rhythmWrap" class="hidden-i panel p-2">
+        <div id="rhythmWrap" class="hidden-i game-panel p-2">
           <canvas id="rhythmCanvas" class="w-full rounded-lg" style="aspect-ratio:16/10;touch-action:manipulation"></canvas>
         </div>
-        <div id="weaveWrap" class="hidden-i panel p-3">
+        <div id="weaveWrap" class="hidden-i game-panel p-3">
           <div class="flex justify-between text-sm mb-2">
             <span>⏱ <span id="weaveTime" class="num">60</span>s</span>
             <span>Chains: <span id="weaveChains" class="num">0</span></span>
@@ -403,7 +439,7 @@
           <div id="weaveGrid" class="grid grid-cols-6 gap-1.5 max-w-sm mx-auto"></div>
           <div class="text-xs text-center text-[#8d88b8] mt-2">Tap a tile, then adjacent matching tiles (3+) to weave a chain. Tap last tile again to confirm.</div>
         </div>
-        <div id="medWrap" class="hidden-i panel p-2">
+        <div id="medWrap" class="hidden-i game-panel p-2">
           <canvas id="medCanvas" class="w-full rounded-lg" style="aspect-ratio:16/10;touch-action:manipulation"></canvas>
           <div class="text-xs text-center text-[#8d88b8] py-2">Stay present… tap golden insight orbs when they appear ✨</div>
         </div>
@@ -416,18 +452,18 @@
         <h2 class="text-lg font-black mb-1">Battle Arena</h2>
         <div class="flavor text-sm mb-3">Logic ▸ Creative ▸ Chaotic ▸ Harmonic ▸ Logic… and Void plays dice with everyone.</div>
         <div class="grid sm:grid-cols-2 gap-3 mb-3">
-          <div class="panel p-4">
+          <div class="game-panel p-4">
             <div class="font-black mb-1">🏆 Ranked Arena <span class="text-xs text-[#ffd166] num" id="rankLabel"></span></div>
             <div class="text-xs text-[#9b96c4] mb-3" id="rankDesc">Climb the ladder. Opponents grow stronger and weirder.</div>
-            <button id="rankedBtn" class="btn btn-gold w-full">Fight Next Trainer (3v3)</button>
+            <button id="rankedBtn" class="game-button gb-gold w-full">Fight Next Trainer (3v3)</button>
           </div>
-          <div class="panel p-4">
+          <div class="game-panel p-4">
             <div class="font-black mb-1">🥊 Sparring</div>
             <div class="text-xs text-[#9b96c4] mb-3">Quick 1v1 vs a friendly bot. Low stakes, fast XP.</div>
-            <button id="sparBtn" class="btn btn-cyan w-full">Quick Spar (1v1)</button>
+            <button id="sparBtn" class="game-button gb-cyan w-full">Quick Spar (1v1)</button>
           </div>
         </div>
-        <div class="panel p-3">
+        <div class="game-panel p-3">
           <div class="text-xs font-bold text-[#8d88b8] mb-2">YOUR TEAM — tap to select up to 3 (first = lead)</div>
           <div id="teamPickRow" class="flex gap-2 overflow-x-auto pb-1"></div>
         </div>
@@ -452,10 +488,10 @@
           <div id="battleBanner" class="absolute inset-0 flex items-center justify-center pointer-events-none"></div>
         </div>
         <div id="battleLog" class="text-xs text-[#b9b4e0] h-10 overflow-hidden px-1 py-1 leading-4"></div>
-        <div id="moveBtns" class="grid grid-cols-2 gap-2"></div>
+        <div id="moveBtns" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mt-1"></div>
         <div class="flex gap-2 mt-2">
-          <button id="switchBtn" class="btn btn-ghost flex-1 text-sm">🔄 Switch Pet</button>
-          <button id="fleeBtn" class="btn btn-danger text-sm">🏳 Flee</button>
+          <button id="switchBtn" class="charm-button cb-ghost flex-1 text-sm">🔄 Switch Pet</button>
+          <button id="fleeBtn" class="charm-button cb-danger text-sm">🏳 Flee</button>
         </div>
         <div id="switchRow" class="hidden-i flex gap-2 mt-2"></div>
       </div>
@@ -481,7 +517,7 @@
     <section id="screen-archive" class="hidden-i">
       <h2 class="text-lg font-black mb-1">🧠 Neural Archive</h2>
       <div class="flavor text-sm mb-3">Compress your journey into pure intelligence. Begin again — smarter.</div>
-      <div class="panel p-5">
+      <div class="game-panel p-5">
         <div class="grid sm:grid-cols-3 gap-3 text-center mb-4">
           <div><div class="text-2xl num text-[#ffd166]" id="archCores">0</div><div class="text-xs text-[#8d88b8]">Intelligence Cores</div></div>
           <div><div class="text-2xl num text-[#00f0ff]" id="archPower">0</div><div class="text-xs text-[#8d88b8]">Collection Level Sum</div></div>
@@ -489,7 +525,7 @@
         </div>
         <div class="text-sm text-[#b9b4e0] mb-1">Each Core permanently grants <b class="text-[#ffd166]">+2% to all Pet stats</b> and <b class="text-[#ffd166]">+50 starting Credits</b>.</div>
         <div class="text-sm text-[#b9b4e0] mb-4">Archiving resets your Pets, currencies and arena rank. Cores, settings and your wallet persist. Requires collection level sum ≥ 60.</div>
-        <button id="archiveBtn" class="btn btn-magenta w-full">⚡ Archive & Transcend</button>
+        <button id="archiveBtn" class="game-button gb-magenta w-full">⚡ Archive & Transcend</button>
       </div>
     </section>
   </main>
@@ -501,12 +537,12 @@
 
 <!-- ════════ PET DETAIL MODAL ════════ -->
 <div id="petModal" class="hidden-i fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-3" onclick="if(event.target===this)closePetModal()">
-  <div class="modal-box panel w-full max-w-md max-h-[92vh] overflow-y-auto p-4" id="petModalBox"></div>
+  <div class="modal-box game-panel w-full max-w-md max-h-[92vh] overflow-y-auto p-4" id="petModalBox"></div>
 </div>
 
 <!-- ════════ GENERIC MODAL (anchor / fuse / settings / onboarding / evo) ════════ -->
 <div id="genModal" class="hidden-i fixed inset-0 z-[55] bg-black/75 flex items-center justify-center p-3" onclick="if(event.target===this&&genModalDismiss)closeGenModal()">
-  <div class="modal-box panel w-full max-w-md max-h-[92vh] overflow-y-auto p-5" id="genModalBox"></div>
+  <div class="modal-box game-panel w-full max-w-md max-h-[92vh] overflow-y-auto p-5" id="genModalBox"></div>
 </div>
 
 <script>
@@ -787,7 +823,7 @@ function addEssence(n){ S.essence=Math.max(0,S.essence+n); save(); }
 function toast(msg, color='cyan'){
   const colors={cyan:'#00f0ff',magenta:'#ff4dff',gold:'#ffd166',red:'#ff8fa0',green:'#3ddc97'};
   const el=document.createElement('div');
-  el.className='toast panel px-4 py-2.5 text-sm font-bold text-center';
+  el.className='toast game-panel px-4 py-2.5 text-sm font-bold text-center';
   el.style.borderColor=colors[color]; el.style.color='#fff'; el.textContent=msg;
   $('toasts').appendChild(el);
   setTimeout(()=>{ el.style.transition='opacity .4s'; el.style.opacity='0'; setTimeout(()=>el.remove(),400); }, 2400);
@@ -1210,7 +1246,7 @@ function renderHub(){
   $('eventBannerHub').innerHTML = eventBannerHtml();
   for(const p of pets){
     const card=document.createElement('div');
-    card.className=`card panel p-2.5 r-${rarLabel(p)} relative`;
+    card.className=`pet-card p-3 r-${rarLabel(p)} relative`;
     card.innerHTML=`
       ${p.fav?'<div class="absolute top-2 left-2.5 text-[#ffd166] text-base z-10" style="filter:drop-shadow(0 2px 2px rgba(0,0,0,.6))">★</div>':''}
       ${p.shiny?'<div class="absolute top-2 right-2.5 text-sm z-10" title="Shiny!" style="filter:drop-shadow(0 2px 2px rgba(0,0,0,.5))">🌟</div>':''}
@@ -1240,11 +1276,11 @@ $('hubSort').addEventListener('change',renderHub);
 function eventBannerHtml(){
   const f=featuredSpecies();
   return `<div class="event-banner">
-    <div class="event-tag">⚡ WEEKLY EVENT</div>
-    <div class="event-emoji">${f.emoji}</div>
-    <div class="flex-1 min-w-0 pt-1.5">
-      <div class="text-sm font-black truncate">${eventName()}</div>
-      <div class="text-[11px] text-[#cfc8f2] font-semibold">+25% summon rate-up for <b style="color:${TYPES[f.type].color}">${f.name}</b> this week!</div>
+    <div class="event-icon">${f.emoji}</div>
+    <div class="flex-1 min-w-0">
+      <div class="event-tag">⚡ Weekly Event</div>
+      <div class="event-title truncate">${eventName()}</div>
+      <div class="text-[11px] text-[hsl(220,15%,72%)] font-medium mt-0.5">+25% summon rate-up for <b style="color:${TYPES[f.type].color}">${f.name}</b> this week!</div>
     </div>
     <div class="event-live">● LIVE</div>
   </div>`;
@@ -1275,7 +1311,7 @@ const SummonAnim = {
     const res=$('summonResults'); res.innerHTML='';
     for(const p of this.shownResults){
       const d=document.createElement('div');
-      d.className=`panel p-2 text-center r-${rarLabel(p)} card`;
+      d.className=`pet-card p-2.5 text-center r-${rarLabel(p)}`;
       d.innerHTML=`<div class="text-xl">${SP[p.sp].emoji}${p.shiny?'🌟':''}</div>
         <div class="text-xs font-bold truncate">${SP[p.sp].name}</div>
         <div class="text-[10px] tc-${rarLabel(p)} font-bold">${rarLabel(p)}</div>`;
@@ -1329,7 +1365,7 @@ const SummonAnim = {
       drawPet(c,p,cx,cy,h*.22*pop*pr,t,1);
       if(el>.4 && !$('summonReveal').innerHTML){
         const rl=rarLabel(p);
-        $('summonReveal').innerHTML=`<div class="modal-box inline-block panel px-5 py-2 r-${rl}">
+        $('summonReveal').innerHTML=`<div class="modal-box inline-block game-panel px-5 py-2 r-${rl}">
           <span class="font-black">${p.shiny?'🌟 SHINY ':''}${SP[p.sp].name}</span>
           <span class="tc-${rl} font-black ml-2">${rl}</span></div>`;
       }
@@ -1372,8 +1408,8 @@ function openPetModal(id){
         </div>
       </div>
       <div class="flex gap-1">
-        <button class="btn btn-ghost !p-2 text-lg" id="pmFav" title="Favorite">${p.fav?'★':'☆'}</button>
-        <button class="btn btn-ghost !p-2" onclick="closePetModal()">✕</button>
+        <button class="charm-button cb-ghost !p-2 text-lg" id="pmFav" title="Favorite">${p.fav?'★':'☆'}</button>
+        <button class="charm-button cb-ghost !p-2" onclick="closePetModal()">✕</button>
       </div>
     </div>
     <div class="petframe my-2.5"><canvas id="pmCanvas" class="w-full" style="aspect-ratio:16/9"></canvas></div>
@@ -1388,25 +1424,25 @@ function openPetModal(id){
     </div>
     <div class="grid grid-cols-4 gap-2 text-center my-3">
       ${[['HP',st.hp,'#3ddc97'],['ATK',st.atk,'#ff6b6b'],['DEF',st.def,'#00f0ff'],['SPD',st.spd,'#ffd166']]
-        .map(([l,v,col])=>`<div class="panel py-2"><div class="num" style="color:${col}">${fmt(v)}</div><div class="text-[10px] text-[#8d88b8]">${l}</div></div>`).join('')}
+        .map(([l,v,col])=>`<div class="game-panel py-2"><div class="num" style="color:${col}">${fmt(v)}</div><div class="text-[10px] text-[#8d88b8]">${l}</div></div>`).join('')}
     </div>
     <div class="text-xs font-bold text-[#8d88b8] mb-1.5">MOVES ${p.stage<1?'<span class="font-normal">(4th unlocks at evolution)</span>':''}</div>
     <div class="space-y-1.5 mb-4">
       ${moves.map(m=>moveRow(m)).join('')}
-      ${lockedMove?`<div class="panel p-2 opacity-40 flex items-center gap-2 text-sm">🔒 <b>${lockedMove.name}</b><span class="text-xs text-[#8d88b8]">${lockedMove.desc}</span></div>`:''}
+      ${lockedMove?`<div class="game-panel p-2 opacity-40 flex items-center gap-2 text-sm">🔒 <b>${lockedMove.name}</b><span class="text-xs text-[#8d88b8]">${lockedMove.desc}</span></div>`:''}
     </div>
     ${deployInfo}
     <div class="grid grid-cols-2 gap-2 mt-2">
-      <button class="btn btn-cyan text-sm" id="pmTrain">🎯 Train</button>
-      <button class="btn ${canEvo?'btn-magenta':'btn-ghost'} text-sm" id="pmEvolve" ${canEvo?'':'disabled'}>
+      <button class="game-button gb-cyan text-sm" id="pmTrain">🎯 Train</button>
+      <button class="${canEvo?'game-button gb-magenta':'charm-button cb-ghost'} text-sm" id="pmEvolve" ${canEvo?'':'disabled'}>
         ✨ Evolve <span class="text-xs num">(❖${evoCost})</span></button>
-      <button class="btn btn-ghost text-sm" id="pmFuse">🧬 Fuse</button>
+      <button class="charm-button cb-ghost text-sm" id="pmFuse">🧬 Fuse</button>
       ${!p.anchored
-        ? `<button class="btn btn-gold text-sm" id="pmAnchor">⛓ Anchor to Chain</button>`
+        ? `<button class="game-button gb-gold text-sm" id="pmAnchor">⛓ Anchor to Chain</button>`
         : p.deployed
-          ? `<button class="btn btn-gold text-sm" id="pmClaim">📥 Recall & Claim</button>`
-          : `<button class="btn btn-gold text-sm" id="pmDeploy">🤖 Deploy (⚡${deployRate}/h)</button>`}
-      <button class="btn btn-danger text-sm col-span-2" id="pmSell">💰 Sell (⚡${fmt(sellValue(p))})</button>
+          ? `<button class="game-button gb-gold text-sm" id="pmClaim">📥 Recall & Claim</button>`
+          : `<button class="game-button gb-gold text-sm" id="pmDeploy">🤖 Deploy (⚡${deployRate}/h)</button>`}
+      <button class="charm-button cb-danger text-sm col-span-2" id="pmSell">💰 Sell (⚡${fmt(sellValue(p))})</button>
     </div>`;
   $('petModal').classList.remove('hidden-i');
   const cv=$('pmCanvas');
@@ -1429,7 +1465,7 @@ function openPetModal(id){
 function moveRow(m){ const T=TYPES[m.type];
   const tag = m.kind==='dmg'?`${m.power}${m.hits>1?'×'+m.hits:''} PWR`
     : m.kind==='heal'?`HEAL ${Math.round(m.heal*100)}%` : m.kind==='buff'?'BUFF':'DEBUFF';
-  return `<div class="panel p-2 flex items-center gap-2 text-sm" style="border-color:${T.color}33">
+  return `<div class="game-panel p-2 flex items-center gap-2 text-sm" style="border-color:${T.color}33">
     <span style="color:${T.color}">${T.icon}</span><b>${m.name}</b>
     <span class="text-[10px] num px-1.5 py-0.5 rounded" style="background:${T.bg};color:${T.color}">${tag}</span>
     <span class="text-xs text-[#8d88b8] ml-auto text-right">${m.desc}</span></div>`;
@@ -1443,8 +1479,8 @@ function sellPet(p){
     <div class="text-lg font-black mb-2">Sell ${petName(p)}?</div>
     <div class="text-sm text-[#b9b4e0] mb-4">A passing trainer offers <b class="text-[#ffd166] num">⚡${fmt(sellValue(p))}</b>. This is permanent — ${SP[p.sp].name} will miss you.</div>
     <div class="flex gap-2">
-      <button class="btn btn-ghost flex-1" onclick="closeGenModal()">Keep</button>
-      <button class="btn btn-danger flex-1" id="sellConfirm">Sell</button>
+      <button class="charm-button cb-ghost flex-1" onclick="closeGenModal()">Keep</button>
+      <button class="charm-button cb-danger flex-1" id="sellConfirm">Sell</button>
     </div>`);
   $('sellConfirm').onclick=()=>{
     S.pets=S.pets.filter(x=>x.id!==p.id); S.team=S.team.filter(i=>i!==p.id);
@@ -1498,7 +1534,7 @@ function tryEvolve(p){
           <div class="text-lg font-black">${petName(p)}</div>
           <div class="flavor text-xs mt-1">${petFlavor(p)}</div>
           <div class="text-xs text-[#3ddc97] mt-1 font-bold">+13% all stats${p.stage===1?' · NEW MOVE UNLOCKED: '+(p.hyb?p.hyb.moves:SP[p.sp].moves)[3].name:''}</div>
-          <button class="btn btn-magenta mt-2 !py-1.5" onclick="closeGenModal();openPetModal(${p.id})">Amazing!</button>`;
+          <button class="game-button gb-magenta mt-2 !py-1.5" onclick="closeGenModal();openPetModal(${p.id})">Amazing!</button>`;
       }
       glow(c,w/2,h/2,h*.45,TYPES[petType(p)].color,.3+.1*Math.sin(t*3));
       drawPet(c,p,w/2,h*.52,h*.24,t);
@@ -1513,7 +1549,7 @@ function openFusePicker(p){
   if(!sameSpecies.length && !hybridable.length){
     toast('No fusion partners — need a duplicate, or two different Lv.8+ Pets for a Hybrid.','red'); return; }
   const row=(x,mode)=>`
-    <button class="fuseOpt panel p-2 w-full flex items-center gap-2 text-left card" data-id="${x.id}" data-mode="${mode}">
+    <button class="fuseOpt game-panel p-2 w-full flex items-center gap-2 text-left card" data-id="${x.id}" data-mode="${mode}">
       <span class="text-xl">${SP[x.sp].emoji}</span>
       <span class="flex-1"><b class="text-sm">${petName(x)}</b>
         <span class="text-xs text-[#8d88b8]"> Lv.${x.lvl} · ${rarLabel(x)}</span></span>
@@ -1526,7 +1562,7 @@ function openFusePicker(p){
       ${sameSpecies.map(x=>row(x,'dup')).join('')}
       ${hybridable.map(x=>row(x,'hyb')).join('')}
     </div>
-    <button class="btn btn-ghost w-full mt-3" onclick="closeGenModal()">Cancel</button>`);
+    <button class="charm-button cb-ghost w-full mt-3" onclick="closeGenModal()">Cancel</button>`);
   document.querySelectorAll('.fuseOpt').forEach(b=>b.addEventListener('click',()=>{
     const other=getPet(+b.dataset.id);
     if(b.dataset.mode==='dup') fuseDup(p,other); else fuseHybrid(p,other);
@@ -1560,15 +1596,15 @@ function openAnchorModal(p){
   openGenModal(`
     <div class="text-lg font-black mb-1">⛓ Anchor to the Chain</div>
     <div class="text-sm text-[#b9b4e0] mb-3">Mint <b>${petName(p)}</b> as a permanent on-chain asset. Anchored Pets are truly yours — and can be <b class="text-[#ffd166]">Deployed</b> to work autonomously, earning passive Compute.</div>
-    <div class="panel p-3 text-xs space-y-1.5 mb-3 font-mono">
+    <div class="game-panel p-3 text-xs space-y-1.5 mb-3 font-mono">
       <div class="flex justify-between"><span class="text-[#8d88b8]">Network</span><span class="text-[#00f0ff]">PromptChain L2</span></div>
       <div class="flex justify-between"><span class="text-[#8d88b8]">Your wallet</span><span>${S.wallet.slice(0,6)}…${S.wallet.slice(-4)}</span></div>
       <div class="flex justify-between"><span class="text-[#8d88b8]">Token standard</span><span>PRC-721</span></div>
       <div class="flex justify-between"><span class="text-[#8d88b8]">Mint fee</span><span class="text-[#ffd166]">⚡${fee}</span></div>
     </div>
     <div id="anchorStage">
-      <button class="btn btn-gold w-full" id="anchorGo">⛓ Sign & Mint</button>
-      <button class="btn btn-ghost w-full mt-2" onclick="closeGenModal()">Not yet</button>
+      <button class="game-button gb-gold w-full" id="anchorGo">⛓ Sign & Mint</button>
+      <button class="charm-button cb-ghost w-full mt-2" onclick="closeGenModal()">Not yet</button>
     </div>`);
   $('anchorGo').onclick=async()=>{
     if(S.credits<fee){ toast('Need ⚡50 for the mint fee!','red'); return; }
@@ -1589,8 +1625,8 @@ function openAnchorModal(p){
       <div class="text-center mb-3"><div class="text-3xl">🎉</div>
         <div class="font-black text-[#3ddc97]">Anchored! ${petName(p)} is now truly yours.</div>
         <div class="text-[10px] font-mono text-[#8d88b8] mt-2 break-all">tx: ${tx}</div></div>
-      <button class="btn btn-cyan w-full text-sm" id="anchorExplorer">🔍 View on PromptScan Explorer</button>
-      <button class="btn btn-ghost w-full mt-2" onclick="closeGenModal();openPetModal(${p.id})">Done</button>`;
+      <button class="game-button gb-cyan w-full text-sm" id="anchorExplorer">🔍 View on PromptScan Explorer</button>
+      <button class="charm-button cb-ghost w-full mt-2" onclick="closeGenModal();openPetModal(${p.id})">Done</button>`;
     $('anchorExplorer').onclick=()=>openExplorer(p);
   };
 }
@@ -1598,7 +1634,7 @@ function openExplorer(p){
   openGenModal(`
     <div class="font-mono text-xs">
       <div class="flex items-center gap-2 mb-3"><span class="text-lg">🔍</span><b class="text-sm">PromptScan</b><span class="text-[#3ddc97]">● live</span></div>
-      <div class="panel p-3 space-y-2">
+      <div class="game-panel p-3 space-y-2">
         <div><div class="text-[#8d88b8]">Transaction Hash</div><div class="break-all text-[#00f0ff]">${p.anchored.tx}</div></div>
         <div class="grid grid-cols-2 gap-2">
           <div><div class="text-[#8d88b8]">Status</div><div class="text-[#3ddc97]">✓ Success</div></div>
@@ -1609,7 +1645,7 @@ function openExplorer(p){
         <div><div class="text-[#8d88b8]">Metadata</div>
           <div class="text-[10px] text-[#b9b4e0]">{"species":"${SP[p.sp].name}","rarity":"${rarLabel(p)}","shiny":${!!p.shiny},"generation":"latent-v5"}</div></div>
       </div>
-      <button class="btn btn-ghost w-full mt-3" onclick="closeGenModal()">Close</button>
+      <button class="charm-button cb-ghost w-full mt-3" onclick="closeGenModal()">Close</button>
     </div>`);
 }
 
@@ -1629,7 +1665,7 @@ function renderTrainPick(){
   for(const p of S.pets.slice().sort((a,b)=>b.fav-a.fav||petPower(b)-petPower(a))){
     const b=document.createElement('button');
     const sel=p.id===Train.selectedId;
-    b.className=`panel px-3 py-2 flex items-center gap-2 shrink-0 card ${sel?'r-Rare':''}`;
+    b.className=`game-panel px-3 py-2 flex items-center gap-2 shrink-0 card ${sel?'r-Rare':''}`;
     if(sel) b.style.background='rgba(0,240,255,.1)';
     b.innerHTML=`<span class="text-xl">${SP[p.sp].emoji}</span><span class="text-left">
       <b class="text-xs block">${petName(p)}</b><span class="text-[10px] text-[#8d88b8] num">Lv.${p.lvl}</span></span>`;
@@ -1665,7 +1701,7 @@ function finishTraining(essence, xp, label){
         <span class="num text-[#00f0ff]">+${xp} XP</span>
       </div>
       <div class="flavor text-xs mb-3">${petName(p)} feels closer to you.</div>
-      <button class="btn btn-magenta w-full" onclick="closeGenModal()">Nice!</button>
+      <button class="game-button gb-magenta w-full" onclick="closeGenModal()">Nice!</button>
     </div>`);
   Train.stopAll(); renderTrainPick();
 }
@@ -1936,10 +1972,11 @@ const BattleSys = {
     petMoves(p.pet).forEach((m,i)=>{
       const T=TYPES[m.type];
       const b=document.createElement('button');
-      b.className='btn text-left !py-2.5 text-sm';
-      b.style.cssText=`background:${T.bg};border:1px solid ${T.color}55;color:#fff`;
-      b.innerHTML=`<span style="color:${T.color}">${T.icon}</span> <b>${m.name}</b>
-        <div class="text-[10px] text-[#b9b4e0] font-normal">${m.desc}</div>`;
+      b.className='move-btn';
+      b.style.cssText=`background:${T.bg};border-color:${T.color}66;color:#fff`;
+      b.innerHTML=`<span class="move-ico" style="background:${T.color}22;color:${T.color};border-color:${T.color}66">${T.icon}</span>
+        <span class="min-w-0"><b>${m.name}</b>
+        <span class="block text-[10px] text-[#c3bde4] font-normal leading-tight">${m.desc}</span></span>`;
       b.disabled=this.busy;
       b.onclick=()=>this.playerMove(i);
       btns.appendChild(b);
@@ -2065,7 +2102,7 @@ const BattleSys = {
     this.pTeam.forEach((f,i)=>{
       if(f.fainted||i===this.pi) return;
       const b=document.createElement('button');
-      b.className='btn btn-ghost flex-1 text-xs';
+      b.className='charm-button cb-ghost flex-1 text-xs';
       b.innerHTML=`${SP[f.pet.sp].emoji} ${petName(f.pet)}<br><span class="num text-[10px]">${fmt(f.hp)}/${fmt(f.maxHp)} HP</span>`;
       b.onclick=async()=>{
         row.classList.add('hidden-i');
@@ -2082,7 +2119,7 @@ const BattleSys = {
       row.appendChild(b);
     });
     if(!forced){ const c=document.createElement('button');
-      c.className='btn btn-danger text-xs'; c.textContent='✕';
+      c.className='charm-button cb-danger text-xs'; c.textContent='✕';
       c.onclick=()=>row.classList.add('hidden-i'); row.appendChild(c); }
   },
 
@@ -2106,7 +2143,7 @@ const BattleSys = {
           <span class="num text-[#ffd166]">+⚡${fmt(credits)}</span>
           <span class="num text-[#00f0ff]">+${xpEach} XP each</span>
         </div>
-        <button class="btn btn-gold w-full" onclick="closeGenModal();BattleSys.exit()">Claim Rewards</button>
+        <button class="game-button gb-gold w-full" onclick="closeGenModal();BattleSys.exit()">Claim Rewards</button>
       </div>`, false);
   },
   lose(){
@@ -2119,7 +2156,7 @@ const BattleSys = {
         <div class="text-lg font-black mb-1">Defeated…</div>
         <div class="text-sm text-[#9b96c4] mb-3">${this.trainer}: “gg! Train harder and run it back.”</div>
         <div class="num text-[#ffd166] text-sm mb-4">+⚡${credits} consolation</div>
-        <button class="btn btn-ghost w-full" onclick="closeGenModal();BattleSys.exit()">Return</button>
+        <button class="charm-button cb-ghost w-full" onclick="closeGenModal();BattleSys.exit()">Return</button>
       </div>`, false);
   },
   exit(){ this.active=false; this.busy=false;
@@ -2131,21 +2168,45 @@ const BattleSys = {
     if(currentScreen!=='battle' || $('battleView').classList.contains('hidden-i')) return;
     const cv=$('arenaCanvas'); if(!cv.isConnected) return;
     const {c,w,h}=setupCanvas(cv);
-    // backdrop
-    const g=c.createLinearGradient(0,0,0,h);
-    g.addColorStop(0,'#181434'); g.addColorStop(1,'#0c0b16');
-    c.fillStyle=g; c.fillRect(0,0,w,h);
-    for(let i=0;i<18;i++){ const sx=(Math.sin(i*99.7)*.5+.5)*w, sy=(Math.sin(i*55.1)*.5+.5)*h*.55;
-      c.globalAlpha=.3+.2*Math.sin(t*2+i); c.fillStyle='#4a4480';
+    // ── arena scene: dusk sky, twin moons, mountain layers, soft ground ──
+    const sky=c.createLinearGradient(0,0,0,h*.72);
+    sky.addColorStop(0,'#231b4d'); sky.addColorStop(.55,'#2d2156'); sky.addColorStop(1,'#4a2c55');
+    c.fillStyle=sky; c.fillRect(0,0,w,h*.72);
+    glow(c,w*.78,h*.16,h*.32,'#ffd9a0',.22);              // warm low sun haze
+    c.fillStyle='#ffe9c4'; c.beginPath(); c.arc(w*.78,h*.16,h*.05,0,7); c.fill();
+    c.fillStyle='#cdb8ff'; c.globalAlpha=.7;              // small second moon
+    c.beginPath(); c.arc(w*.16,h*.1,h*.022,0,7); c.fill(); c.globalAlpha=1;
+    for(let i=0;i<16;i++){ const sx=(Math.sin(i*99.7)*.5+.5)*w, sy=(Math.sin(i*55.1)*.5+.5)*h*.4;
+      c.globalAlpha=.35+.25*Math.sin(t*2+i); c.fillStyle='#bfb6f0';
       c.beginPath(); c.arc(sx,sy,1.2,0,7); c.fill(); }
     c.globalAlpha=1;
-    // grid floor hint
-    c.strokeStyle='rgba(0,240,255,.07)'; c.lineWidth=1;
-    for(let i=0;i<6;i++){ c.beginPath(); c.moveTo(0,h*.62+i*h*.07); c.lineTo(w,h*.62+i*h*.07); c.stroke(); }
+    // distant mountain silhouettes (two parallax layers)
+    const ridge=(base,amp,col,seed)=>{ c.fillStyle=col; c.beginPath(); c.moveTo(0,h);
+      for(let x=0;x<=w;x+=w/24) c.lineTo(x, base - Math.abs(Math.sin(x*.013+seed))*amp);
+      c.lineTo(w,h); c.closePath(); c.fill(); };
+    ridge(h*.58, h*.16, '#241d49', 1.7);
+    ridge(h*.66, h*.10, '#1c163a', 4.2);
+    // ground plane
+    const gr=c.createLinearGradient(0,h*.6,0,h);
+    gr.addColorStop(0,'#272047'); gr.addColorStop(1,'#151128');
+    c.fillStyle=gr; c.fillRect(0,h*.6,w,h*.4);
+    // drifting ground motes
+    for(let i=0;i<8;i++){ const mt=(t*.06+i*.13)%1;
+      c.globalAlpha=Math.sin(mt*Math.PI)*.3; c.fillStyle='#8f86c9';
+      c.beginPath(); c.arc(((i*.37+mt*.25)%1)*w, h*(.66+(i%4)*.08), 1.4,0,7); c.fill(); }
+    c.globalAlpha=1;
     const px=w*.26, py=h*.62, ex=w*.74, ey=h*.46, s=h*.16;
-    // platforms
-    ell(c,px,py+s*.75,s*1.5,s*.32,'rgba(0,240,255,.1)');
-    ell(c,ex,ey+s*.75,s*1.4,s*.3,'rgba(255,77,255,.1)');
+    // battle platforms: glowing discs with ring trim
+    const platform=(x,y,rw,col)=>{
+      ell(c,x,y,rw,rw*.22,'rgba(0,0,0,.35)');             // contact shadow
+      ell(c,x,y-2,rw*.96,rw*.2,'#332b5e');
+      ell(c,x,y-4,rw*.9,rw*.18,'#3d3470');
+      c.strokeStyle=col; c.globalAlpha=.5+.2*Math.sin(t*2);
+      c.lineWidth=2; c.beginPath(); c.ellipse(x,y-3,rw*.8,rw*.16,0,0,7); c.stroke();
+      c.globalAlpha=1; glow(c,x,y-4,rw*.5,col,.1);
+    };
+    platform(px,py+s*.8,s*1.55,'#55e0ff');
+    platform(ex,ey+s*.8,s*1.4,'#ff7df0');
 
     if(!this.active && !this.pTeam.length) return;
     const p=this.pF(), e=this.eF();
@@ -2194,7 +2255,7 @@ function renderBattleSetup(){
   for(const p of S.pets.slice().sort((a,b)=>petPower(b)-petPower(a))){
     const idx=S.team.indexOf(p.id);
     const b=document.createElement('button');
-    b.className=`panel px-3 py-2 shrink-0 card text-left ${idx>=0?'r-Rare':''}`;
+    b.className=`game-panel px-3 py-2 shrink-0 card text-left ${idx>=0?'r-Rare':''}`;
     if(idx>=0) b.style.background='rgba(0,240,255,.12)';
     b.innerHTML=`<div class="flex items-center gap-2">
       ${idx>=0?`<span class="num text-[#00f0ff] font-black">${idx+1}</span>`:''}
@@ -2234,7 +2295,7 @@ function renderMarket(){
   S.market.forEach((l,idx)=>{
     const sp=SP[l.sp], rl=RARITIES[l.rarity];
     const card=document.createElement('div');
-    card.className=`panel p-3 r-${rl} ${l.sold?'opacity-40':''}`;
+    card.className=`pet-card p-3 r-${rl} ${l.sold?"opacity-40":""}`;
     card.innerHTML=`
       <div class="petframe"><canvas class="w-full" style="aspect-ratio:4/3"></canvas></div>
       <div class="font-black text-sm mt-1.5">${l.shiny?'🌟 ':''}${sp.name} <span class="text-[10px] num text-[#8d88b8]">Lv.${l.lvl}</span></div>
@@ -2242,8 +2303,8 @@ function renderMarket(){
         ${typeChip(sp.type)}<span class="text-[10px] tc-${rl} font-bold">${rl}</span>
       </div>
       <div class="text-[10px] text-[#8d88b8] mt-1 truncate">seller: ${l.seller} <span title="anchored">⛓</span></div>
-      ${l.sold? '<div class="btn btn-ghost w-full mt-2 text-xs text-center">SOLD</div>'
-        : `<button class="btn btn-gold w-full mt-2 text-xs buyBtn">Buy ⚡${fmt(l.price)}</button>`}`;
+      ${l.sold? '<div class="charm-button cb-ghost w-full mt-2 text-xs text-center">SOLD</div>'
+        : `<button class="game-button gb-gold w-full mt-2 text-xs buyBtn">Buy ⚡${fmt(l.price)}</button>`}`;
     grid.appendChild(card);
     const cv=card.querySelector('canvas');
     const fake={sp:l.sp, rarity:l.rarity, lvl:l.lvl, shiny:l.shiny, stage:l.lvl>=10?1:0, hyb:null, id:900+idx};
@@ -2297,7 +2358,7 @@ function renderQuests(){
   S.quests.forEach((q,i)=>{
     const done=q.prog>=q.n;
     const d=document.createElement('div');
-    d.className='panel p-3 flex items-center gap-3';
+    d.className='game-panel p-3 flex items-center gap-3';
     d.innerHTML=`
       <div class="flex-1">
         <div class="text-sm font-bold">${q.desc}</div>
@@ -2306,7 +2367,7 @@ function renderQuests(){
         <div class="text-[10px] num text-[#8d88b8] mt-0.5">${fmt(q.prog)}/${fmt(q.n)}</div>
       </div>
       ${q.claimed? '<span class="text-xs text-[#3ddc97] font-bold">✓ Claimed</span>'
-        : done? `<button class="btn btn-gold !py-1.5 text-xs claimBtn" data-i="${i}">Claim ⚡${q.reward}</button>`
+        : done? `<button class="game-button gb-gold !py-1.5 text-xs claimBtn" data-i="${i}">Claim ⚡${q.reward}</button>`
         : `<span class="text-xs num text-[#ffd166]">⚡${q.reward}</span>`}`;
     list.appendChild(d);
   });
@@ -2317,10 +2378,10 @@ function renderQuests(){
   const f=featuredSpecies();
   $('eventPanel').innerHTML=`
     <h3 class="font-black mb-2">🛰 Weekly Model Update</h3>
-    <div class="panel p-4" style="border-color:rgba(255,209,102,.4)">
+    <div class="game-panel p-4" style="border-color:rgba(255,209,102,.4)">
       <div class="font-bold text-sm text-[#ffd166]">${eventName()}</div>
       <div class="text-xs text-[#9b96c4] mt-1">All week: <b style="color:${TYPES[f.type].color}">${f.name}</b> appears in 25% of summons. Patch notes: “${f.flavor.replaceAll('“','').replaceAll('”','')}”</div>
-      <button class="btn btn-magenta mt-3 text-sm" onclick="showScreen('summon')">✨ Pull on the event banner</button>
+      <button class="game-button gb-magenta mt-3 text-sm" onclick="showScreen('summon')">✨ Pull on the event banner</button>
     </div>`;
 }
 
@@ -2339,8 +2400,8 @@ function renderArchive(){
         <b class="text-[#ffd166]">${gain} Intelligence Core${gain>1?'s':''}</b> (permanent +${gain*2}% stats for every future Pet).
         This cannot be undone.</div>
       <div class="flex gap-2">
-        <button class="btn btn-ghost flex-1" onclick="closeGenModal()">Not yet</button>
-        <button class="btn btn-magenta flex-1" id="archGo">Transcend</button>
+        <button class="charm-button cb-ghost flex-1" onclick="closeGenModal()">Not yet</button>
+        <button class="game-button gb-magenta flex-1" id="archGo">Transcend</button>
       </div>`);
     $('archGo').onclick=()=>{
       const keep={cores:S.cores+gain, wallet:S.wallet, settings:S.settings, onboarded:true};
@@ -2362,17 +2423,17 @@ $('settingsBtn').addEventListener('click',()=>{
         <input id="volSlider" type="range" min="0" max="1" step="0.05" value="${S.settings.vol}" class="w-full accent-[#00f0ff]"></div>
       <div><div class="text-xs font-bold text-[#8d88b8] mb-1">AMBIENT PAD</div>
         <input id="ambSlider" type="range" min="0" max="1" step="0.05" value="${S.settings.amb}" class="w-full accent-[#a78bfa]"></div>
-      <div class="panel p-3">
+      <div class="game-panel p-3">
         <div class="text-xs font-bold text-[#8d88b8] mb-2">SAVE DATA</div>
         <div class="flex gap-2 mb-2">
-          <button class="btn btn-ghost flex-1 text-xs" id="exportBtn">📤 Export</button>
-          <button class="btn btn-ghost flex-1 text-xs" id="importBtn">📥 Import</button>
+          <button class="charm-button cb-ghost flex-1 text-xs" id="exportBtn">📤 Export</button>
+          <button class="charm-button cb-ghost flex-1 text-xs" id="importBtn">📥 Import</button>
         </div>
         <textarea id="saveBox" class="w-full h-20 bg-[#0c0b16] border border-[#3a3560] rounded-lg p-2 text-[10px] font-mono" placeholder="Exported save appears here — or paste one and press Import"></textarea>
       </div>
       <div class="text-[10px] text-[#6b668f] font-mono">wallet: ${S.wallet}</div>
-      <button class="btn btn-danger w-full text-sm" id="hardResetBtn">🗑 Hard Reset (delete everything)</button>
-      <button class="btn btn-ghost w-full" onclick="closeGenModal()">Close</button>
+      <button class="charm-button cb-danger w-full text-sm" id="hardResetBtn">🗑 Hard Reset (delete everything)</button>
+      <button class="charm-button cb-ghost w-full" onclick="closeGenModal()">Close</button>
     </div>`);
   $('volSlider').oninput=e=>{ S.settings.vol=+e.target.value;
     if(AudioSys.master) AudioSys.master.gain.value=S.settings.vol; save(); };
@@ -2402,7 +2463,7 @@ function runOnboarding(){
       <div class="text-xl font-black mb-2 bg-clip-text text-transparent bg-gradient-to-r from-[#00f0ff] to-[#ff4dff]">Welcome to the Prompt Realm</div>
       <div class="text-sm text-[#b9b4e0] mb-1">Large language models have manifested as adorable creatures called <b>Prompt Pets</b>.</div>
       <div class="text-sm text-[#b9b4e0] mb-4">You are a <b class="text-[#ffd166]">Prompt Trainer</b>. Summon them from latent space. Bond. Battle. Make them truly yours.</div>
-      <button class="btn btn-magenta w-full" id="ob1">Begin ✨</button>
+      <button class="game-button gb-magenta w-full" id="ob1">Begin ✨</button>
     </div>`, false);
   $('ob1').onclick=()=>{
     openGenModal(`
@@ -2411,7 +2472,7 @@ function runOnboarding(){
         <div class="text-lg font-black mb-2">Your first summon is on us</div>
         <div class="text-sm text-[#b9b4e0] mb-1">⚡ <b>Compute Credits</b> fuel summons — earn them in battle.</div>
         <div class="text-sm text-[#b9b4e0] mb-4">❖ <b>Bond Essence</b> comes from training — it powers evolution.</div>
-        <button class="btn btn-gold w-full" id="ob2">Summon my first Pet!</button>
+        <button class="game-button gb-gold w-full" id="ob2">Summon my first Pet!</button>
       </div>`, false);
     $('ob2').onclick=()=>{
       S.onboarded=true;
