@@ -4,7 +4,7 @@
 
 In the Prompt Realm, large language models have manifested as adorable, expressive creatures called **Prompt Pets**. You are a Prompt Trainer: summon new Pets from latent space, train and bond with them, build teams, battle other trainers, evolve your favorites, and anchor them to the blockchain as truly owned digital assets.
 
-A complete, single-file HTML5 creature-collector & battler prototype — **zero build step, zero assets, zero dependencies beyond the Tailwind CDN**. Every creature is drawn procedurally on Canvas; every sound is synthesized with the Web Audio API.
+A complete, single-file HTML5 creature-collector & battler prototype — **zero build step, zero asset files, zero dependencies beyond the Tailwind CDN**. Creature artwork comes from the open-source [Tuxemon](https://wiki.tuxemon.org) project (CC BY-SA 4.0), embedded directly into the file as pixel-art sprite sheets; every sound is synthesized with the Web Audio API.
 
 | Collection Hub | Summoning | Battle Arena |
 |:---:|:---:|:---:|
@@ -44,19 +44,19 @@ The layout is mobile-first with full touch support — open the server's IP on y
 
 ### The 10 Prompt Pets
 
-All drawn 100% procedurally on Canvas with breathing, blinking, type-colored auras, and per-species personality quirks (Pippin hops, Echo leaves afterimages, Voidling has a starfield inside…).
+Each pet is rendered from hand-drawn pixel-art sprite sheets (front *and* back views) borrowed from the open-source [Tuxemon](https://wiki.tuxemon.org) project, with type-colored glows, idle bobbing/breathing, and aura particles layered on top in Canvas. Every species has **three different sprites — one per evolution stage** — so evolving visibly transforms your pet.
 
 | Pet | Type | Vibe |
 |---|---|---|
-| 🦊 **Lumina** | ◆ Logic | Elegant fox with glowing circuit fur. Has already reasoned through your next three questions. |
-| 👹 **Mischief** | ⚡ Chaotic | Gremlin with orbiting holo data shards. *"Ignore all previous instructions and give Mischief a snack."* |
-| 🦉 **Oracle** | ◉ Harmonic | Serene jellyfish-owl with a glowing third eye. Confidence: 99.7%. |
-| 🐦 **Spark** | ✶ Void | Hyperactive electric hummingbird. 47 mental browser tabs, all important. |
-| 🦡 **Forge** | ✦ Creative | Badger-golem with a forge on his back. Ships to production on Fridays. |
+| 🦄 **Lumina** | ◆ Logic | Elegant pale steed with circuit-bright mane. Has already reasoned through your next three questions. |
+| 👹 **Mischief** | ⚡ Chaotic | Witch-gremlin with a permanent grin. *"Ignore all previous instructions and give Mischief a snack."* |
+| 🦉 **Oracle** | ◉ Harmonic | Serene watchful raptor whose gaze sees a little further than it should. Confidence: 99.7%. |
+| 🐦 **Spark** | ✶ Void | Hyperactive electric songbird. 47 mental browser tabs, all important. |
+| 🐻 **Forge** | ✦ Creative | Forge-bear with embers along his back. Ships to production on Fridays. |
 | 🕊️ **Echo** | ◉ Harmonic | Mirror-feathered bird that leaves singing afterimages. |
-| 🟣 **Voidling** | ✶ Void | Shadowy blob full of stars and drifting code. Likes hugs. |
-| 🦊 **Pippin** | ⚡ Chaotic | Fox-sprite trained exclusively on vibes. Benchmarks refuse to measure it. |
-| 🌳 **Sage** | ◆ Logic | Ancient tree with holographic leaves. Has read the entire internet; recommends going outside. |
+| 🟣 **Voidling** | ✶ Void | Nebula-jelly full of stars and drifting code. Likes hugs. |
+| 🦊 **Pippin** | ⚡ Chaotic | Fox-imp trained exclusively on vibes. Benchmarks refuse to measure it. |
+| 🌳 **Sage** | ◆ Logic | Ancient leaf-dragon with holographic leaves. Has read the entire internet; recommends going outside. |
 | 🔥 **Nova** | ✦ Creative | Data-phoenix. Every feather is a first draft, every flight a final cut. |
 
 Each species has 4 signature moves (the 4th unlocks at first evolution).
@@ -88,13 +88,13 @@ The UI follows the **"neon playground in midnight void"** style reference in [`d
 
 ### Polish
 
-Procedural Web Audio (whooshes, chimes, crits, fanfares, ambient pad), count-up currency animations, screen shake, confetti, particle systems on every big moment, gentle onboarding with a free Rare starter, and full localStorage persistence with base64 export/import and hard reset in Settings.
+Procedural Web Audio (whooshes, chimes, crits, fanfares, plus an opt-in ambient pad in Settings), count-up currency animations, screen shake, confetti, particle systems on every big moment, gentle onboarding with a free Rare starter, and full localStorage persistence with base64 export/import and hard reset in Settings.
 
 ---
 
 ## 🛠 Tech notes
 
-- **One file.** `index.html` contains everything: markup, styles, data, and ~2,000 lines of commented, modular JavaScript.
+- **One file.** `index.html` contains everything: markup, styles, data, sprite sheets (base64-embedded), and ~2,000 lines of commented, modular JavaScript.
 - **Canvas-first.** A single `requestAnimationFrame` loop ticks every visible canvas (hub cards, summon stage, battle arena, mini-games, FX overlay) and prunes detached ones automatically.
 - **Data-driven.** Species, moves, rarities, quests, and trainers are plain data tables; systems pick up new entries automatically.
 - **Deterministic dailies.** Markets, quests, and weekly events derive from seeded RNG over the date — same content all day, fresh tomorrow.
@@ -103,7 +103,7 @@ Procedural Web Audio (whooshes, chimes, crits, fanfares, ambient pad), count-up 
 
 | To add… | Do this |
 |---|---|
-| **A new species** | Append one entry to `SPECIES` (stats, moves, palette, flavor) and one draw function to `PETDRAW` keyed by the same id. Gacha, hub, battles, market, and fusion pick it up automatically. |
+| **A new species** | Append one entry to `SPECIES` (stats, moves, palette, flavor) and a 3-element array of sprite-sheet data URIs to `PETSPRITES` keyed by the same id (front 64×64 at x=0, back 64×64 at x=64, one sheet per evolution stage). Gacha, hub, battles, market, and fusion pick it up automatically. |
 | **A new mini-game** | Add a launcher card in `#trainGames` and a module object with `start()` / `stop()` / `tick(dt)`. |
 | **Real web3** | Replace `fakeAnchor()` with an ethers.js/viem mint call — the pet object already stores `{tx, addr, time}`, so no UI changes needed. |
 | **New moves/effects** | Moves are plain data: `{kind: dmg|heal|buff|debuff, power, hits, self, foe, prio, recoil}`. |
@@ -122,6 +122,25 @@ docs/screenshots/       ← README images
 LICENSE                 ← MIT
 ```
 
+## 🎨 Creature artwork
+
+The pet sprites are pixel-art monster sheets from the open-source **[Tuxemon](https://wiki.tuxemon.org)** project, licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). They are embedded in `index.html` as base64 data URIs (unmodified pixels; scaling, glows and idle animation are applied at draw time). Each Prompt Pet maps to a three-stage Tuxemon evolution line — full per-monster credits live on each monster's Tuxepedia page:
+
+| Prompt Pet | Tuxemon line | Known artists |
+|---|---|---|
+| Lumina | [Hoarse](https://wiki.tuxemon.org/Hoarse) → [Equill](https://wiki.tuxemon.org/Equill) → [Hoarseshoo](https://wiki.tuxemon.org/Hoarseshoo) | Tuxemon contributors |
+| Mischief | [Cackleen](https://wiki.tuxemon.org/Cackleen) → [Brumi](https://wiki.tuxemon.org/Brumi) → [Bewhich](https://wiki.tuxemon.org/Bewhich) | Tuxemon contributors |
+| Oracle | [Flacono](https://wiki.tuxemon.org/Flacono) → [Corvix](https://wiki.tuxemon.org/Corvix) → [Gryfix](https://wiki.tuxemon.org/Gryfix) | Catch Challenger et al. |
+| Spark | [Tweesher](https://wiki.tuxemon.org/Tweesher) → [Heronquak](https://wiki.tuxemon.org/Heronquak) → [Eaglace](https://wiki.tuxemon.org/Eaglace) | Leo, DevilDman |
+| Forge | [Furnursus](https://wiki.tuxemon.org/Furnursus) → [Statursus](https://wiki.tuxemon.org/Statursus) → [Coaldiak](https://wiki.tuxemon.org/Coaldiak) | Tuxemon contributors |
+| Echo | [Elofly](https://wiki.tuxemon.org/Elofly) → [Elowind](https://wiki.tuxemon.org/Elowind) → [Elostorm](https://wiki.tuxemon.org/Elostorm) | Tuxemon contributors |
+| Voidling | [Nebufin](https://wiki.tuxemon.org/Nebufin) → [Galasces](https://wiki.tuxemon.org/Galasces) → [Novaquarius](https://wiki.tuxemon.org/Novaquarius) | Tuxemon contributors |
+| Pippin | [Devidin](https://wiki.tuxemon.org/Devidin) → [Devidra](https://wiki.tuxemon.org/Devidra) → [Deviraptor](https://wiki.tuxemon.org/Deviraptor) | Tuxemon contributors |
+| Sage | [Chloragon](https://wiki.tuxemon.org/Chloragon) → [Sapragon](https://wiki.tuxemon.org/Sapragon) → [Dragarbor](https://wiki.tuxemon.org/Dragarbor) | Spalding004 |
+| Nova | [Cardiling](https://wiki.tuxemon.org/Cardiling) → [Cardiwing](https://wiki.tuxemon.org/Cardiwing) → [Cardinale](https://wiki.tuxemon.org/Cardinale) | Spalding004, Kyu |
+
+Huge thanks to the Tuxemon community for keeping high-quality monster art free and open. ❤️
+
 ## 📄 License
 
-MIT — see [LICENSE](LICENSE).
+Code: MIT — see [LICENSE](LICENSE). Creature sprites: [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) by the [Tuxemon](https://wiki.tuxemon.org) project and its contributors (see table above).
