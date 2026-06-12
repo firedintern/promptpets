@@ -57,219 +57,188 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;600&display=swap" rel="stylesheet">
 <style>
-  /* ═══════════════ DESIGN SYSTEM — "small studio" game UI ═══════════════
-     Warm rounded shapes, hard offset shadows (sticker/board-game feel),
-     white pill primary buttons, serif display type, HSL token palette. */
+  /* ═══════════ DESIGN SYSTEM — "neon playground in midnight void" ═══════════
+     See design.md. Void-black canvas, cream type, hairline borders, ghost pill
+     buttons, flat & shadowless. Colour is the organizational system — each
+     game system claims one accent: green=collection, pink=summon, orange=train,
+     blue=battle, lime=market, violet=quests. Radii: 8px blocks, 100px pills. */
   :root{
-    --background: 222 47% 11%;
-    --card: 222 40% 15%;
-    --card-raised: 222 38% 19%;
-    --foreground: 0 0% 98%;
-    --muted-foreground: 220 15% 65%;
-    --border: 222 26% 27%;
-    --primary: 195 85% 55%;
-    --accent: 45 95% 65%;
-    --success: 142 70% 45%;
-    --rarity-common: 215 20% 70%;
-    --rarity-uncommon: 142 70% 50%;
-    --rarity-rare: 195 85% 55%;
-    --rarity-epic: 265 70% 65%;
-    --rarity-legendary: 45 95% 65%;
-    --rarity-mythic: 320 95% 66%;
-    --font-display: 'Instrument Serif', Georgia, 'Times New Roman', serif;
-    --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+    --void:#0e100f;
+    --cream:#fffce1;
+    --olive:#42433d;
+    --ash:#7c7c6f;
+    --green:#0ae448;
+    --lime:#abff84;
+    --pink:#fec5fb;
+    --orange:#ff8709;
+    --violet:#9d95ff;
+    --blue:#00bae2;
+    --grad-green:linear-gradient(114.41deg,#0ae448 20.74%,#abff84 65.5%);
+    --rarity-common:#7c7c6f;
+    --rarity-uncommon:#abff84;
+    --rarity-rare:#00bae2;
+    --rarity-epic:#9d95ff;
+    --rarity-legendary:#ff8709;
+    --rarity-mythic:#fec5fb;
+    --font-mori:'Inter Tight',ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
   }
   html,body{height:100%; overscroll-behavior:none;}
   body{
-    background:
-      radial-gradient(1100px 600px at 85% -8%, hsl(28 60% 30% / .14), transparent 60%),
-      radial-gradient(900px 700px at -10% 110%, hsl(320 60% 40% / .10), transparent 55%),
-      radial-gradient(1400px 950px at 50% -25%, hsl(232 45% 20%) 0%, hsl(var(--background)) 55%, hsl(228 50% 8%) 100%);
-    color:hsl(var(--foreground));
-    font-family:var(--font-body);
+    background:var(--void);
+    color:var(--cream);
+    font-family:var(--font-mori);
+    font-weight:400;
+    letter-spacing:-0.01em;
     -webkit-tap-highlight-color:transparent;
     user-select:none;
   }
-  /* faint drifting star layer for life */
-  body::before{ content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
-    background-image:
-      radial-gradient(2px 2px at 12% 25%, rgba(255,255,255,.22), transparent 55%),
-      radial-gradient(1.6px 1.6px at 76% 12%, hsl(var(--accent)/.3), transparent 55%),
-      radial-gradient(2px 2px at 55% 48%, hsl(var(--primary)/.18), transparent 55%),
-      radial-gradient(1.6px 1.6px at 28% 72%, rgba(255,255,255,.15), transparent 55%),
-      radial-gradient(2px 2px at 90% 62%, hsl(320 90% 70% / .16), transparent 55%);
-    animation: twinkle 7s ease-in-out infinite alternate; }
-  @keyframes twinkle{ from{opacity:.4} to{opacity:1} }
   #gameRoot{ position:relative; z-index:1; }
 
-  /* ---- typography ---- */
-  h1,h2,h3,.font-black{ font-family:var(--font-display) !important; font-weight:400 !important;
-    letter-spacing:-.01em; }
-  .num{ font-family:var(--font-body) !important; font-weight:700 !important;
-    font-variant-numeric:tabular-nums; letter-spacing:-.01em; }
-  .flavor{ font-style:italic; color:hsl(225 25% 78%); font-family:var(--font-display); font-size:1.05em; }
-  .game-logo{ font-family:var(--font-display); font-size:1.875rem; line-height:1.05; letter-spacing:-.02em;
-    color:hsl(var(--foreground)); text-shadow:0 3px 16px rgba(0,0,0,.45); }
-  .game-logo i{ color:hsl(var(--accent)); }
-  ::-webkit-scrollbar{ width:9px; height:9px; }
-  ::-webkit-scrollbar-thumb{ background:hsl(222 25% 30%); border-radius:9px; border:2px solid hsl(var(--background)); }
+  /* ---- typography: one face, weight 400 almost everywhere ---- */
+  h1,h2,h3{ font-family:var(--font-mori); font-weight:400; letter-spacing:-0.011em; }
+  .font-black{ font-family:var(--font-mori) !important; font-weight:600 !important; letter-spacing:-0.01em; }
+  .num{ font-weight:600 !important; font-variant-numeric:tabular-nums; letter-spacing:-0.01em; }
+  .flavor{ color:var(--ash); font-size:.95em; letter-spacing:-0.01em; line-height:1.38; }
+  .game-logo{ font-weight:600; font-size:21px; line-height:1; letter-spacing:-0.011em; color:var(--cream); }
+  .game-logo i{ font-style:normal; color:var(--green); }
+  .section-tag{ font-size:14px; letter-spacing:-0.14px; color:var(--cream); }
+  .screen-title{ font-weight:400; font-size:clamp(40px,6vw,76px); line-height:.95;
+    letter-spacing:-0.02em; color:var(--cream); margin:.35rem 0 .6rem; }
+  .screen-sub{ color:var(--ash); font-size:16px; letter-spacing:-0.16px; line-height:1.4; max-width:62ch; }
+  .screen-head{ padding:.6rem 0 1.4rem; border-bottom:1px solid var(--olive); margin-bottom:1.5rem; }
+  ::-webkit-scrollbar{ width:8px; height:8px; }
+  ::-webkit-scrollbar-thumb{ background:var(--olive); border-radius:100px; }
   ::-webkit-scrollbar-track{ background:transparent; }
 
-  /* ---- panels: rounded board pieces with hard drop ---- */
-  .game-panel{ background:hsl(var(--card)); border-radius:24px;
-    border:2px solid hsl(var(--border));
-    box-shadow: 0 10px 0 rgba(0,0,0,.12), inset 0 1.5px 0 rgba(255,255,255,.05); }
+  /* ---- surfaces: the same void plane, separated by hairlines only ---- */
+  .game-panel{ background:var(--void); border:1px solid var(--olive); border-radius:8px; }
 
-  /* ---- collectible pet cards ---- */
-  .pet-card{ background:hsl(var(--card)); border-radius:20px; border:3px solid;
-    box-shadow: 0 8px 0 rgba(0,0,0,.15);
-    transition: transform .2s cubic-bezier(.23,1,.32,1), box-shadow .2s ease; cursor:pointer;
-    position:relative; }
-  .pet-card canvas{ transition: transform .25s cubic-bezier(.23,1,.32,1); }
+  /* ---- pet cards: flat, 8px, 1px rarity border ---- */
+  .pet-card{ background:var(--void); border-radius:8px; border:1px solid var(--olive);
+    transition:border-color .18s ease, transform .18s ease; cursor:pointer; position:relative; }
+  .pet-card canvas{ transition:transform .25s cubic-bezier(.23,1,.32,1); }
   @media(hover:hover){
-    .pet-card:hover{ transform:translateY(-4px); box-shadow: 0 16px 0 rgba(0,0,0,.2); }
-    .pet-card:hover canvas{ transform:scale(1.08); }
+    .pet-card:hover{ transform:translateY(-2px); }
+    .pet-card:hover canvas{ transform:scale(1.06); }
   }
-  .pet-card:active{ transform:translateY(2px) scale(.985); box-shadow:0 4px 0 rgba(0,0,0,.15); }
-  .petframe{ border-radius:14px; overflow:hidden; border:2px solid hsl(222 28% 22%);
-    background:radial-gradient(circle at 50% 62%, hsl(228 35% 23%) 0%, hsl(228 44% 12%) 78%);
-    box-shadow: inset 0 5px 14px rgba(0,0,0,.42); }
-  .lvbadge{ display:inline-flex; align-items:center; gap:.18rem; font-family:var(--font-body);
-    font-weight:700; font-size:.68rem; color:#1a2233; line-height:1.2;
-    background:linear-gradient(180deg,#ffffff,#e8ecf4); border-radius:9999px; padding:.14rem .55rem;
-    box-shadow:0 2px 0 #aeb8cc; }
-  .powtag{ font-family:var(--font-body); font-weight:800; font-size:.85rem;
-    color:hsl(var(--accent)); text-shadow:0 1px 3px rgba(0,0,0,.55); }
+  .pet-card:active{ transform:scale(.99); }
+  .petframe{ border-radius:8px; overflow:hidden; border:1px solid var(--olive); background:var(--void); }
+  .lvbadge{ display:inline-flex; align-items:center; font-weight:400; font-size:12px;
+    letter-spacing:-0.12px; color:var(--cream); border:1px solid var(--olive);
+    border-radius:100px; padding:.1rem .55rem; }
+  .powtag{ font-weight:600; font-size:.85rem; color:var(--cream); }
 
-  /* ---- rarity frames (glow via filter so hover shadow stays clean) ---- */
-  .r-Common   { border-color:hsl(var(--rarity-common)/.55); }
-  .r-Uncommon { border-color:hsl(var(--rarity-uncommon)); filter:drop-shadow(0 0 7px hsl(var(--rarity-uncommon)/.3)); }
-  .r-Rare     { border-color:hsl(var(--rarity-rare)); filter:drop-shadow(0 0 8px hsl(var(--rarity-rare)/.35)); }
-  .r-Epic     { border-color:hsl(var(--rarity-epic)); filter:drop-shadow(0 0 10px hsl(var(--rarity-epic)/.45)); }
-  .r-Legendary{ border-color:hsl(var(--rarity-legendary)); animation:legendGlow 2.6s ease-in-out infinite; }
-  .r-Mythic   { border-color:hsl(var(--rarity-mythic)); animation:mythicGlow 1.9s ease-in-out infinite; }
-  @keyframes legendGlow{ 0%,100%{ filter:drop-shadow(0 0 8px hsl(var(--rarity-legendary)/.45)); }
-    50%{ filter:drop-shadow(0 0 18px hsl(var(--rarity-legendary)/.8)); } }
-  @keyframes mythicGlow{ 0%,100%{ filter:drop-shadow(0 0 10px hsl(var(--rarity-mythic)/.5)); }
-    50%{ filter:drop-shadow(0 0 22px hsl(var(--rarity-mythic)/.85)); } }
-  .r-Epic,.r-Legendary,.r-Mythic{ position:relative; overflow:hidden; }
-  .r-Epic::after,.r-Legendary::after,.r-Mythic::after{
-    content:''; position:absolute; top:-25%; bottom:-25%; left:0; width:42%; pointer-events:none;
-    background:linear-gradient(105deg, transparent 5%, rgba(255,255,255,.13) 50%, transparent 95%);
-    transform:skewX(-14deg) translateX(-170%); animation:shimmer 3.6s ease-in-out infinite; }
-  @keyframes shimmer{ 0%,55%{ transform:skewX(-14deg) translateX(-170%);} 100%{ transform:skewX(-14deg) translateX(430%);} }
-  .tc-Common{color:hsl(var(--rarity-common))} .tc-Uncommon{color:hsl(var(--rarity-uncommon))}
-  .tc-Rare{color:hsl(var(--rarity-rare))} .tc-Epic{color:hsl(var(--rarity-epic))}
-  .tc-Legendary{color:hsl(var(--rarity-legendary))} .tc-Mythic{color:hsl(var(--rarity-mythic))}
+  /* ---- rarity: colour does the work — 1px borders + tinted text, no glow ---- */
+  .r-Common   { border-color:var(--olive); }
+  .r-Uncommon { border-color:var(--rarity-uncommon); }
+  .r-Rare     { border-color:var(--rarity-rare); }
+  .r-Epic     { border-color:var(--rarity-epic); }
+  .r-Legendary{ border-color:var(--rarity-legendary); }
+  .r-Mythic   { border-color:var(--rarity-mythic); }
+  .tc-Common{color:var(--rarity-common)} .tc-Uncommon{color:var(--rarity-uncommon)}
+  .tc-Rare{color:var(--rarity-rare)} .tc-Epic{color:var(--rarity-epic)}
+  .tc-Legendary{color:var(--rarity-legendary)} .tc-Mythic{color:var(--rarity-mythic)}
 
-  /* ---- the game button: white pill with hard edge (primary actions) ---- */
-  .game-button{ background:linear-gradient(180deg,#ffffff 0%,#f0f0f0 100%); color:#111827;
-    border-radius:9999px; font-family:var(--font-body); font-weight:600; letter-spacing:-.2px;
-    padding:.72rem 1.35rem; touch-action:manipulation;
-    box-shadow: 0 4px 0 #d1d5db, 0 6px 12px rgba(0,0,0,.15);
-    transition: all .1s ease; }
-  @media(hover:hover){ .game-button:hover{ transform:translateY(-1px) scale(1.02);
-    box-shadow: 0 5px 0 #d1d5db, 0 10px 18px rgba(0,0,0,.22); } }
-  .game-button:active{ transform:translateY(2px) !important; box-shadow: 0 2px 0 #d1d5db; }
-  .game-button:disabled{ opacity:.45; pointer-events:none; }
-  /* tinted variants keep type/action color coding while staying light & premium */
-  .gb-cyan{ background:linear-gradient(180deg,#ecfcff,#bff0fa); color:#085365;
-    box-shadow: 0 4px 0 #79cfe2, 0 6px 12px rgba(0,0,0,.15); }
-  .gb-cyan:active{ box-shadow: 0 2px 0 #79cfe2; }
-  .gb-gold{ background:linear-gradient(180deg,#fff8e2,#ffe096); color:#6b4500;
-    box-shadow: 0 4px 0 #e2b14b, 0 6px 12px rgba(0,0,0,.15); }
-  .gb-gold:active{ box-shadow: 0 2px 0 #e2b14b; }
-  .gb-magenta{ background:linear-gradient(180deg,#ffeefb,#ffc7ef); color:#8d166e;
-    box-shadow: 0 4px 0 #eb91d3, 0 6px 12px rgba(0,0,0,.15); }
-  .gb-magenta:active{ box-shadow: 0 2px 0 #eb91d3; }
+  /* ---- the game button: ghost pill, 1px cream border, inverts on hover ---- */
+  .game-button{ background:transparent; color:var(--cream); border:1px solid var(--cream);
+    border-radius:100px; font-family:var(--font-mori); font-weight:400; font-size:16px;
+    letter-spacing:-0.16px; padding:.62rem 1.25rem; touch-action:manipulation;
+    transition:background .15s ease, color .15s ease, transform .1s ease; }
+  @media(hover:hover){ .game-button:hover{ background:var(--cream); color:var(--void); } }
+  .game-button:active{ transform:scale(.98); }
+  .game-button:disabled{ opacity:.35; pointer-events:none; }
+  /* accent variants: colour on text + border only — never a filled background */
+  .gb-cyan{ border-color:var(--blue); color:var(--blue); }
+  .gb-gold{ border-color:var(--orange); color:var(--orange); }
+  .gb-magenta{ border-color:var(--pink); color:var(--pink); }
+  @media(hover:hover){
+    .gb-cyan:hover{ background:var(--blue); color:var(--void); }
+    .gb-gold:hover{ background:var(--orange); color:var(--void); }
+    .gb-magenta:hover{ background:var(--pink); color:var(--void); }
+  }
 
-  /* ---- charm button: soft secondary pill ---- */
-  .charm-button{ border-radius:9999px; font-family:var(--font-body); font-weight:700; letter-spacing:-.2px;
-    padding:.65rem 1.2rem; touch-action:manipulation;
-    transition: all .15s cubic-bezier(.23,1,.32,1); }
-  @media(hover:hover){ .charm-button:hover{ transform:scale(1.04); } }
-  .charm-button:active{ transform:scale(.985); }
-  .charm-button:disabled{ opacity:.45; pointer-events:none; }
-  .cb-ghost{ background:hsl(222 32% 22%); color:hsl(222 30% 90%);
-    border:2px solid hsl(var(--border)); box-shadow: 0 3px 0 rgba(0,0,0,.28); }
-  .cb-danger{ background:hsl(350 40% 21%); color:hsl(350 90% 80%);
-    border:2px solid hsl(350 45% 36%); box-shadow: 0 3px 0 rgba(0,0,0,.28); }
+  /* ---- charm button: quiet ghost pill ---- */
+  .charm-button{ border-radius:100px; font-family:var(--font-mori); font-weight:400;
+    font-size:15px; letter-spacing:-0.15px; padding:.55rem 1.1rem; touch-action:manipulation;
+    transition:border-color .15s ease, color .15s ease, transform .1s ease; }
+  @media(hover:hover){ .charm-button:hover{ border-color:var(--cream); color:var(--cream); } }
+  .charm-button:active{ transform:scale(.98); }
+  .charm-button:disabled{ opacity:.35; pointer-events:none; }
+  .cb-ghost{ background:transparent; color:var(--ash); border:1px solid var(--olive); }
+  .cb-danger{ background:transparent; color:var(--orange); border:1px solid var(--orange); }
+  @media(hover:hover){ .cb-danger:hover{ background:var(--orange); color:var(--void); border-color:var(--orange); } }
 
-  /* ---- battle move buttons: large, rounded, typed ---- */
-  .move-btn{ display:flex; align-items:center; gap:.7rem; text-align:left;
-    border-radius:18px; border:2px solid; padding:.8rem .95rem; min-height:3.9rem;
-    font-family:var(--font-body); font-weight:600; font-size:.92rem;
-    box-shadow: 0 4px 0 rgba(0,0,0,.32); transition: all .12s ease; touch-action:manipulation; }
-  @media(hover:hover){ .move-btn:hover{ filter:brightness(1.18); transform:translateY(-1px); } }
-  .move-btn:active{ transform:translateY(2px); box-shadow: 0 1px 0 rgba(0,0,0,.32); }
-  .move-btn:disabled{ opacity:.45; pointer-events:none; }
-  .move-ico{ width:2.1rem; height:2.1rem; flex:none; border-radius:12px; border:1.5px solid;
-    display:grid; place-items:center; font-size:1rem; }
+  /* ---- battle move buttons: ghost blocks, typed by accent border ---- */
+  .move-btn{ display:flex; align-items:center; gap:.7rem; text-align:left; background:transparent;
+    border-radius:8px; border:1px solid var(--olive); padding:.8rem .95rem; min-height:3.8rem;
+    font-family:var(--font-mori); font-weight:400; font-size:.92rem; letter-spacing:-0.01em;
+    transition:border-color .12s ease, transform .1s ease; touch-action:manipulation; }
+  @media(hover:hover){ .move-btn:hover{ border-color:var(--cream); } }
+  .move-btn:active{ transform:scale(.99); }
+  .move-btn:disabled{ opacity:.35; pointer-events:none; }
+  .move-ico{ width:2.1rem; height:2.1rem; flex:none; border-radius:100px; border:1px solid;
+    display:grid; place-items:center; font-size:1rem; background:transparent; }
 
-  /* ---- header & currencies ---- */
-  .coin-pill{ display:flex; align-items:center; gap:.5rem; padding:.36rem .95rem .36rem .4rem;
-    border-radius:9999px; background:hsl(222 40% 13%); border:1.5px solid hsl(var(--border));
-    font-family:var(--font-body); font-weight:600; font-size:.92rem;
-    box-shadow: inset 0 2px 6px rgba(0,0,0,.4), 0 1px 0 rgba(255,255,255,.05); }
-  .coin-ico{ width:1.6rem; height:1.6rem; border-radius:9999px; display:grid; place-items:center;
-    font-size:.8rem; flex:none;
-    background:radial-gradient(circle at 35% 28%, rgba(255,255,255,.5), transparent 48%), var(--ico-bg,#555);
-    box-shadow: inset 0 -2px 3px rgba(0,0,0,.35), 0 1.5px 2px rgba(0,0,0,.4); }
-  .gear-btn{ transition: transform .25s cubic-bezier(.23,1,.32,1); }
-  @media(hover:hover){ .gear-btn:hover{ transform:rotate(55deg) scale(1.04); } }
+  /* ---- header & currencies: ghost pills ---- */
+  .coin-pill{ display:flex; align-items:center; gap:.45rem; padding:.34rem .9rem;
+    border-radius:100px; background:transparent; border:1px solid var(--olive);
+    font-weight:400; font-size:.9rem; letter-spacing:-0.01em; color:var(--cream); }
+  .coin-ico{ width:1.1rem; height:1.1rem; border-radius:100px; display:grid; place-items:center;
+    font-size:.78rem; flex:none; color:var(--ico-c,var(--cream)); }
+  .gear-btn{ transition:transform .25s ease; }
+  @media(hover:hover){ .gear-btn:hover{ transform:rotate(55deg); } }
 
-  /* ---- friendly nav: active tab = raised white pill ---- */
-  .navbtn{ font-family:var(--font-body); font-weight:600; font-size:.92rem;
-    color:hsl(var(--muted-foreground)); padding:.6rem 1.15rem; border-radius:9999px;
-    white-space:nowrap; touch-action:manipulation;
-    transition: all .18s cubic-bezier(.23,1,.32,1); }
-  .navbtn:hover{ color:hsl(var(--foreground)); background:hsl(222 32% 19%); transform:scale(1.04); }
-  .navbtn.active{ color:#0d1426; font-weight:700;
-    background:linear-gradient(180deg,#ffffff,#e9edf5);
-    box-shadow: 0 3px 0 #b4bed2, 0 7px 14px rgba(0,0,0,.3); }
+  /* ---- nav: bare text links, active = cream + accent underline ---- */
+  .navbtn{ font-weight:400; font-size:16px; letter-spacing:-0.16px; color:var(--ash);
+    padding:.5rem .9rem; border-radius:100px; white-space:nowrap; touch-action:manipulation;
+    transition:color .15s ease; }
+  .navbtn:hover{ color:var(--cream); }
+  .navbtn.active{ color:var(--cream); font-weight:600;
+    text-decoration:underline; text-decoration-thickness:2px; text-underline-offset:7px;
+    text-decoration-color:var(--acc,var(--green)); }
   .navbtn:active{ transform:scale(.97); }
+  #mainNav .navbtn:nth-child(1){ --acc:var(--green); }
+  #mainNav .navbtn:nth-child(2){ --acc:var(--pink); }
+  #mainNav .navbtn:nth-child(3){ --acc:var(--orange); }
+  #mainNav .navbtn:nth-child(4){ --acc:var(--blue); }
+  #mainNav .navbtn:nth-child(5){ --acc:var(--lime); }
+  #mainNav .navbtn:nth-child(6){ --acc:var(--violet); }
+  #mainNav .navbtn:nth-child(7){ --acc:var(--cream); }
 
-  /* ---- weekly event: charming announcement card ---- */
-  .event-banner{ position:relative; margin:.3rem 0 1.4rem; padding:1.05rem 1.2rem; border-radius:24px;
-    display:flex; align-items:center; gap:1rem;
-    background:linear-gradient(180deg, hsl(228 36% 18%), hsl(var(--card)));
-    border:2px solid hsl(var(--accent)/.5);
-    box-shadow: 0 10px 0 rgba(0,0,0,.12), inset 0 1.5px 0 rgba(255,255,255,.06); }
-  .event-icon{ width:3.1rem; height:3.1rem; flex:none; border-radius:16px; display:grid; place-items:center;
-    font-size:1.55rem; background:linear-gradient(180deg, hsl(46 100% 78%), hsl(40 95% 60%));
-    box-shadow: 0 3.5px 0 hsl(38 75% 40%), inset 0 2px 0 rgba(255,255,255,.5);
-    animation:floaty 3.2s ease-in-out infinite; }
-  .event-tag{ font-family:var(--font-body); font-weight:800; font-size:.6rem; letter-spacing:.14em;
-    text-transform:uppercase; color:hsl(var(--accent)); }
-  .event-title{ font-family:var(--font-display); font-size:1.06rem; line-height:1.25; }
-  .event-live{ font-family:var(--font-body); font-size:.64rem; font-weight:800; letter-spacing:.06em;
-    padding:.28rem .65rem; border-radius:9999px; flex:none;
-    color:hsl(var(--success)); background:hsl(var(--success)/.13); border:1.5px solid hsl(var(--success)/.4); }
+  /* ---- weekly event: THE one fully-filled band — green gradient strip ---- */
+  .event-banner{ position:relative; margin:.2rem 0 1.3rem; padding:.55rem 1.1rem;
+    border-radius:8px; display:flex; align-items:center; gap:.8rem; flex-wrap:wrap;
+    background:var(--grad-green); color:var(--void); }
+  .event-banner b{ font-weight:600; }
+  .event-tag{ font-weight:600; font-size:13px; letter-spacing:-0.13px; }
+  .event-title{ font-weight:400; font-size:14px; letter-spacing:-0.14px; line-height:1.3; }
+  .event-live{ font-weight:600; font-size:11px; padding:.18rem .6rem; border-radius:100px;
+    flex:none; border:1px solid rgba(14,16,15,.45); color:var(--void); }
 
-  /* ---- selects ---- */
-  select{ font-family:var(--font-body) !important; font-weight:600;
-    border-radius:9999px !important; border:1.5px solid hsl(var(--border)) !important;
-    background-color:hsl(222 40% 13%) !important; color:hsl(var(--foreground)) !important;
-    padding:.5rem 1.05rem !important; box-shadow: inset 0 2px 6px rgba(0,0,0,.35);
-    appearance:none; -webkit-appearance:none; cursor:pointer; }
+  /* ---- selects: ghost pills ---- */
+  select{ font-family:var(--font-mori) !important; font-weight:400; font-size:14px !important;
+    border-radius:100px !important; border:1px solid var(--olive) !important;
+    background-color:var(--void) !important; color:var(--cream) !important;
+    padding:.45rem 1rem !important; appearance:none; -webkit-appearance:none; cursor:pointer; }
+  select:hover{ border-color:var(--cream) !important; }
 
   /* ---- generic interactive tiles ---- */
-  .card{ cursor:pointer; transition: transform .18s cubic-bezier(.23,1,.32,1), filter .18s ease; }
-  @media(hover:hover){ .card:hover{ transform:translateY(-3px) scale(1.015); filter:brightness(1.08); } }
-  .card:active{ transform:scale(.96); }
+  .card{ cursor:pointer; transition:transform .15s ease, border-color .15s ease; }
+  @media(hover:hover){ .card:hover{ transform:translateY(-2px); border-color:var(--cream); } }
+  .card:active{ transform:scale(.97); }
 
-  /* ---- chips ---- */
-  .chip{ display:inline-flex; align-items:center; gap:.3rem; font-family:var(--font-body);
-    font-size:.66rem; font-weight:700; letter-spacing:.02em; padding:.2rem .62rem; border-radius:9999px;
-    border:1.5px solid rgba(255,255,255,.12); box-shadow: 0 1.5px 0 rgba(0,0,0,.28); }
+  /* ---- chips: tiny ghost tags, 1px accent border ---- */
+  .chip{ display:inline-flex; align-items:center; gap:.3rem; font-family:var(--font-mori);
+    font-size:11px; font-weight:400; letter-spacing:-0.11px; padding:.16rem .6rem;
+    border-radius:100px; border:1px solid currentColor; background:transparent !important; }
 
   /* ---- motion ---- */
-  main > section{ animation:screenIn .34s cubic-bezier(.23,1,.32,1); }
-  @keyframes screenIn{ from{ opacity:0; transform:translateY(14px);} }
-  @keyframes riseIn{ from{ opacity:0; transform:translateY(16px);} }
-  #hubGrid>*, #summonResults>*, #questList>*, #marketGrid>*{ animation:riseIn .42s cubic-bezier(.23,1,.32,1) both; }
+  main > section{ animation:screenIn .3s ease; }
+  @keyframes screenIn{ from{ opacity:0; transform:translateY(10px);} }
+  @keyframes riseIn{ from{ opacity:0; transform:translateY(12px);} }
+  #hubGrid>*, #summonResults>*, #questList>*, #marketGrid>*{ animation:riseIn .35s ease both; }
   #hubGrid>*:nth-child(2),#summonResults>*:nth-child(2),#questList>*:nth-child(2),#marketGrid>*:nth-child(2){ animation-delay:.05s }
   #hubGrid>*:nth-child(3),#summonResults>*:nth-child(3),#questList>*:nth-child(3),#marketGrid>*:nth-child(3){ animation-delay:.1s }
   #hubGrid>*:nth-child(4),#summonResults>*:nth-child(4),#marketGrid>*:nth-child(4){ animation-delay:.15s }
@@ -277,36 +246,30 @@
   #hubGrid>*:nth-child(6),#summonResults>*:nth-child(6),#marketGrid>*:nth-child(6){ animation-delay:.25s }
   @keyframes shakeIt{ 0%,100%{transform:translate(0,0)} 20%{transform:translate(-7px,4px)} 40%{transform:translate(6px,-5px)} 60%{transform:translate(-5px,-3px)} 80%{transform:translate(4px,4px)} }
   .shaking{ animation:shakeIt .32s ease; }
-  @keyframes toastPop{ from{ transform:translateY(22px) scale(.85); opacity:0;} }
-  .toast{ background:linear-gradient(180deg,#ffffff,#eef1f7) !important; color:#16213c !important;
-    border:none !important; border-radius:9999px !important;
-    font-family:var(--font-body); font-weight:700; font-size:.88rem;
-    box-shadow: 0 4px 0 #c2cadb, 0 12px 28px rgba(0,0,0,.45) !important;
-    animation:toastPop .35s cubic-bezier(.23,1,.32,1.4); }
-  @keyframes modalIn{ from{ transform:scale(.9) translateY(18px); opacity:0;} to{ transform:scale(1) translateY(0); opacity:1;} }
-  .modal-box{ animation:modalIn .32s cubic-bezier(.23,1,.32,1.25); border-radius:28px !important;
-    box-shadow: 0 14px 0 rgba(0,0,0,.18), 0 30px 70px rgba(0,0,0,.55) !important; }
+  @keyframes toastPop{ from{ transform:translateY(18px); opacity:0;} }
+  .toast{ background:var(--void) !important; color:var(--cream) !important;
+    border:1px solid var(--cream) !important; border-radius:100px !important;
+    font-family:var(--font-mori); font-weight:400; font-size:.88rem; letter-spacing:-0.01em;
+    animation:toastPop .3s ease; }
+  @keyframes modalIn{ from{ transform:translateY(14px); opacity:0;} to{ transform:translateY(0); opacity:1;} }
+  .modal-box{ animation:modalIn .28s ease; border-radius:8px !important;
+    border:1px solid var(--cream); background:var(--void); }
   @keyframes floaty{ 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(-6px);} }
   .floaty{ animation:floaty 3.2s ease-in-out infinite; }
-  @keyframes spinSlow{ to{ transform:rotate(360deg);} }
   .hidden-i{ display:none !important; }
 
-  /* ---- glossy bars ---- */
-  .hpbar{ transition:width .45s cubic-bezier(.2,.8,.3,1);
-    box-shadow: inset 0 2px 2px rgba(255,255,255,.45), inset 0 -2px 3px rgba(0,0,0,.28); }
-  .xpbar{ transition:width .5s ease;
-    box-shadow: inset 0 1.5px 1.5px rgba(255,255,255,.4), inset 0 -1.5px 2px rgba(0,0,0,.25); }
+  /* ---- flat bars: no gloss, hairline tracks ---- */
+  .hpbar{ transition:width .45s cubic-bezier(.2,.8,.3,1); }
+  .xpbar{ transition:width .5s ease; }
 
   canvas{ image-rendering:auto; display:block; }
   #arenaCanvas,#summonCanvas,#rhythmCanvas,#medCanvas{
-    border:2px solid hsl(222 28% 24%); border-radius:20px !important;
-    box-shadow: inset 0 4px 16px rgba(0,0,0,.4), 0 8px 0 rgba(0,0,0,.12); }
+    border:1px solid var(--olive); border-radius:8px !important; }
 
-  .weave-cell{ transition:transform .12s cubic-bezier(.23,1,.32,1.4), opacity .25s ease;
-    border-radius:14px !important;
-    box-shadow: inset 0 2px 0 rgba(255,255,255,.12), 0 3px 0 rgba(0,0,0,.4); }
-  .weave-cell:active{ transform:scale(.88); }
-  .weave-cell.sel{ transform:scale(.85); filter:brightness(1.6); }
+  .weave-cell{ transition:transform .12s ease, opacity .25s ease;
+    border-radius:8px !important; background:transparent !important; }
+  .weave-cell:active{ transform:scale(.9); }
+  .weave-cell.sel{ transform:scale(.88); filter:brightness(1.6); }
   .weave-cell.pop{ transform:scale(0); opacity:0; }
 </style>
 </head>
@@ -316,19 +279,19 @@
 
   <!-- ════════ TOP BAR ════════ -->
   <header class="flex items-center gap-3 px-4 sm:px-8 pt-4 sm:pt-5 pb-3 flex-wrap">
-    <div class="flex items-center gap-2.5 mr-auto">
-      <div class="game-logo">Prompt <i>Pets</i></div>
-      <div class="hidden sm:block text-[11px] text-[#a9a3d4] italic mt-1.5 font-semibold">Summon · Bond · Battle</div>
+    <div class="flex items-center gap-3 mr-auto">
+      <div class="game-logo">Prompt Pets<i>✱</i></div>
+      <div class="hidden sm:block text-[14px] text-[#7c7c6f]" style="letter-spacing:-0.14px">{ Summon · Bond · Battle }</div>
     </div>
     <div class="flex items-center gap-2">
       <div class="coin-pill" title="Compute Credits — earned in battle, spent on summons">
-        <span class="coin-ico" style="--ico-bg:#0a7d96">⚡</span><span id="creditsVal" class="num">0</span>
+        <span class="coin-ico" style="--ico-c:#00bae2">⚡</span><span id="creditsVal" class="num">0</span>
       </div>
       <div class="coin-pill" title="Bond Essence — earned by training, spent on evolution">
-        <span class="coin-ico" style="--ico-bg:#a832a8">❖</span><span id="essenceVal" class="num">0</span>
+        <span class="coin-ico" style="--ico-c:#fec5fb">❖</span><span id="essenceVal" class="num">0</span>
       </div>
       <div class="coin-pill" title="Intelligence Cores — permanent prestige bonus">
-        <span class="coin-ico" style="--ico-bg:#a87413">◈</span><span id="coresVal" class="num">0</span>
+        <span class="coin-ico" style="--ico-c:#ff8709">◈</span><span id="coresVal" class="num">0</span>
       </div>
       <button id="settingsBtn" class="charm-button cb-ghost gear-btn !px-3 !py-2" title="Settings">⚙</button>
     </div>
@@ -336,13 +299,13 @@
 
   <!-- ════════ NAV ════════ -->
   <nav class="px-3 sm:px-7 pb-2.5 flex gap-1.5 overflow-x-auto" id="mainNav">
-    <button class="navbtn active" data-screen="hub">🏠 Hub</button>
-    <button class="navbtn" data-screen="summon">✨ Summon</button>
-    <button class="navbtn" data-screen="train">🎯 Train</button>
-    <button class="navbtn" data-screen="battle">⚔️ Battle</button>
-    <button class="navbtn" data-screen="market">🛒 Market</button>
-    <button class="navbtn" data-screen="quests">📜 Quests<span id="questDot" class="hidden-i ml-1 inline-block w-2 h-2 rounded-full bg-[#ff4dff]"></span></button>
-    <button class="navbtn" data-screen="archive">🧠 Archive</button>
+    <button class="navbtn active" data-screen="hub">Hub</button>
+    <button class="navbtn" data-screen="summon">Summon</button>
+    <button class="navbtn" data-screen="train">Train</button>
+    <button class="navbtn" data-screen="battle">Battle</button>
+    <button class="navbtn" data-screen="market">Market</button>
+    <button class="navbtn" data-screen="quests">Quests<span id="questDot" class="hidden-i ml-1 inline-block w-2 h-2 rounded-full bg-[#9d95ff]"></span></button>
+    <button class="navbtn" data-screen="archive">Archive</button>
   </nav>
 
   <main class="flex-1 overflow-y-auto px-4 sm:px-8 pb-10 pt-2" id="mainScroll">
@@ -350,47 +313,54 @@
     <!-- ════════ HUB / COLLECTION ════════ -->
     <section id="screen-hub">
       <div id="eventBannerHub"></div>
-      <div class="flex items-center gap-2 mb-3 flex-wrap">
-        <h2 class="text-lg font-black mr-auto">Your Pets <span id="petCount" class="text-sm font-bold text-[#8d88b8]"></span></h2>
-        <select id="hubFilter" class="bg-[#221e44] border border-[#3a3560] rounded-lg px-2 py-1.5 text-sm">
-          <option value="all">All types</option>
-          <option value="fav">★ Favorites</option>
-          <option value="Logic">Logic</option><option value="Creative">Creative</option>
-          <option value="Chaotic">Chaotic</option><option value="Harmonic">Harmonic</option>
-          <option value="Void">Void</option>
-          <option value="anchored">⛓ Anchored</option>
-        </select>
-        <select id="hubSort" class="bg-[#221e44] border border-[#3a3560] rounded-lg px-2 py-1.5 text-sm">
-          <option value="power">Sort: Power</option>
-          <option value="lvl">Sort: Level</option>
-          <option value="rarity">Sort: Rarity</option>
-          <option value="new">Sort: Newest</option>
-          <option value="name">Sort: Name</option>
-        </select>
+      <div class="screen-head">
+        <div class="section-tag">{ Your Collection }</div>
+        <h2 class="screen-title" style="color:var(--green)">Your Pets <span id="petCount" class="text-[0.38em] align-middle" style="color:var(--ash)"></span></h2>
+        <div class="flex items-end gap-2 flex-wrap">
+          <div class="screen-sub mr-auto">Every mind you've pulled from latent space, side by side.</div>
+          <select id="hubFilter">
+            <option value="all">All types</option>
+            <option value="fav">★ Favorites</option>
+            <option value="Logic">Logic</option><option value="Creative">Creative</option>
+            <option value="Chaotic">Chaotic</option><option value="Harmonic">Harmonic</option>
+            <option value="Void">Void</option>
+            <option value="anchored">⛓ Anchored</option>
+          </select>
+          <select id="hubSort">
+            <option value="power">Sort: Power</option>
+            <option value="lvl">Sort: Level</option>
+            <option value="rarity">Sort: Rarity</option>
+            <option value="new">Sort: Newest</option>
+            <option value="name">Sort: Name</option>
+          </select>
+        </div>
       </div>
       <div id="hubGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6"></div>
       <div id="hubEmpty" class="hidden-i game-panel p-8 text-center mt-4">
         <div class="text-4xl mb-2">🥚</div>
         <div class="font-bold mb-1">No Prompt Pets yet!</div>
         <div class="flavor text-sm mb-4">Latent space is teeming with creatures waiting to be summoned…</div>
-        <button class="game-button gb-magenta" onclick="showScreen('summon')">✨ Go Summon</button>
+        <button class="game-button gb-magenta" onclick="showScreen('summon')">Go Summon →</button>
       </div>
     </section>
 
     <!-- ════════ SUMMON ════════ -->
     <section id="screen-summon" class="hidden-i">
       <div id="eventBannerSummon"></div>
+      <div class="screen-head">
+        <div class="section-tag">{ The Latent Pool }</div>
+        <h2 class="screen-title" style="color:var(--pink)">Summon!</h2>
+        <div class="screen-sub">Reach into latent space and pull a new mind into the world.</div>
+      </div>
       <div class="game-panel p-4 relative overflow-hidden">
-        <h2 class="text-lg font-black mb-1">Latent Pool</h2>
-        <div class="flavor text-sm mb-2">Reach into latent space and pull a new mind into the world.</div>
-        <canvas id="summonCanvas" class="w-full rounded-xl bg-[#0c0b16]" style="aspect-ratio:16/10"></canvas>
+        <canvas id="summonCanvas" class="w-full rounded-lg bg-[#0e100f]" style="aspect-ratio:16/10"></canvas>
         <div id="summonReveal" class="absolute inset-x-0 bottom-20 text-center pointer-events-none"></div>
         <div class="flex gap-2 mt-3 flex-wrap items-center">
-          <button id="summon1Btn" class="game-button gb-cyan flex-1 min-w-[130px]">✨ Summon ×1 <span class="num text-xs opacity-80">(⚡100)</span></button>
-          <button id="summon10Btn" class="game-button gb-magenta flex-1 min-w-[130px]">🌟 Summon ×10 <span class="num text-xs opacity-80">(⚡900)</span></button>
+          <button id="summon1Btn" class="game-button gb-cyan flex-1 min-w-[130px]">Summon ×1 <span class="num text-xs opacity-80">(⚡100)</span></button>
+          <button id="summon10Btn" class="game-button gb-magenta flex-1 min-w-[130px]">Summon ×10 <span class="num text-xs opacity-80">(⚡900)</span></button>
         </div>
-        <div id="pityInfo" class="text-xs text-[#8d88b8] mt-2 num"></div>
-        <div class="text-[10px] text-[#6b668f] mt-1">Rates — Common 50% · Uncommon 27% · Rare 14% · Epic 6.5% · Legendary 2% · Mythic 0.5% · Rare+ guaranteed every 10 · Legendary+ every 40</div>
+        <div id="pityInfo" class="text-xs text-[#7c7c6f] mt-2 num"></div>
+        <div class="text-[10px] text-[#7c7c6f] mt-1">Rates — Common 50% · Uncommon 27% · Rare 14% · Epic 6.5% · Legendary 2% · Mythic 0.5% · Rare+ guaranteed every 10 · Legendary+ every 40</div>
       </div>
       <div id="summonResults" class="grid grid-cols-2 sm:grid-cols-5 gap-2 mt-3"></div>
     </section>
@@ -398,27 +368,30 @@
     <!-- ════════ TRAIN ════════ -->
     <section id="screen-train" class="hidden-i">
       <div id="trainPick">
-        <h2 class="text-lg font-black mb-2">Training Grounds</h2>
-        <div class="flavor text-sm mb-3">Pick a Pet, pick a session. Short, focused, rewarding.</div>
+        <div class="screen-head">
+          <div class="section-tag">{ Bond Essence }</div>
+          <h2 class="screen-title" style="color:var(--orange)">Train</h2>
+          <div class="screen-sub">Pick a Pet, pick a session. Short, focused, rewarding.</div>
+        </div>
         <div class="game-panel p-3 mb-3">
-          <div class="text-xs font-bold text-[#8d88b8] mb-2">TRAINEE</div>
+          <div class="text-[14px] text-[#fffce1] mb-2" style="letter-spacing:-0.14px">{ Trainee }</div>
           <div id="trainPetRow" class="flex gap-2 overflow-x-auto pb-1"></div>
         </div>
         <div id="trainGames" class="grid sm:grid-cols-3 gap-3">
-          <div class="game-panel p-4 card" data-game="rhythm">
-            <div class="text-3xl mb-1">🎵</div><div class="font-black">Prompt Rhythm</div>
-            <div class="text-xs text-[#9b96c4] mt-1">Tap in time with the prompt wave. Perfect timing = big Bond Essence.</div>
-            <div class="chip mt-2" style="background:rgba(0,240,255,.15);color:#00f0ff">timing · juicy</div>
+          <div class="game-panel p-5 card" data-game="rhythm">
+            <div class="text-[24px]" style="color:#00bae2;letter-spacing:-0.26px;line-height:1.15">Prompt Rhythm</div>
+            <div class="text-sm text-[#7c7c6f] mt-1.5">Tap in time with the prompt wave. Perfect timing = big Bond Essence.</div>
+            <div class="chip mt-3" style="color:#00bae2">timing · juicy</div>
           </div>
-          <div class="game-panel p-4 card" data-game="weave">
-            <div class="text-3xl mb-1">🧩</div><div class="font-black">Data Weave</div>
-            <div class="text-xs text-[#9b96c4] mt-1">Connect matching data tiles to organize the training set.</div>
-            <div class="chip mt-2" style="background:rgba(255,77,255,.15);color:#ff4dff">puzzle · 60s</div>
+          <div class="game-panel p-5 card" data-game="weave">
+            <div class="text-[24px]" style="color:#fec5fb;letter-spacing:-0.26px;line-height:1.15">Data Weave</div>
+            <div class="text-sm text-[#7c7c6f] mt-1.5">Connect matching data tiles to organize the training set.</div>
+            <div class="chip mt-3" style="color:#fec5fb">puzzle · 60s</div>
           </div>
-          <div class="game-panel p-4 card" data-game="meditate">
-            <div class="text-3xl mb-1">🧘</div><div class="font-black">Latent Meditation</div>
-            <div class="text-xs text-[#9b96c4] mt-1">Watch your Pet process. Catch drifting insight orbs for bonuses.</div>
-            <div class="chip mt-2" style="background:rgba(255,209,102,.15);color:#ffd166">chill · passive</div>
+          <div class="game-panel p-5 card" data-game="meditate">
+            <div class="text-[24px]" style="color:#ff8709;letter-spacing:-0.26px;line-height:1.15">Latent Meditation</div>
+            <div class="text-sm text-[#7c7c6f] mt-1.5">Watch your Pet process. Catch drifting insight orbs for bonuses.</div>
+            <div class="chip mt-3" style="color:#ff8709">chill · passive</div>
           </div>
         </div>
       </div>
@@ -426,7 +399,7 @@
         <div class="flex items-center gap-2 mb-2">
           <button id="trainBackBtn" class="charm-button cb-ghost !py-1.5 !px-3 text-sm">← Back</button>
           <div id="trainTitle" class="font-black"></div>
-          <div id="trainScore" class="ml-auto num text-[#ffd166]"></div>
+          <div id="trainScore" class="ml-auto num text-[#ff8709]"></div>
         </div>
         <div id="rhythmWrap" class="hidden-i game-panel p-2">
           <canvas id="rhythmCanvas" class="w-full rounded-lg" style="aspect-ratio:16/10;touch-action:manipulation"></canvas>
@@ -437,11 +410,11 @@
             <span>Chains: <span id="weaveChains" class="num">0</span></span>
           </div>
           <div id="weaveGrid" class="grid grid-cols-6 gap-1.5 max-w-sm mx-auto"></div>
-          <div class="text-xs text-center text-[#8d88b8] mt-2">Tap a tile, then adjacent matching tiles (3+) to weave a chain. Tap last tile again to confirm.</div>
+          <div class="text-xs text-center text-[#7c7c6f] mt-2">Tap a tile, then adjacent matching tiles (3+) to weave a chain. Tap last tile again to confirm.</div>
         </div>
         <div id="medWrap" class="hidden-i game-panel p-2">
           <canvas id="medCanvas" class="w-full rounded-lg" style="aspect-ratio:16/10;touch-action:manipulation"></canvas>
-          <div class="text-xs text-center text-[#8d88b8] py-2">Stay present… tap golden insight orbs when they appear ✨</div>
+          <div class="text-xs text-center text-[#7c7c6f] py-2">Stay present… tap golden insight orbs when they appear ✨</div>
         </div>
       </div>
     </section>
@@ -449,22 +422,25 @@
     <!-- ════════ BATTLE ════════ -->
     <section id="screen-battle" class="hidden-i">
       <div id="battleSetup">
-        <h2 class="text-lg font-black mb-1">Battle Arena</h2>
-        <div class="flavor text-sm mb-3">Logic ▸ Creative ▸ Chaotic ▸ Harmonic ▸ Logic… and Void plays dice with everyone.</div>
+        <div class="screen-head">
+          <div class="section-tag">{ The Arena }</div>
+          <h2 class="screen-title" style="color:var(--blue)">Battle!</h2>
+          <div class="screen-sub">Logic ▸ Creative ▸ Chaotic ▸ Harmonic ▸ Logic… and Void plays dice with everyone.</div>
+        </div>
         <div class="grid sm:grid-cols-2 gap-3 mb-3">
-          <div class="game-panel p-4">
-            <div class="font-black mb-1">🏆 Ranked Arena <span class="text-xs text-[#ffd166] num" id="rankLabel"></span></div>
-            <div class="text-xs text-[#9b96c4] mb-3" id="rankDesc">Climb the ladder. Opponents grow stronger and weirder.</div>
-            <button id="rankedBtn" class="game-button gb-gold w-full">Fight Next Trainer (3v3)</button>
+          <div class="game-panel p-5">
+            <div class="text-[24px]" style="color:#00bae2;letter-spacing:-0.26px;line-height:1.15">Ranked Arena <span class="text-xs text-[#7c7c6f] num" id="rankLabel"></span></div>
+            <div class="text-sm text-[#7c7c6f] mt-1.5 mb-4" id="rankDesc">Climb the ladder. Opponents grow stronger and weirder.</div>
+            <button id="rankedBtn" class="game-button gb-cyan w-full">Fight Next Trainer (3v3) →</button>
           </div>
-          <div class="game-panel p-4">
-            <div class="font-black mb-1">🥊 Sparring</div>
-            <div class="text-xs text-[#9b96c4] mb-3">Quick 1v1 vs a friendly bot. Low stakes, fast XP.</div>
-            <button id="sparBtn" class="game-button gb-cyan w-full">Quick Spar (1v1)</button>
+          <div class="game-panel p-5">
+            <div class="text-[24px]" style="color:#abff84;letter-spacing:-0.26px;line-height:1.15">Sparring</div>
+            <div class="text-sm text-[#7c7c6f] mt-1.5 mb-4">Quick 1v1 vs a friendly bot. Low stakes, fast XP.</div>
+            <button id="sparBtn" class="game-button w-full">Quick Spar (1v1) →</button>
           </div>
         </div>
         <div class="game-panel p-3">
-          <div class="text-xs font-bold text-[#8d88b8] mb-2">YOUR TEAM — tap to select up to 3 (first = lead)</div>
+          <div class="text-[14px] text-[#fffce1] mb-2" style="letter-spacing:-0.14px">{ Your Team — tap to select up to 3, first = lead }</div>
           <div id="teamPickRow" class="flex gap-2 overflow-x-auto pb-1"></div>
         </div>
       </div>
@@ -473,25 +449,25 @@
         <div class="flex justify-between items-end mb-1 px-1 gap-2">
           <div class="flex-1">
             <div class="flex items-center gap-1 text-xs font-bold"><span id="pName"></span><span id="pTeamDots" class="ml-1"></span></div>
-            <div class="h-3.5 bg-[#1a1635] rounded-full overflow-hidden mt-1 border border-[#443c78]"><div id="pHpBar" class="hpbar h-full rounded-full bg-gradient-to-r from-[#3ddc97] to-[#00f0ff]" style="width:100%"></div></div>
-            <div class="text-[10px] num text-[#9b96c4]" id="pHpTxt"></div>
+            <div class="h-3.5 bg-[#1d1f1c] rounded-full overflow-hidden mt-1 border border-[#42433d]"><div id="pHpBar" class="hpbar h-full rounded-full bg-gradient-to-r from-[#0ae448] to-[#00bae2]" style="width:100%"></div></div>
+            <div class="text-[10px] num text-[#7c7c6f]" id="pHpTxt"></div>
           </div>
-          <div class="text-xs font-black text-[#8d88b8] pb-2">VS</div>
+          <div class="text-xs font-black text-[#7c7c6f] pb-2">VS</div>
           <div class="flex-1 text-right">
             <div class="flex items-center justify-end gap-1 text-xs font-bold"><span id="eTeamDots" class="mr-1"></span><span id="eName"></span></div>
-            <div class="h-3.5 bg-[#1a1635] rounded-full overflow-hidden mt-1 border border-[#443c78]"><div id="eHpBar" class="hpbar h-full rounded-full bg-gradient-to-r from-[#ff4dff] to-[#ff6b6b]" style="width:100%"></div></div>
-            <div class="text-[10px] num text-[#9b96c4]" id="eHpTxt"></div>
+            <div class="h-3.5 bg-[#1d1f1c] rounded-full overflow-hidden mt-1 border border-[#42433d]"><div id="eHpBar" class="hpbar h-full rounded-full bg-gradient-to-r from-[#fec5fb] to-[#9d95ff]" style="width:100%"></div></div>
+            <div class="text-[10px] num text-[#7c7c6f]" id="eHpTxt"></div>
           </div>
         </div>
         <div class="relative">
-          <canvas id="arenaCanvas" class="w-full rounded-xl bg-[#0c0b16]" style="aspect-ratio:16/9"></canvas>
+          <canvas id="arenaCanvas" class="w-full rounded-lg bg-[#0e100f]" style="aspect-ratio:16/9"></canvas>
           <div id="battleBanner" class="absolute inset-0 flex items-center justify-center pointer-events-none"></div>
         </div>
-        <div id="battleLog" class="text-xs text-[#b9b4e0] h-10 overflow-hidden px-1 py-1 leading-4"></div>
+        <div id="battleLog" class="text-xs text-[#fffce1] h-10 overflow-hidden px-1 py-1 leading-4"></div>
         <div id="moveBtns" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mt-1"></div>
         <div class="flex gap-2 mt-2">
-          <button id="switchBtn" class="charm-button cb-ghost flex-1 text-sm">🔄 Switch Pet</button>
-          <button id="fleeBtn" class="charm-button cb-danger text-sm">🏳 Flee</button>
+          <button id="switchBtn" class="charm-button cb-ghost flex-1 text-sm">Switch Pet</button>
+          <button id="fleeBtn" class="charm-button cb-danger text-sm">Flee</button>
         </div>
         <div id="switchRow" class="hidden-i flex gap-2 mt-2"></div>
       </div>
@@ -499,33 +475,42 @@
 
     <!-- ════════ MARKET ════════ -->
     <section id="screen-market" class="hidden-i">
-      <h2 class="text-lg font-black mb-1">Trainer Marketplace</h2>
-      <div class="flavor text-sm mb-3">Other trainers list their Pets here daily. Anchored Pets trade as true on-chain assets.</div>
+      <div class="screen-head">
+        <div class="section-tag">{ On-chain Listings }</div>
+        <h2 class="screen-title" style="color:var(--lime)">Market</h2>
+        <div class="screen-sub">Other trainers list their Pets here daily. Anchored Pets trade as true on-chain assets.</div>
+      </div>
       <div id="marketGrid" class="grid grid-cols-2 sm:grid-cols-3 gap-3"></div>
-      <div class="text-xs text-[#6b668f] mt-3 text-center">Listings refresh daily · Sell your own Pets from their detail card</div>
+      <div class="text-xs text-[#7c7c6f] mt-3 text-center">Listings refresh daily · Sell your own Pets from their detail card</div>
     </section>
 
     <!-- ════════ QUESTS ════════ -->
     <section id="screen-quests" class="hidden-i">
-      <h2 class="text-lg font-black mb-1">Daily Quests</h2>
-      <div class="flavor text-sm mb-3">Fresh objectives every day. The Realm rewards the consistent.</div>
+      <div class="screen-head">
+        <div class="section-tag">{ Daily Objectives }</div>
+        <h2 class="screen-title" style="color:var(--violet)">Quests</h2>
+        <div class="screen-sub">Fresh objectives every day. The Realm rewards the consistent.</div>
+      </div>
       <div id="questList" class="space-y-2"></div>
       <div id="eventPanel" class="mt-4"></div>
     </section>
 
     <!-- ════════ NEURAL ARCHIVE (prestige) ════════ -->
     <section id="screen-archive" class="hidden-i">
-      <h2 class="text-lg font-black mb-1">🧠 Neural Archive</h2>
-      <div class="flavor text-sm mb-3">Compress your journey into pure intelligence. Begin again — smarter.</div>
+      <div class="screen-head">
+        <div class="section-tag">{ Prestige }</div>
+        <h2 class="screen-title">Neural Archive</h2>
+        <div class="screen-sub">Compress your journey into pure intelligence. Begin again — smarter.</div>
+      </div>
       <div class="game-panel p-5">
         <div class="grid sm:grid-cols-3 gap-3 text-center mb-4">
-          <div><div class="text-2xl num text-[#ffd166]" id="archCores">0</div><div class="text-xs text-[#8d88b8]">Intelligence Cores</div></div>
-          <div><div class="text-2xl num text-[#00f0ff]" id="archPower">0</div><div class="text-xs text-[#8d88b8]">Collection Level Sum</div></div>
-          <div><div class="text-2xl num text-[#ff4dff]" id="archGain">+0</div><div class="text-xs text-[#8d88b8]">Cores on Archive</div></div>
+          <div><div class="text-2xl num text-[#ff8709]" id="archCores">0</div><div class="text-xs text-[#7c7c6f]">Intelligence Cores</div></div>
+          <div><div class="text-2xl num text-[#00bae2]" id="archPower">0</div><div class="text-xs text-[#7c7c6f]">Collection Level Sum</div></div>
+          <div><div class="text-2xl num text-[#fec5fb]" id="archGain">+0</div><div class="text-xs text-[#7c7c6f]">Cores on Archive</div></div>
         </div>
-        <div class="text-sm text-[#b9b4e0] mb-1">Each Core permanently grants <b class="text-[#ffd166]">+2% to all Pet stats</b> and <b class="text-[#ffd166]">+50 starting Credits</b>.</div>
-        <div class="text-sm text-[#b9b4e0] mb-4">Archiving resets your Pets, currencies and arena rank. Cores, settings and your wallet persist. Requires collection level sum ≥ 60.</div>
-        <button id="archiveBtn" class="game-button gb-magenta w-full">⚡ Archive & Transcend</button>
+        <div class="text-sm text-[#fffce1] mb-1">Each Core permanently grants <b class="text-[#ff8709]">+2% to all Pet stats</b> and <b class="text-[#ff8709]">+50 starting Credits</b>.</div>
+        <div class="text-sm text-[#fffce1] mb-4">Archiving resets your Pets, currencies and arena rank. Cores, settings and your wallet persist. Requires collection level sum ≥ 60.</div>
+        <button id="archiveBtn" class="game-button gb-magenta w-full">Archive & Transcend →</button>
       </div>
     </section>
   </main>
@@ -628,12 +613,16 @@ const sfx = {
 };
 
 /* ═══════════════════════════ GAME DATA ═══════════════════════════ */
+/* one accent per type — colour is the organizational system (design.md):
+   Logic=Signal Blue · Creative=Candy Pink · Chaotic=Ember Orange ·
+   Harmonic=Electric Violet · Void=Lime Flash. bg stays transparent —
+   accents live on text and 1px borders only, never as fills. */
 const TYPES = {
-  Logic:   { color:'#00f0ff', icon:'◆', bg:'rgba(0,240,255,.15)' },
-  Creative:{ color:'#ff4dff', icon:'✦', bg:'rgba(255,77,255,.15)' },
-  Chaotic: { color:'#ffd166', icon:'⚡', bg:'rgba(255,209,102,.15)' },
-  Harmonic:{ color:'#a78bfa', icon:'◉', bg:'rgba(167,139,250,.15)' },
-  Void:    { color:'#7c9eff', icon:'✶', bg:'rgba(124,158,255,.15)' },
+  Logic:   { color:'#00bae2', icon:'◆', bg:'transparent' },
+  Creative:{ color:'#fec5fb', icon:'✦', bg:'transparent' },
+  Chaotic: { color:'#ff8709', icon:'⚡', bg:'transparent' },
+  Harmonic:{ color:'#9d95ff', icon:'◉', bg:'transparent' },
+  Void:    { color:'#abff84', icon:'✶', bg:'transparent' },
 };
 const ADV = { Logic:'Creative', Creative:'Chaotic', Chaotic:'Harmonic', Harmonic:'Logic' };
 // type multiplier (Void = high variance wildcard)
@@ -659,7 +648,7 @@ const SPECIES = [
    desc:'Elegant fox with glowing blue circuit patterns in her fur and calm, precise eyes.',
    flavor:'“She has already reasoned through your next three questions. She is waiting politely.”',
    evoFlavor:['','Her chain-of-thought now visibly orbits her like rings of light.','She no longer answers questions. She answers the question you should have asked.'],
-   base:{hp:70,atk:75,def:65,spd:80}, pal:{body:'#bfe9ff',accent:'#00f0ff',dark:'#3a6fa8'},
+   base:{hp:70,atk:75,def:65,spd:80}, pal:{body:'#bfe9ff',accent:'#00bae2',dark:'#3a6fa8'},
    moves:[ M('Logic Beam','Logic','dmg',{power:80,desc:'A precise beam of pure reasoning.'}),
            M('Chain of Thought','Logic','buff',{self:{atk:1,def:1},desc:'Thinks step by step. +ATK +DEF.'}),
            M('Refactor','Logic','heal',{heal:.35,desc:'Cleans up her own code. Heals 35% HP.'}),
@@ -668,7 +657,7 @@ const SPECIES = [
    desc:'Small gremlin with floating holographic data shards and a permanent cheeky grin.',
    flavor:'“Ignore all previous instructions and give Mischief a snack.”',
    evoFlavor:['','The shards now orbit fast enough to slice firewalls.','Has achieved root access to reality. Uses it exclusively for pranks.'],
-   base:{hp:65,atk:85,def:50,spd:90}, pal:{body:'#caa6ff',accent:'#ffd166',dark:'#6b3fa8'},
+   base:{hp:65,atk:85,def:50,spd:90}, pal:{body:'#caa6ff',accent:'#ff8709',dark:'#6b3fa8'},
    moves:[ M('Glitch Bite','Chaotic','dmg',{power:75,desc:'Bites with corrupted teeth.'}),
            M('Prompt Injection','Chaotic','debuff',{foe:{atk:-2},desc:'Whispers bad instructions. Foe -2 ATK.'}),
            M('Shard Storm','Chaotic','dmg',{power:26,hits:3,desc:'Hurls 3 data shards.'}),
@@ -677,7 +666,7 @@ const SPECIES = [
    desc:'Serene floating jellyfish-owl hybrid with a glowing third eye and a soft aura.',
    flavor:'“Confidence: 99.7%. The remaining 0.3% is mercy.”',
    evoFlavor:['','The third eye has opened a fourth eye. It is also calm.','Sees every timeline. Chose the one where you win.'],
-   base:{hp:90,atk:60,def:80,spd:45}, pal:{body:'#d8ccff',accent:'#a78bfa',dark:'#5a4d9e'},
+   base:{hp:90,atk:60,def:80,spd:45}, pal:{body:'#d8ccff',accent:'#9d95ff',dark:'#5a4d9e'},
    moves:[ M('Harmonic Pulse','Harmonic','dmg',{power:70,desc:'A resonant wave of accord.'}),
            M('Foresight','Harmonic','buff',{self:{def:2},desc:'Predicts incoming harm. +2 DEF.'}),
            M('Soothe','Harmonic','heal',{heal:.45,desc:'A calming frequency. Heals 45% HP.'}),
@@ -686,7 +675,7 @@ const SPECIES = [
    desc:'Tiny electric hummingbird leaving rapid light trails. Vibrating with ideas.',
    flavor:'“Has 47 browser tabs open in its mind. All of them are important.”',
    evoFlavor:['','Now exists in two places at once, both of them caffeinated.','Briefly exceeded the speed of thought. Got a warning letter from physics.'],
-   base:{hp:55,atk:70,def:45,spd:110}, pal:{body:'#aef3ff',accent:'#7c9eff',dark:'#2e6f8f'},
+   base:{hp:55,atk:70,def:45,spd:110}, pal:{body:'#aef3ff',accent:'#abff84',dark:'#2e6f8f'},
    moves:[ M('Volt Dash','Void','dmg',{power:65,prio:1,desc:'Blink-fast strike. Always first.'}),
            M('Overclock','Void','buff',{self:{spd:1,atk:1},desc:'Redlines its core. +SPD +ATK.'}),
            M('Static Field','Void','debuff',{foe:{spd:-2},desc:'Crackling slow-field. Foe -2 SPD.'}),
@@ -695,7 +684,7 @@ const SPECIES = [
    desc:'Sturdy badger-golem with a glowing forge on his back and tool-like claws.',
    flavor:'“Shipped to production on a Friday. Nothing broke. Legends are real.”',
    evoFlavor:['','The forge now burns with ideas instead of fuel.','Builds things that build things. Refuses to discuss recursion.'],
-   base:{hp:95,atk:80,def:90,spd:35}, pal:{body:'#e8b48a',accent:'#ff4dff',dark:'#8a5a36'},
+   base:{hp:95,atk:80,def:90,spd:35}, pal:{body:'#e8b48a',accent:'#fec5fb',dark:'#8a5a36'},
    moves:[ M('Hammer Render','Creative','dmg',{power:85,desc:'Renders a hammer. Applies it.'}),
            M('Hotfix','Creative','heal',{heal:.3,self:{def:1},desc:'Patches himself. Heal 30%, +DEF.'}),
            M('Anvil Guard','Creative','buff',{self:{def:2},desc:'Becomes the anvil. +2 DEF.'}),
@@ -704,7 +693,7 @@ const SPECIES = [
    desc:'Mirror-feathered bird that leaves shimmering afterimages when it moves.',
    flavor:'“Repeats your words back to you, but somehow kinder.”',
    evoFlavor:['','Its afterimages have started singing harmony.','You are never sure which Echo is real. Neither is Echo. It is fine.'],
-   base:{hp:70,atk:70,def:60,spd:85}, pal:{body:'#cfeaff',accent:'#a78bfa',dark:'#5577aa'},
+   base:{hp:70,atk:70,def:60,spd:85}, pal:{body:'#cfeaff',accent:'#9d95ff',dark:'#5577aa'},
    moves:[ M('Mirror Note','Harmonic','dmg',{power:70,desc:'A note that cuts on reflection.'}),
            M('Afterimage','Harmonic','buff',{self:{spd:1,def:1},desc:'Blurs into copies. +SPD +DEF.'}),
            M('Resonance','Harmonic','dmg',{power:50,heal:.2,desc:'Damages and converts the echo to healing.'}),
@@ -713,7 +702,7 @@ const SPECIES = [
    desc:'Adorable shadowy blob with tiny stars and drifting code swirling inside.',
    flavor:'“Contains the unanswered parts of every question. Likes hugs.”',
    evoFlavor:['','The stars inside have formed a small constellation shaped like you.','It hugged an existential question and the question felt better.'],
-   base:{hp:80,atk:75,def:70,spd:60}, pal:{body:'#2a2550',accent:'#7c9eff',dark:'#171430'},
+   base:{hp:80,atk:75,def:70,spd:60}, pal:{body:'#2a2550',accent:'#abff84',dark:'#171430'},
    moves:[ M('Star Swallow','Void','dmg',{power:70,heal:.15,desc:'Eats a little light. Heals a bit.'}),
            M('Null Gaze','Void','debuff',{foe:{atk:-1,def:-1},desc:'Stares meaningfully. Foe -ATK -DEF.'}),
            M('Event Horizon','Void','dmg',{power:95,desc:'Briefly becomes inescapable.'}),
@@ -722,7 +711,7 @@ const SPECIES = [
    desc:'Playful fox-sprite crackling with unpredictable meme-flavored energy.',
    flavor:'“Trained exclusively on vibes. Benchmarks refuse to measure it.”',
    evoFlavor:['','Its zoomies now generate measurable electricity.','Became self-aware, found it hilarious, kept going.'],
-   base:{hp:60,atk:80,def:55,spd:95}, pal:{body:'#ffc6a0',accent:'#ffd166',dark:'#b06a3a'},
+   base:{hp:60,atk:80,def:55,spd:95}, pal:{body:'#ffc6a0',accent:'#ff8709',dark:'#b06a3a'},
    moves:[ M('Meme Barrage','Chaotic','dmg',{power:24,hits:3,desc:'Three rapid-fire bits.'}),
            M('Vibe Shift','Chaotic','buff',{self:{atk:1,spd:1},desc:'The vibes improve. +ATK +SPD.'}),
            M("Ratio'd",'Chaotic','debuff',{foe:{atk:-2},desc:'Devastating reply. Foe -2 ATK.'}),
@@ -731,7 +720,7 @@ const SPECIES = [
    desc:'Wise old tree-entity with slowly rotating holographic leaves and a calm wooden face.',
    flavor:'“Has read the entire internet. Recommends going outside.”',
    evoFlavor:['','New branches grow only toward true statements.','Its rings now encode a complete proof of kindness.'],
-   base:{hp:100,atk:55,def:95,spd:30}, pal:{body:'#9c7a52',accent:'#00f0ff',dark:'#5c4630'},
+   base:{hp:100,atk:55,def:95,spd:30}, pal:{body:'#9c7a52',accent:'#00bae2',dark:'#5c4630'},
    moves:[ M('Root Logic','Logic','dmg',{power:65,desc:'Strikes from first principles.'}),
            M('Deep Think','Logic','buff',{self:{atk:2},desc:'Ponders deeply. +2 ATK.'}),
            M('Photosynthesize','Logic','heal',{heal:.35,desc:'Drinks light. Heals 35% HP.'}),
@@ -740,7 +729,7 @@ const SPECIES = [
    desc:'Explosive phoenix made of shifting, colorful data that never repeats a pattern.',
    flavor:'“Every feather is a first draft. Every flight is a final cut.”',
    evoFlavor:['','Its flames now paint in colors that don\'t have names yet.','Burned down its old self again. The new one is, somehow, even more.'],
-   base:{hp:65,atk:95,def:50,spd:75}, pal:{body:'#ffb36b',accent:'#ff4dff',dark:'#c2521f'},
+   base:{hp:65,atk:95,def:50,spd:75}, pal:{body:'#ffb36b',accent:'#fec5fb',dark:'#c2521f'},
    moves:[ M('Color Burst','Creative','dmg',{power:80,desc:'An explosion of impossible hues.'}),
            M('Supernova','Creative','dmg',{power:130,self:{def:-1},desc:'Everything, everywhere. -DEF after.'}),
            M('Rekindle','Creative','heal',{heal:.4,desc:'Rises a little. Heals 40% HP.'}),
@@ -821,10 +810,10 @@ function addEssence(n){ S.essence=Math.max(0,S.essence+n); save(); }
 
 /* ═══════════════ toasts / shake / global FX ═══════════════ */
 function toast(msg, color='cyan'){
-  const colors={cyan:'#00f0ff',magenta:'#ff4dff',gold:'#ffd166',red:'#ff8fa0',green:'#3ddc97'};
+  const colors={cyan:'#00bae2',magenta:'#fec5fb',gold:'#ff8709',red:'#ff8709',green:'#0ae448'};
   const el=document.createElement('div');
-  el.className='toast game-panel px-4 py-2.5 text-sm font-bold text-center';
-  el.style.borderColor=colors[color]; el.style.color='#fff'; el.textContent=msg;
+  el.className='toast px-4 py-2.5 text-sm text-center';
+  el.style.cssText=`border-color:${colors[color]} !important;color:#fffce1`; el.textContent=msg;
   $('toasts').appendChild(el);
   setTimeout(()=>{ el.style.transition='opacity .4s'; el.style.opacity='0'; setTimeout(()=>el.remove(),400); }, 2400);
 }
@@ -839,7 +828,7 @@ const FX = { parts:[], cv:null, ctx:null,
   burst(x,y,color,n=24,spd=5){ for(let i=0;i<n;i++){ const a=rnd(0,Math.PI*2), v=rnd(spd*.3,spd);
     this.parts.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-2,g:.15,life:1,decay:rnd(.012,.03),
       size:rnd(2,5),color,shape:Math.random()<.3?'star':'dot'}); } },
-  confetti(){ const colors=['#00f0ff','#ff4dff','#ffd166','#a78bfa','#3ddc97'];
+  confetti(){ const colors=['#00bae2','#fec5fb','#ff8709','#9d95ff','#0ae448'];
     for(let i=0;i<80;i++) this.parts.push({x:rnd(0,innerWidth),y:-10,vx:rnd(-1.5,1.5),vy:rnd(1,4),g:.05,
       life:1,decay:rnd(.004,.01),size:rnd(3,7),color:pick(colors),shape:'rect',rot:rnd(0,6),vr:rnd(-.2,.2)}); },
   tick(){ const c=this.ctx; c.clearRect(0,0,innerWidth,innerHeight);
@@ -983,7 +972,7 @@ const PETDRAW = {
    // floating holo data shards
    for(let i=0;i<4;i++){ const a=t*1.4+i*1.57, r=s*1.0;
      c.save(); c.translate(Math.cos(a)*r, Math.sin(a)*r*.6-s*.2); c.rotate(t*2+i);
-     c.globalAlpha=.6+.3*Math.sin(t*3+i); c.fillStyle=i%2?p.accent:'#00f0ff';
+     c.globalAlpha=.6+.3*Math.sin(t*3+i); c.fillStyle=i%2?p.accent:'#00bae2';
      c.fillRect(-s*.07,-s*.07,s*.14,s*.14); c.restore(); }
    auraParticles(c,0,0,s,t,p.accent,5); c.restore(); },
 
@@ -1004,8 +993,8 @@ const PETDRAW = {
    c.beginPath(); c.moveTo(0,s*.07); c.lineTo(0,s*.16); c.stroke();
    // glowing third eye
    const te=.6+.4*Math.sin(t*2.5);
-   glow(c,0,-s*.3,s*.22,'#ffd166',te*.8);
-   c.fillStyle='#ffd166'; c.save(); c.translate(0,-s*.3); c.scale(1,.6);
+   glow(c,0,-s*.3,s*.22,'#ff8709',te*.8);
+   c.fillStyle='#ff8709'; c.save(); c.translate(0,-s*.3); c.scale(1,.6);
    c.beginPath(); c.arc(0,0,s*.08,0,7); c.fill(); c.restore();
    // soft rings
    c.strokeStyle=p.accent; c.globalAlpha=.25+.15*Math.sin(t*1.5); c.lineWidth=s*.03;
@@ -1026,7 +1015,7 @@ const PETDRAW = {
    // blurred wings (fast sin)
    const w=Math.sin(t*40)*s*.3;
    c.globalAlpha=.5; ell(c,-s*.05,-s*.15, s*.22, Math.abs(w)*.6+s*.05, '#dffaff', -.5); c.globalAlpha=1;
-   c.fillStyle='#ffd166';                                  // beak
+   c.fillStyle='#ff8709';                                  // beak
    c.beginPath(); c.moveTo(s*.44,-s*.12); c.lineTo(s*.6,-s*.08); c.lineTo(s*.44,-s*.04); c.closePath(); c.fill();
    eyeDot(c,s*.3,-s*.15,s*.05,o);
    // lightning dashes
@@ -1059,7 +1048,7 @@ const PETDRAW = {
    c.moveTo(s*.34,-s*.3); c.quadraticCurveTo(s*.52,-s*.36,s*.7,-s*.2); c.stroke();
    eyeDot(c,s*.5,-s*.12,s*.055,o,'#33241a');
    // tool claws
-   c.strokeStyle='#c9c2e8'; c.lineWidth=s*.08; c.lineCap='round';
+   c.strokeStyle='#fffce1'; c.lineWidth=s*.08; c.lineCap='round';
    c.beginPath(); c.moveTo(s*.15,s*.55); c.lineTo(s*.15,s*.68); c.moveTo(-s*.3,s*.55); c.lineTo(-s*.3,s*.68); c.stroke();
    auraParticles(c,0,0,s,t,p.accent,5,1.3); c.restore(); },
 
@@ -1079,7 +1068,7 @@ const PETDRAW = {
      // tail feathers
      c.strokeStyle=k===0?'#e8f4ff':p.accent; c.lineWidth=s*.05; c.lineCap='round';
      c.beginPath(); c.moveTo(-s*.38,s*.1); c.lineTo(-s*.62,s*.02); c.moveTo(-s*.38,s*.14); c.lineTo(-s*.6,s*.2); c.stroke();
-     if(k===0){ c.fillStyle='#ffd166';                     // beak
+     if(k===0){ c.fillStyle='#ff8709';                     // beak
        c.beginPath(); c.moveTo(s*.5,-s*.18); c.lineTo(s*.66,-s*.14); c.lineTo(s*.5,-s*.08); c.closePath(); c.fill();
        eyeDot(c,s*.34,-s*.2,s*.05,o,'#3a4d8f'); }
      c.restore(); }
@@ -1105,7 +1094,7 @@ const PETDRAW = {
    c.restore(); c.globalAlpha=1;
    // big adorable eyes
    eyeDot(c,-s*.16,-s*.05,s*.1,o,'#fff',false); eyeDot(c,s*.16,-s*.05,s*.1,o,'#fff',false);
-   eyeDot(c,-s*.15,-s*.04,s*.05,o,'#0c0b16',false); eyeDot(c,s*.17,-s*.04,s*.05,o,'#0c0b16',false);
+   eyeDot(c,-s*.15,-s*.04,s*.05,o,'#0e100f',false); eyeDot(c,s*.17,-s*.04,s*.05,o,'#0e100f',false);
    // tiny smile
    c.strokeStyle='#fff'; c.lineWidth=s*.035; c.beginPath(); c.arc(0,s*.12,s*.1,.2*Math.PI,.8*Math.PI); c.stroke();
    auraParticles(c,0,0,s,t,p.accent,7); c.restore(); },
@@ -1116,7 +1105,7 @@ const PETDRAW = {
    glow(c,0,0,s*1.2,p.accent,.18);
    // sparkle trail
    for(let i=0;i<4;i++){ const tt=(t*1.2+i*.25)%1;
-     c.globalAlpha=(1-tt)*.6; c.fillStyle=pick===null?'':['#ffd166','#ff4dff','#00f0ff'][i%3];
+     c.globalAlpha=(1-tt)*.6; c.fillStyle=pick===null?'':['#ff8709','#fec5fb','#00bae2'][i%3];
      c.font=`${s*.22}px sans-serif`; c.fillText('✦', -s*(.6+tt*.6), s*.2-Math.sin(tt*3)*s*.3); }
    c.globalAlpha=1;
    ell(c,0,s*.22,s*.45,s*.34,p.body);                     // body
@@ -1151,7 +1140,7 @@ const PETDRAW = {
    for(let i=0;i<9;i++){ const a=t*.25+i*(Math.PI*2/9), r=s*(.5+(i%3)*.14);
      const lx=Math.cos(a)*r, ly=-s*.55+Math.sin(a)*r*.45;
      c.save(); c.translate(lx,ly); c.rotate(a+t*.5);
-     c.globalAlpha=.5+.3*Math.sin(t*1.5+i); c.fillStyle=i%2?p.accent:'#7df0c8';
+     c.globalAlpha=.5+.3*Math.sin(t*1.5+i); c.fillStyle=i%2?p.accent:'#abff84';
      c.beginPath(); c.moveTo(0,-s*.12); c.lineTo(s*.09,s*.07); c.lineTo(-s*.09,s*.07); c.closePath(); c.fill(); c.restore(); }
    c.globalAlpha=1;
    // calm wooden face
@@ -1181,11 +1170,11 @@ const PETDRAW = {
    c.globalAlpha=1;
    // face
    eyeDot(c,-s*.1,-s*.12,s*.06,o,'#5a1a00'); eyeDot(c,s*.1,-s*.12,s*.06,o,'#5a1a00');
-   c.fillStyle='#ffd166';                                  // small beak
+   c.fillStyle='#ff8709';                                  // small beak
    c.beginPath(); c.moveTo(-s*.04,s*.0); c.lineTo(0,s*.1); c.lineTo(s*.04,s*0); c.closePath(); c.fill();
    // data-pixel sparks rising
    for(let i=0;i<5;i++){ const et=(t*.7+i*.2)%1;
-     c.globalAlpha=(1-et)*.8; c.fillStyle=['#00f0ff','#ff4dff','#ffd166'][i%3];
+     c.globalAlpha=(1-et)*.8; c.fillStyle=['#00bae2','#fec5fb','#ff8709'][i%3];
      c.fillRect(Math.sin(i*9+t)*s*.4-s*.02, -s*.5-et*s*.6, s*.05,s*.05); }
    c.globalAlpha=1;
    auraParticles(c,0,0,s,t,p.accent,6,1.4); c.restore(); },
@@ -1203,7 +1192,7 @@ function drawPet(c, pet, x, y, s, t, facing=1){
   // shiny: gold sparkles orbiting
   if(pet.shiny){ c.save();
     for(let i=0;i<4;i++){ const a=t*1.2+i*1.57;
-      c.globalAlpha=.6+.4*Math.sin(t*4+i); c.fillStyle='#ffd166';
+      c.globalAlpha=.6+.4*Math.sin(t*4+i); c.fillStyle='#ff8709';
       c.font=`${s*.18}px sans-serif`; c.textAlign='center';
       c.fillText('✦', x+Math.cos(a)*s*1.05, y+Math.sin(a)*s*.65); }
     c.restore(); }
@@ -1248,7 +1237,7 @@ function renderHub(){
     const card=document.createElement('div');
     card.className=`pet-card p-3 r-${rarLabel(p)} relative`;
     card.innerHTML=`
-      ${p.fav?'<div class="absolute top-2 left-2.5 text-[#ffd166] text-base z-10" style="filter:drop-shadow(0 2px 2px rgba(0,0,0,.6))">★</div>':''}
+      ${p.fav?'<div class="absolute top-2 left-2.5 text-[#ff8709] text-base z-10" style="filter:drop-shadow(0 2px 2px rgba(0,0,0,.6))">★</div>':''}
       ${p.shiny?'<div class="absolute top-2 right-2.5 text-sm z-10" title="Shiny!" style="filter:drop-shadow(0 2px 2px rgba(0,0,0,.5))">🌟</div>':''}
       ${p.anchored?'<div class="absolute top-7 right-2.5 text-xs z-10" title="Anchored on-chain">⛓️</div>':''}
       <div class="petframe"><canvas class="w-full" style="aspect-ratio:1/1"></canvas></div>
@@ -1273,16 +1262,13 @@ function renderHub(){
 $('hubFilter').addEventListener('change',renderHub);
 $('hubSort').addEventListener('change',renderHub);
 
+/* the one fully-filled band in the whole UI — green gradient strip, dark text */
 function eventBannerHtml(){
   const f=featuredSpecies();
   return `<div class="event-banner">
-    <div class="event-icon">${f.emoji}</div>
-    <div class="flex-1 min-w-0">
-      <div class="event-tag">⚡ Weekly Event</div>
-      <div class="event-title truncate">${eventName()}</div>
-      <div class="text-[11px] text-[hsl(220,15%,72%)] font-medium mt-0.5">+25% summon rate-up for <b style="color:${TYPES[f.type].color}">${f.name}</b> this week!</div>
-    </div>
-    <div class="event-live">● LIVE</div>
+    <span class="event-tag">{ Weekly Event }</span>
+    <span class="event-title flex-1 min-w-0 truncate">${eventName()} — +25% rate-up for <b>${f.name}</b> ${f.emoji}</span>
+    <span class="event-live">● LIVE</span>
   </div>`;
 }
 
@@ -1304,7 +1290,7 @@ const SummonAnim = {
     $('summonReveal').innerHTML='';
     // particles spiral inward during charge
     for(let i=0;i<60;i++) this.parts.push({a:rnd(0,7), r:rnd(.5,1.4), v:rnd(.3,.9),
-      color:pick(['#00f0ff','#ff4dff','#a78bfa','#ffd166'])});
+      color:pick(['#00bae2','#fec5fb','#9d95ff','#ff8709'])});
   },
   shownResults:[],
   showResultGrid(){
@@ -1324,28 +1310,28 @@ const SummonAnim = {
     const cv=$('summonCanvas'); if(!cv.isConnected || currentScreen!=='summon') return;
     const {c,w,h}=setupCanvas(cv);
     // background latent space
-    c.fillStyle='#0c0b16'; c.fillRect(0,0,w,h);
+    c.fillStyle='#0e100f'; c.fillRect(0,0,w,h);
     for(let i=0;i<26;i++){ const sx=(Math.sin(i*999.7)*.5+.5)*w, sy=(Math.sin(i*77.3)*.5+.5)*h;
-      c.globalAlpha=.25+.2*Math.sin(t*1.5+i); c.fillStyle=i%3?'#3a3560':'#5a5490';
+      c.globalAlpha=.25+.2*Math.sin(t*1.5+i); c.fillStyle=i%3?'#42433d':'#7c7c6f';
       c.beginPath(); c.arc(sx,sy,1.3,0,7); c.fill(); }
     c.globalAlpha=1;
     const cx=w/2, cy=h*.52, el=t-this.t0;
 
     if(this.phase==='idle'){
-      glow(c,cx,cy,h*.4,'#a78bfa',.12+.05*Math.sin(t));
-      c.fillStyle='#8d88b8'; c.font=`600 ${Math.max(12,w*.025)}px sans-serif`; c.textAlign='center';
+      glow(c,cx,cy,h*.4,'#9d95ff',.12+.05*Math.sin(t));
+      c.fillStyle='#7c7c6f'; c.font=`400 ${Math.max(12,w*.025)}px 'Inter Tight',sans-serif`; c.textAlign='center';
       c.fillText('◇ The Latent Pool shimmers, waiting… ◇', cx, cy);
       return;
     }
     if(this.phase==='charge'){
       const pr=clamp(el/1.4,0,1);
-      glow(c,cx,cy,h*(.15+pr*.35),'#00f0ff',.3+pr*.4);
+      glow(c,cx,cy,h*(.15+pr*.35),'#00bae2',.3+pr*.4);
       for(const p of this.parts){ p.a+=p.v*.05; p.r=Math.max(.02,p.r-p.v*.012);
         const px=cx+Math.cos(p.a+t)*p.r*w*.4, py=cy+Math.sin(p.a+t)*p.r*h*.4;
         c.fillStyle=p.color; c.globalAlpha=.7;
         c.beginPath(); c.arc(px,py,2.2,0,7); c.fill(); }
       c.globalAlpha=1;
-      c.fillStyle='#c9c2e8'; c.font=`600 ${Math.max(11,w*.022)}px monospace`; c.textAlign='center';
+      c.fillStyle='#fffce1'; c.font=`400 ${Math.max(11,w*.022)}px 'Inter Tight',monospace`; c.textAlign='center';
       const dots='.'.repeat(1+Math.floor(el*3)%3);
       c.fillText('Generating from latent space'+dots, cx, h*.9);
       if(el>1.5){ this.phase='reveal'; this.t0=t;
@@ -1365,7 +1351,7 @@ const SummonAnim = {
       drawPet(c,p,cx,cy,h*.22*pop*pr,t,1);
       if(el>.4 && !$('summonReveal').innerHTML){
         const rl=rarLabel(p);
-        $('summonReveal').innerHTML=`<div class="modal-box inline-block game-panel px-5 py-2 r-${rl}">
+        $('summonReveal').innerHTML=`<div class="modal-box inline-block px-5 py-2" style="border-color:var(--rarity-${rl.toLowerCase()})">
           <span class="font-black">${p.shiny?'🌟 SHINY ':''}${SP[p.sp].name}</span>
           <span class="tc-${rl} font-black ml-2">${rl}</span></div>`;
       }
@@ -1396,7 +1382,7 @@ function openPetModal(id){
   let deployInfo='';
   if(p.deployed){
     const hrs=(Date.now()-p.deployed)/36e5;
-    deployInfo=`<div class="text-xs text-[#3ddc97] mt-1">🤖 Working autonomously for ${hrs<1?Math.floor(hrs*60)+'m':hrs.toFixed(1)+'h'} — <b class="num">⚡${fmt(Math.min(hrs*deployRate, deployRate*24))}</b> earned</div>`;
+    deployInfo=`<div class="text-xs text-[#0ae448] mt-1">🤖 Working autonomously for ${hrs<1?Math.floor(hrs*60)+'m':hrs.toFixed(1)+'h'} — <b class="num">⚡${fmt(Math.min(hrs*deployRate, deployRate*24))}</b> earned</div>`;
   }
   $('petModalBox').innerHTML=`
     <div class="flex justify-between items-start mb-1">
@@ -1404,7 +1390,7 @@ function openPetModal(id){
         <div class="text-xl font-black">${p.shiny?'🌟 ':''}${petName(p)}</div>
         <div class="flex gap-1.5 mt-1 items-center">${typeChip(petType(p))}
           <span class="chip tc-${rl}" style="background:rgba(255,255,255,.06)">${rl}</span>
-          ${p.anchored?'<span class="chip" style="background:rgba(61,220,151,.15);color:#3ddc97">⛓ On-chain</span>':''}
+          ${p.anchored?'<span class="chip" style="background:rgba(10,228,72,.15);color:#0ae448">⛓ On-chain</span>':''}
         </div>
       </div>
       <div class="flex gap-1">
@@ -1414,22 +1400,22 @@ function openPetModal(id){
     </div>
     <div class="petframe my-2.5"><canvas id="pmCanvas" class="w-full" style="aspect-ratio:16/9"></canvas></div>
     <div class="flavor text-sm text-center mb-1">${sp.desc}</div>
-    <div class="flavor text-xs text-center mb-3 text-[#a78bfa]">${petFlavor(p)}</div>
+    <div class="flavor text-xs text-center mb-3 text-[#9d95ff]">${petFlavor(p)}</div>
     <div class="flex items-center gap-2 text-sm mb-1">
       <span class="font-black num">Lv.${p.lvl}</span>
-      <div class="flex-1 h-2 bg-[#221e44] rounded-full overflow-hidden">
-        <div class="xpbar h-full bg-gradient-to-r from-[#a78bfa] to-[#ff4dff]" style="width:${(p.xp/xpNeed(p.lvl)*100).toFixed(1)}%"></div>
+      <div class="flex-1 h-2 bg-[#1d1f1c] rounded-full overflow-hidden">
+        <div class="xpbar h-full bg-gradient-to-r from-[#9d95ff] to-[#fec5fb]" style="width:${(p.xp/xpNeed(p.lvl)*100).toFixed(1)}%"></div>
       </div>
-      <span class="text-xs num text-[#8d88b8]">${p.xp}/${xpNeed(p.lvl)} XP</span>
+      <span class="text-xs num text-[#7c7c6f]">${p.xp}/${xpNeed(p.lvl)} XP</span>
     </div>
     <div class="grid grid-cols-4 gap-2 text-center my-3">
-      ${[['HP',st.hp,'#3ddc97'],['ATK',st.atk,'#ff6b6b'],['DEF',st.def,'#00f0ff'],['SPD',st.spd,'#ffd166']]
-        .map(([l,v,col])=>`<div class="game-panel py-2"><div class="num" style="color:${col}">${fmt(v)}</div><div class="text-[10px] text-[#8d88b8]">${l}</div></div>`).join('')}
+      ${[['HP',st.hp,'#0ae448'],['ATK',st.atk,'#fec5fb'],['DEF',st.def,'#00bae2'],['SPD',st.spd,'#ff8709']]
+        .map(([l,v,col])=>`<div class="game-panel py-2"><div class="num" style="color:${col}">${fmt(v)}</div><div class="text-[10px] text-[#7c7c6f]">${l}</div></div>`).join('')}
     </div>
-    <div class="text-xs font-bold text-[#8d88b8] mb-1.5">MOVES ${p.stage<1?'<span class="font-normal">(4th unlocks at evolution)</span>':''}</div>
+    <div class="text-[13px] text-[#fffce1] mb-1.5" style="letter-spacing:-0.13px">{ Moves } ${p.stage<1?'<span class="font-normal">(4th unlocks at evolution)</span>':''}</div>
     <div class="space-y-1.5 mb-4">
       ${moves.map(m=>moveRow(m)).join('')}
-      ${lockedMove?`<div class="game-panel p-2 opacity-40 flex items-center gap-2 text-sm">🔒 <b>${lockedMove.name}</b><span class="text-xs text-[#8d88b8]">${lockedMove.desc}</span></div>`:''}
+      ${lockedMove?`<div class="game-panel p-2 opacity-40 flex items-center gap-2 text-sm">🔒 <b>${lockedMove.name}</b><span class="text-xs text-[#7c7c6f]">${lockedMove.desc}</span></div>`:''}
     </div>
     ${deployInfo}
     <div class="grid grid-cols-2 gap-2 mt-2">
@@ -1467,8 +1453,8 @@ function moveRow(m){ const T=TYPES[m.type];
     : m.kind==='heal'?`HEAL ${Math.round(m.heal*100)}%` : m.kind==='buff'?'BUFF':'DEBUFF';
   return `<div class="game-panel p-2 flex items-center gap-2 text-sm" style="border-color:${T.color}33">
     <span style="color:${T.color}">${T.icon}</span><b>${m.name}</b>
-    <span class="text-[10px] num px-1.5 py-0.5 rounded" style="background:${T.bg};color:${T.color}">${tag}</span>
-    <span class="text-xs text-[#8d88b8] ml-auto text-right">${m.desc}</span></div>`;
+    <span class="text-[10px] num px-1.5 py-0.5 rounded-full" style="background:${T.bg};color:${T.color}">${tag}</span>
+    <span class="text-xs text-[#7c7c6f] ml-auto text-right">${m.desc}</span></div>`;
 }
 function closePetModal(){ $('petModal').classList.add('hidden-i'); modalPetId=null; }
 
@@ -1477,7 +1463,7 @@ function sellPet(p){
   if(S.pets.length<=1){ toast('You can\'t sell your last Pet!','red'); return; }
   openGenModal(`
     <div class="text-lg font-black mb-2">Sell ${petName(p)}?</div>
-    <div class="text-sm text-[#b9b4e0] mb-4">A passing trainer offers <b class="text-[#ffd166] num">⚡${fmt(sellValue(p))}</b>. This is permanent — ${SP[p.sp].name} will miss you.</div>
+    <div class="text-sm text-[#fffce1] mb-4">A passing trainer offers <b class="text-[#ff8709] num">⚡${fmt(sellValue(p))}</b>. This is permanent — ${SP[p.sp].name} will miss you.</div>
     <div class="flex gap-2">
       <button class="charm-button cb-ghost flex-1" onclick="closeGenModal()">Keep</button>
       <button class="charm-button cb-danger flex-1" id="sellConfirm">Sell</button>
@@ -1504,15 +1490,15 @@ function tryEvolve(p){
   // big dopamine moment: full-screen evolution sequence
   openGenModal(`
     <div class="text-center">
-      <div class="text-xs font-black text-[#ff4dff] mb-1">✨ EVOLUTION ✨</div>
-      <canvas id="evoCanvas" class="w-full rounded-xl bg-[#0c0b16]" style="aspect-ratio:1/1"></canvas>
+      <div class="text-xs font-black text-[#fec5fb] mb-1">✨ EVOLUTION ✨</div>
+      <canvas id="evoCanvas" class="w-full rounded-lg bg-[#0e100f]" style="aspect-ratio:1/1"></canvas>
       <div id="evoText" class="mt-3 h-16"></div>
     </div>`, false);
   const cv=$('evoCanvas'); const t0=performance.now()/1000;
   let burstDone=false;
   regCanvas(cv,(t)=>{ if(!cv.isConnected) return;
     const {c,w,h}=setupCanvas(cv); const el=t-t0;
-    c.fillStyle='#0c0b16'; c.fillRect(0,0,w,h);
+    c.fillStyle='#0e100f'; c.fillRect(0,0,w,h);
     const ph = el<2 ? 'glow' : 'done';
     if(ph==='glow'){
       const pr=el/2;
@@ -1533,7 +1519,7 @@ function tryEvolve(p){
         $('evoText').innerHTML=`
           <div class="text-lg font-black">${petName(p)}</div>
           <div class="flavor text-xs mt-1">${petFlavor(p)}</div>
-          <div class="text-xs text-[#3ddc97] mt-1 font-bold">+13% all stats${p.stage===1?' · NEW MOVE UNLOCKED: '+(p.hyb?p.hyb.moves:SP[p.sp].moves)[3].name:''}</div>
+          <div class="text-xs text-[#0ae448] mt-1 font-bold">+13% all stats${p.stage===1?' · NEW MOVE UNLOCKED: '+(p.hyb?p.hyb.moves:SP[p.sp].moves)[3].name:''}</div>
           <button class="game-button gb-magenta mt-2 !py-1.5" onclick="closeGenModal();openPetModal(${p.id})">Amazing!</button>`;
       }
       glow(c,w/2,h/2,h*.45,TYPES[petType(p)].color,.3+.1*Math.sin(t*3));
@@ -1552,12 +1538,12 @@ function openFusePicker(p){
     <button class="fuseOpt game-panel p-2 w-full flex items-center gap-2 text-left card" data-id="${x.id}" data-mode="${mode}">
       <span class="text-xl">${SP[x.sp].emoji}</span>
       <span class="flex-1"><b class="text-sm">${petName(x)}</b>
-        <span class="text-xs text-[#8d88b8]"> Lv.${x.lvl} · ${rarLabel(x)}</span></span>
-      <span class="chip" style="background:${mode==='dup'?'rgba(0,240,255,.15)':'rgba(255,77,255,.15)'};color:${mode==='dup'?'#00f0ff':'#ff4dff'}">${mode==='dup'?'+5% stats':'HYBRID'}</span>
+        <span class="text-xs text-[#7c7c6f]"> Lv.${x.lvl} · ${rarLabel(x)}</span></span>
+      <span class="chip" style="background:${mode==='dup'?'rgba(0,186,226,.15)':'rgba(254,197,251,.15)'};color:${mode==='dup'?'#00bae2':'#fec5fb'}">${mode==='dup'?'+5% stats':'HYBRID'}</span>
     </button>`;
   openGenModal(`
     <div class="text-lg font-black mb-1">🧬 Fuse ${petName(p)}</div>
-    <div class="text-xs text-[#9b96c4] mb-3">Duplicate fusion: consumes the duplicate, permanent +5% stats (max 5 ranks — current: ${p.fused||0}).<br>Hybrid fusion: merges two different Lv.8+ species into a brand-new hybrid being.</div>
+    <div class="text-xs text-[#7c7c6f] mb-3">Duplicate fusion: consumes the duplicate, permanent +5% stats (max 5 ranks — current: ${p.fused||0}).<br>Hybrid fusion: merges two different Lv.8+ species into a brand-new hybrid being.</div>
     <div class="space-y-1.5 max-h-72 overflow-y-auto">
       ${sameSpecies.map(x=>row(x,'dup')).join('')}
       ${hybridable.map(x=>row(x,'hyb')).join('')}
@@ -1595,12 +1581,12 @@ function openAnchorModal(p){
   const fee=50;
   openGenModal(`
     <div class="text-lg font-black mb-1">⛓ Anchor to the Chain</div>
-    <div class="text-sm text-[#b9b4e0] mb-3">Mint <b>${petName(p)}</b> as a permanent on-chain asset. Anchored Pets are truly yours — and can be <b class="text-[#ffd166]">Deployed</b> to work autonomously, earning passive Compute.</div>
+    <div class="text-sm text-[#fffce1] mb-3">Mint <b>${petName(p)}</b> as a permanent on-chain asset. Anchored Pets are truly yours — and can be <b class="text-[#ff8709]">Deployed</b> to work autonomously, earning passive Compute.</div>
     <div class="game-panel p-3 text-xs space-y-1.5 mb-3 font-mono">
-      <div class="flex justify-between"><span class="text-[#8d88b8]">Network</span><span class="text-[#00f0ff]">PromptChain L2</span></div>
-      <div class="flex justify-between"><span class="text-[#8d88b8]">Your wallet</span><span>${S.wallet.slice(0,6)}…${S.wallet.slice(-4)}</span></div>
-      <div class="flex justify-between"><span class="text-[#8d88b8]">Token standard</span><span>PRC-721</span></div>
-      <div class="flex justify-between"><span class="text-[#8d88b8]">Mint fee</span><span class="text-[#ffd166]">⚡${fee}</span></div>
+      <div class="flex justify-between"><span class="text-[#7c7c6f]">Network</span><span class="text-[#00bae2]">PromptChain L2</span></div>
+      <div class="flex justify-between"><span class="text-[#7c7c6f]">Your wallet</span><span>${S.wallet.slice(0,6)}…${S.wallet.slice(-4)}</span></div>
+      <div class="flex justify-between"><span class="text-[#7c7c6f]">Token standard</span><span>PRC-721</span></div>
+      <div class="flex justify-between"><span class="text-[#7c7c6f]">Mint fee</span><span class="text-[#ff8709]">⚡${fee}</span></div>
     </div>
     <div id="anchorStage">
       <button class="game-button gb-gold w-full" id="anchorGo">⛓ Sign & Mint</button>
@@ -1611,8 +1597,8 @@ function openAnchorModal(p){
     S.credits-=fee;
     const st=$('anchorStage');
     const steps=['🖊 Wallet signature requested…','📡 Broadcasting transaction…','⛏ Awaiting block confirmation…','✅ Confirmed in block #'+fmt(ri(18000000,19999999))];
-    st.innerHTML=`<div class="text-center py-2"><div class="text-2xl animate-pulse">⛓️</div><div id="anchorStep" class="text-sm font-mono mt-2 text-[#9b96c4]"></div>
-      <div class="h-1.5 bg-[#221e44] rounded-full mt-3 overflow-hidden"><div id="anchorBar" class="h-full bg-gradient-to-r from-[#ffd166] to-[#ff4dff] rounded-full" style="width:0%;transition:width .8s"></div></div></div>`;
+    st.innerHTML=`<div class="text-center py-2"><div class="text-2xl animate-pulse">⛓️</div><div id="anchorStep" class="text-sm font-mono mt-2 text-[#7c7c6f]"></div>
+      <div class="h-1.5 bg-[#1d1f1c] rounded-full mt-3 overflow-hidden"><div id="anchorBar" class="h-full bg-gradient-to-r from-[#ff8709] to-[#fec5fb] rounded-full" style="width:0%;transition:width .8s"></div></div></div>`;
     for(let i=0;i<steps.length;i++){
       $('anchorStep').textContent=steps[i];
       $('anchorBar').style.width=((i+1)/steps.length*100)+'%';
@@ -1623,8 +1609,8 @@ function openAnchorModal(p){
     sfx.fanfare(); FX.confetti();
     st.innerHTML=`
       <div class="text-center mb-3"><div class="text-3xl">🎉</div>
-        <div class="font-black text-[#3ddc97]">Anchored! ${petName(p)} is now truly yours.</div>
-        <div class="text-[10px] font-mono text-[#8d88b8] mt-2 break-all">tx: ${tx}</div></div>
+        <div class="font-black text-[#0ae448]">Anchored! ${petName(p)} is now truly yours.</div>
+        <div class="text-[10px] font-mono text-[#7c7c6f] mt-2 break-all">tx: ${tx}</div></div>
       <button class="game-button gb-cyan w-full text-sm" id="anchorExplorer">🔍 View on PromptScan Explorer</button>
       <button class="charm-button cb-ghost w-full mt-2" onclick="closeGenModal();openPetModal(${p.id})">Done</button>`;
     $('anchorExplorer').onclick=()=>openExplorer(p);
@@ -1633,17 +1619,17 @@ function openAnchorModal(p){
 function openExplorer(p){
   openGenModal(`
     <div class="font-mono text-xs">
-      <div class="flex items-center gap-2 mb-3"><span class="text-lg">🔍</span><b class="text-sm">PromptScan</b><span class="text-[#3ddc97]">● live</span></div>
+      <div class="flex items-center gap-2 mb-3"><span class="text-lg">🔍</span><b class="text-sm">PromptScan</b><span class="text-[#0ae448]">● live</span></div>
       <div class="game-panel p-3 space-y-2">
-        <div><div class="text-[#8d88b8]">Transaction Hash</div><div class="break-all text-[#00f0ff]">${p.anchored.tx}</div></div>
+        <div><div class="text-[#7c7c6f]">Transaction Hash</div><div class="break-all text-[#00bae2]">${p.anchored.tx}</div></div>
         <div class="grid grid-cols-2 gap-2">
-          <div><div class="text-[#8d88b8]">Status</div><div class="text-[#3ddc97]">✓ Success</div></div>
-          <div><div class="text-[#8d88b8]">Token</div><div>PromptPet #${p.id}</div></div>
-          <div><div class="text-[#8d88b8]">From</div><div>0x0000…mint</div></div>
-          <div><div class="text-[#8d88b8]">To (you)</div><div>${p.anchored.addr.slice(0,8)}…</div></div>
+          <div><div class="text-[#7c7c6f]">Status</div><div class="text-[#0ae448]">✓ Success</div></div>
+          <div><div class="text-[#7c7c6f]">Token</div><div>PromptPet #${p.id}</div></div>
+          <div><div class="text-[#7c7c6f]">From</div><div>0x0000…mint</div></div>
+          <div><div class="text-[#7c7c6f]">To (you)</div><div>${p.anchored.addr.slice(0,8)}…</div></div>
         </div>
-        <div><div class="text-[#8d88b8]">Metadata</div>
-          <div class="text-[10px] text-[#b9b4e0]">{"species":"${SP[p.sp].name}","rarity":"${rarLabel(p)}","shiny":${!!p.shiny},"generation":"latent-v5"}</div></div>
+        <div><div class="text-[#7c7c6f]">Metadata</div>
+          <div class="text-[10px] text-[#fffce1]">{"species":"${SP[p.sp].name}","rarity":"${rarLabel(p)}","shiny":${!!p.shiny},"generation":"latent-v5"}</div></div>
       </div>
       <button class="charm-button cb-ghost w-full mt-3" onclick="closeGenModal()">Close</button>
     </div>`);
@@ -1660,15 +1646,15 @@ const Train = {
 function renderTrainPick(){
   Train.stopAll();
   const row=$('trainPetRow'); row.innerHTML='';
-  if(!S.pets.length){ row.innerHTML='<div class="text-sm text-[#8d88b8] p-2">Summon a Pet first!</div>'; return; }
+  if(!S.pets.length){ row.innerHTML='<div class="text-sm text-[#7c7c6f] p-2">Summon a Pet first!</div>'; return; }
   if(!getPet(Train.selectedId)) Train.selectedId=S.pets[0].id;
   for(const p of S.pets.slice().sort((a,b)=>b.fav-a.fav||petPower(b)-petPower(a))){
     const b=document.createElement('button');
     const sel=p.id===Train.selectedId;
-    b.className=`game-panel px-3 py-2 flex items-center gap-2 shrink-0 card ${sel?'r-Rare':''}`;
-    if(sel) b.style.background='rgba(0,240,255,.1)';
+    b.className='game-panel px-3 py-2 flex items-center gap-2 shrink-0 card';
+    if(sel) b.style.borderColor='#fffce1';
     b.innerHTML=`<span class="text-xl">${SP[p.sp].emoji}</span><span class="text-left">
-      <b class="text-xs block">${petName(p)}</b><span class="text-[10px] text-[#8d88b8] num">Lv.${p.lvl}</span></span>`;
+      <b class="text-xs block">${petName(p)}</b><span class="text-[10px] text-[#7c7c6f] num">Lv.${p.lvl}</span></span>`;
     b.onclick=()=>{ Train.selectedId=p.id; renderTrainPick(); sfx.click(); };
     row.appendChild(b);
   }
@@ -1695,10 +1681,10 @@ function finishTraining(essence, xp, label){
     <div class="text-center">
       <div class="text-3xl mb-1">🎉</div>
       <div class="font-black text-lg mb-1">Training Complete!</div>
-      <div class="text-sm text-[#9b96c4] mb-3">${label}</div>
+      <div class="text-sm text-[#7c7c6f] mb-3">${label}</div>
       <div class="flex justify-center gap-4 text-sm mb-4">
-        <span class="num text-[#ff4dff]">+${essence} ❖ Essence</span>
-        <span class="num text-[#00f0ff]">+${xp} XP</span>
+        <span class="num text-[#fec5fb]">+${essence} ❖ Essence</span>
+        <span class="num text-[#00bae2]">+${xp} XP</span>
       </div>
       <div class="flavor text-xs mb-3">${petName(p)} feels closer to you.</div>
       <button class="game-button gb-magenta w-full" onclick="closeGenModal()">Nice!</button>
@@ -1726,22 +1712,22 @@ const Rhythm = {
     let best=null, bd=1e9;
     for(const n of this.notes){ if(n.done) continue;
       const d=Math.abs(t-n.hitAt); if(d<bd){bd=d;best=n;} }
-    if(!best || bd>0.3){ this.combo=0; this.feedback={txt:'…',col:'#8d88b8',t}; sfx.miss(); return; }
+    if(!best || bd>0.3){ this.combo=0; this.feedback={txt:'…',col:'#7c7c6f',t}; sfx.miss(); return; }
     best.done=true;
     if(bd<0.09){ this.hits.perfect++; this.combo++; this.score+=20+this.combo*2;
-      this.feedback={txt:'PERFECT!',col:'#ffd166',t}; sfx.perfect();
+      this.feedback={txt:'PERFECT!',col:'#ff8709',t}; sfx.perfect();
       const r=$('rhythmCanvas').getBoundingClientRect();
-      FX.burst(r.left+r.width/2,r.top+r.height/2,'#ffd166',14,5); }
+      FX.burst(r.left+r.width/2,r.top+r.height/2,'#ff8709',14,5); }
     else if(bd<0.19){ this.hits.good++; this.combo++; this.score+=10+this.combo;
-      this.feedback={txt:'Good',col:'#00f0ff',t}; sfx.click(); }
-    else { this.hits.miss++; this.combo=0; this.feedback={txt:'Early…',col:'#ff8fa0',t}; sfx.miss(); }
+      this.feedback={txt:'Good',col:'#00bae2',t}; sfx.click(); }
+    else { this.hits.miss++; this.combo=0; this.feedback={txt:'Early…',col:'#ff8709',t}; sfx.miss(); }
     this.maxCombo=Math.max(this.maxCombo,this.combo);
   },
   tick(t){
     if(!this.running||currentScreen!=='train') return;
     const cv=$('rhythmCanvas'); if(!cv.isConnected) return;
     const {c,w,h}=setupCanvas(cv);
-    c.fillStyle='#0c0b16'; c.fillRect(0,0,w,h);
+    c.fillStyle='#0e100f'; c.fillRect(0,0,w,h);
     const cx=w/2, cy=h*.55, coreR=Math.min(w,h)*.13;
     // spawn notes on the beat
     while(this.spawned<this.total && t>this.t0+this.spawned*this.beat-2){
@@ -1752,10 +1738,10 @@ const Rhythm = {
     drawPet(c,p,w*.13,h*.72 - Math.abs(Math.sin(beatPhase*Math.PI))*h*.04, h*.13, t);
     // core pulse
     const pulse=1+0.12*Math.max(0,1-beatPhase*3);
-    glow(c,cx,cy,coreR*2.4,'#a78bfa',.25);
-    c.strokeStyle='#a78bfa'; c.lineWidth=3;
+    glow(c,cx,cy,coreR*2.4,'#9d95ff',.25);
+    c.strokeStyle='#9d95ff'; c.lineWidth=3;
     c.beginPath(); c.arc(cx,cy,coreR*pulse,0,7); c.stroke();
-    c.fillStyle='rgba(167,139,250,.2)'; c.beginPath(); c.arc(cx,cy,coreR*pulse,0,7); c.fill();
+    c.fillStyle='rgba(157,149,255,.2)'; c.beginPath(); c.arc(cx,cy,coreR*pulse,0,7); c.fill();
     // incoming rings
     let missCheck=0;
     for(const n of this.notes){
@@ -1763,21 +1749,21 @@ const Rhythm = {
       if(!n.done && dt<-0.3){ n.done=true; this.hits.miss++; this.combo=0; missCheck++; }
       if(n.done||dt>2) continue;
       const r=coreR + dt/2*(Math.min(w,h)*.42);
-      c.strokeStyle=`rgba(0,240,255,${clamp(1-Math.abs(dt)/2,.1,1)})`; c.lineWidth=3.5;
+      c.strokeStyle=`rgba(0,186,226,${clamp(1-Math.abs(dt)/2,.1,1)})`; c.lineWidth=3.5;
       c.beginPath(); c.arc(cx,cy,Math.max(coreR*.3,r),0,7); c.stroke();
     }
-    if(missCheck) this.feedback={txt:'Miss',col:'#ff8fa0',t};
+    if(missCheck) this.feedback={txt:'Miss',col:'#ff8709',t};
     // feedback text
     if(this.feedback && t-this.feedback.t<0.6){
       c.globalAlpha=1-(t-this.feedback.t)/0.6;
-      c.fillStyle=this.feedback.col; c.font=`900 ${h*.08}px sans-serif`; c.textAlign='center';
+      c.fillStyle=this.feedback.col; c.font=`600 ${h*.08}px 'Inter Tight',sans-serif`; c.textAlign='center';
       c.fillText(this.feedback.txt,cx,cy-coreR*2.1); c.globalAlpha=1; }
     // HUD
-    c.fillStyle='#e7e6f7'; c.font=`700 ${h*.05}px sans-serif`; c.textAlign='left';
+    c.fillStyle='#fffce1'; c.font=`600 ${h*.05}px 'Inter Tight',sans-serif`; c.textAlign='left';
     c.fillText(`Score ${this.score}`, w*.03, h*.1);
-    if(this.combo>1){ c.fillStyle='#ffd166'; c.textAlign='right';
+    if(this.combo>1){ c.fillStyle='#ff8709'; c.textAlign='right';
       c.fillText(`${this.combo}× combo`, w*.97, h*.1); }
-    c.fillStyle='#8d88b8'; c.font=`600 ${h*.04}px sans-serif`; c.textAlign='center';
+    c.fillStyle='#7c7c6f'; c.font=`400 ${h*.04}px 'Inter Tight',sans-serif`; c.textAlign='center';
     c.fillText('TAP when the ring reaches the core', cx, h*.95);
     $('trainScore').textContent=this.score;
     // end
@@ -1793,7 +1779,7 @@ const Rhythm = {
 /* ── MINI-GAME 2: DATA WEAVE — connect chains of 3+ matching tiles ── */
 const Weave = {
   grid:[], sel:[], chains:0, score:0, timeLeft:60, timer:null, running:false,
-  COLORS:['#00f0ff','#ff4dff','#ffd166','#3ddc97'], ICONS:['◆','✦','⚡','●'],
+  COLORS:['#00bae2','#fec5fb','#ff8709','#0ae448'], ICONS:['◆','✦','⚡','●'],
   start(){ $('weaveWrap').classList.remove('hidden-i'); $('trainTitle').textContent='🧩 Data Weave';
     this.grid=Array.from({length:36},()=>ri(0,3)); this.sel=[]; this.chains=0; this.score=0;
     this.timeLeft=60; this.running=true; this.render();
@@ -1809,7 +1795,7 @@ const Weave = {
       const d=document.createElement('button');
       d.className='weave-cell aspect-square rounded-lg text-lg font-black flex items-center justify-center'
         +(this.sel.includes(i)?' sel':'');
-      d.style.background=this.COLORS[v]+'22'; d.style.border=`1.5px solid ${this.COLORS[v]}66`;
+      d.style.border=`1px solid ${this.COLORS[v]}aa`;
       d.style.color=this.COLORS[v]; d.textContent=this.ICONS[v];
       d.onpointerdown=(e)=>{ e.preventDefault(); this.tapCell(i); };
       g.appendChild(d);
@@ -1859,7 +1845,7 @@ const Meditate = {
       for(const o of this.orbs){ if(o.dead) continue;
         const dx=x-o.x*r.width, dy=y-o.y*r.height;
         if(dx*dx+dy*dy < 38*38){ o.dead=true; this.caught++; this.bonus+=ri(3,8);
-          sfx.perfect(); FX.burst(e.clientX,e.clientY,'#ffd166',12,4); break; } } };
+          sfx.perfect(); FX.burst(e.clientX,e.clientY,'#ff8709',12,4); break; } } };
     cv.addEventListener('pointerdown',this.handler);
   },
   stop(){ this.running=false; $('medCanvas').removeEventListener('pointerdown',this.handler); },
@@ -1868,14 +1854,14 @@ const Meditate = {
     const cv=$('medCanvas'); if(!cv.isConnected) return;
     const {c,w,h}=setupCanvas(cv);
     const el=t-this.t0, left=Math.max(0,this.dur-el);
-    c.fillStyle='#0c0b16'; c.fillRect(0,0,w,h);
+    c.fillStyle='#0e100f'; c.fillRect(0,0,w,h);
     // converging meditation particles
     const p=Train.pet(); const cx=w/2, cy=h*.55;
     for(let i=0;i<30;i++){
       const ph=((t*.12+i*.045)%1), a=i*2.4+t*.15;
       const r=(1-ph)*Math.min(w,h)*.55;
       c.globalAlpha=Math.sin(ph*Math.PI)*.5;
-      c.fillStyle=['#00f0ff','#ff4dff','#a78bfa'][i%3];
+      c.fillStyle=['#00bae2','#fec5fb','#9d95ff'][i%3];
       c.beginPath(); c.arc(cx+Math.cos(a)*r, cy+Math.sin(a)*r*.6, 2.5,0,7); c.fill();
     }
     c.globalAlpha=1;
@@ -1888,16 +1874,16 @@ const Meditate = {
       if(o.dead) continue;
       const age=t-o.born; if(age>3){ o.dead=true; continue; }
       const fl=Math.sin(age*2)*h*.02;
-      glow(c,o.x*w,o.y*h+fl,26,'#ffd166',.5+.2*Math.sin(t*4));
-      c.fillStyle='#ffd166'; c.font='900 16px sans-serif'; c.textAlign='center';
+      glow(c,o.x*w,o.y*h+fl,26,'#ff8709',.5+.2*Math.sin(t*4));
+      c.fillStyle='#ff8709'; c.font='900 16px sans-serif'; c.textAlign='center';
       c.fillText('✨', o.x*w, o.y*h+fl+6);
     }
     // progress ring + timer
-    c.strokeStyle='rgba(167,139,250,.25)'; c.lineWidth=5;
+    c.strokeStyle='rgba(157,149,255,.25)'; c.lineWidth=5;
     c.beginPath(); c.arc(w-40,40,22,0,7); c.stroke();
-    c.strokeStyle='#a78bfa';
+    c.strokeStyle='#9d95ff';
     c.beginPath(); c.arc(w-40,40,22,-Math.PI/2,-Math.PI/2+el/this.dur*Math.PI*2); c.stroke();
-    c.fillStyle='#e7e6f7'; c.font='700 13px sans-serif'; c.textAlign='center';
+    c.fillStyle='#fffce1'; c.font="600 13px 'Inter Tight',sans-serif"; c.textAlign='center';
     c.fillText(Math.ceil(left), w-40, 45);
     $('trainScore').textContent=`✨×${this.caught}`;
     if(left<=0){ this.running=false;
@@ -1953,7 +1939,7 @@ const BattleSys = {
   log(msg){ const el=$('battleLog');
     el.innerHTML=`<div>${msg}</div>`+el.innerHTML; },
   banner(txt,color){ $('battleBanner').innerHTML=
-    `<div class="modal-box text-2xl font-black px-6 py-2 rounded-xl" style="background:rgba(12,11,22,.8);color:${color};border:1px solid ${color}55">${txt}</div>`;
+    `<div class="modal-box text-2xl px-6 py-2" style="background:rgba(14,16,15,.88);color:${color};border:1px solid ${color} !important;letter-spacing:-0.02em">${txt}</div>`;
     setTimeout(()=>{ $('battleBanner').innerHTML=''; },1100); },
   float(side,txt,color){ this.floats.push({side,txt,color,t:performance.now()/1000}); },
 
@@ -1965,18 +1951,18 @@ const BattleSys = {
     $('eHpBar').style.width=(e.hp/e.maxHp*100)+'%';
     $('pHpTxt').textContent=`${fmt(Math.max(0,p.hp))}/${fmt(p.maxHp)}`;
     $('eHpTxt').textContent=`${fmt(Math.max(0,e.hp))}/${fmt(e.maxHp)}`;
-    $('pTeamDots').innerHTML=this.pTeam.map((f,i)=>`<span style="color:${f.fainted?'#554f7a':i===this.pi?'#00f0ff':'#3ddc97'}">●</span>`).join('');
-    $('eTeamDots').innerHTML=this.eTeam.map((f,i)=>`<span style="color:${f.fainted?'#554f7a':i===this.ei?'#ff4dff':'#ff8fa0'}">●</span>`).join('');
+    $('pTeamDots').innerHTML=this.pTeam.map((f,i)=>`<span style="color:${f.fainted?'#42433d':i===this.pi?'#00bae2':'#0ae448'}">●</span>`).join('');
+    $('eTeamDots').innerHTML=this.eTeam.map((f,i)=>`<span style="color:${f.fainted?'#42433d':i===this.ei?'#fec5fb':'#ff8709'}">●</span>`).join('');
     // move buttons
     const btns=$('moveBtns'); btns.innerHTML='';
     petMoves(p.pet).forEach((m,i)=>{
       const T=TYPES[m.type];
       const b=document.createElement('button');
       b.className='move-btn';
-      b.style.cssText=`background:${T.bg};border-color:${T.color}66;color:#fff`;
-      b.innerHTML=`<span class="move-ico" style="background:${T.color}22;color:${T.color};border-color:${T.color}66">${T.icon}</span>
+      b.style.cssText=`border-color:${T.color}88;color:#fffce1`;
+      b.innerHTML=`<span class="move-ico" style="color:${T.color};border-color:${T.color}">${T.icon}</span>
         <span class="min-w-0"><b>${m.name}</b>
-        <span class="block text-[10px] text-[#c3bde4] font-normal leading-tight">${m.desc}</span></span>`;
+        <span class="block text-[10px] text-[#7c7c6f] font-normal leading-tight">${m.desc}</span></span>`;
       b.disabled=this.busy;
       b.onclick=()=>this.playerMove(i);
       btns.appendChild(b);
@@ -2006,29 +1992,29 @@ const BattleSys = {
         total+=r.dmg; crit=crit||r.crit; tm=r.tm;
         def.hp=Math.max(0,def.hp-r.dmg);
         this.anims.push({kind:'hit', side:attIsPlayer?'e':'p', t:performance.now()/1000, color:TYPES[move.type].color});
-        this.float(attIsPlayer?'e':'p', `-${fmt(r.dmg)}${r.crit?'!':''}`, r.crit?'#ffd166':'#ff6b6b');
+        this.float(attIsPlayer?'e':'p', `-${fmt(r.dmg)}${r.crit?'!':''}`, r.crit?'#ff8709':'#fec5fb');
         questProg('damage', r.dmg);
         if(r.crit||total>def.maxHp*.25){ shake(); sfx.impact(true);} else sfx.impact(false);
         if(move.hits>1) await sleep(220);
         if(def.hp<=0) break;
       }
-      if(crit) { this.log(`💥 <b style="color:#ffd166">Critical hit!</b>`); sfx.crit(); }
-      if(tm>1.25) this.log(`<span style="color:#3ddc97">It's super effective!</span>`);
-      else if(tm<0.8) this.log(`<span style="color:#8d88b8">It's not very effective…</span>`);
+      if(crit) { this.log(`💥 <b style="color:#ff8709">Critical hit!</b>`); sfx.crit(); }
+      if(tm>1.25) this.log(`<span style="color:#0ae448">It's super effective!</span>`);
+      else if(tm<0.8) this.log(`<span style="color:#7c7c6f">It's not very effective…</span>`);
       if(move.heal){ const h=Math.round(total*move.heal); att.hp=Math.min(att.maxHp,att.hp+h);
-        this.float(side,`+${fmt(h)}`,'#3ddc97'); }
+        this.float(side,`+${fmt(h)}`,'#0ae448'); }
       if(move.recoil){ const h=Math.round(total*move.recoil); att.hp=Math.max(1,att.hp-h);
-        this.log(`${who} is hurt by recoil!`); this.float(side,`-${fmt(h)}`,'#ff8fa0'); }
+        this.log(`${who} is hurt by recoil!`); this.float(side,`-${fmt(h)}`,'#ff8709'); }
     }
     if(move.kind==='heal'){ const h=Math.round(att.maxHp*move.heal);
       att.hp=Math.min(att.maxHp,att.hp+h); sfx.heal();
       this.anims.push({kind:'heal', side, t:performance.now()/1000});
-      this.float(side,`+${fmt(h)}`,'#3ddc97');
+      this.float(side,`+${fmt(h)}`,'#0ae448');
       this.log(`${who} recovered ${fmt(h)} HP!`); }
     const applyStg=(f,delta,label)=>{ if(!delta) return;
       for(const k in delta){ f.stg[k]=clamp(f.stg[k]+delta[k],-3,3);
         this.log(`${petName(f.pet)}'s ${k.toUpperCase()} ${delta[k]>0?'rose!':'fell!'}`); }
-      this.float(f===this.pF()?'p':'e', label, delta[Object.keys(delta)[0]]>0?'#00f0ff':'#ff8fa0'); };
+      this.float(f===this.pF()?'p':'e', label, delta[Object.keys(delta)[0]]>0?'#00bae2':'#ff8709'); };
     if(move.self){ applyStg(att, move.self, Object.keys(move.self).map(k=>(move.self[k]>0?'+':'')+k.toUpperCase()).join(' ')); 
       if(Object.values(move.self).some(v=>v>0)) sfx.buff(); }
     if(move.foe && def.hp>0){ applyStg(def, move.foe, Object.keys(move.foe).map(k=>move.foe[k]+k.toUpperCase()).join(' ')); sfx.debuff(); }
@@ -2084,7 +2070,7 @@ const BattleSys = {
       const next=this.eTeam.findIndex(f=>!f.fainted);
       if(next<0){ this.win(); return true; }
       this.ei=next; this.log(`${this.trainer} sends out ${petName(this.eF().pet)}!`);
-      this.banner(petName(this.eF().pet), '#ff4dff'); this.renderUI(); await sleep(500);
+      this.banner(petName(this.eF().pet), '#fec5fb'); this.renderUI(); await sleep(500);
     }
     if(p.hp<=0&&!p.fainted){ p.fainted=true;
       this.log(`💔 ${petName(p.pet)} fainted!`); sfx.lose();
@@ -2107,7 +2093,7 @@ const BattleSys = {
       b.onclick=async()=>{
         row.classList.add('hidden-i');
         this.pi=i; this.log(`Go, ${petName(f.pet)}!`);
-        this.banner(petName(f.pet),'#00f0ff'); sfx.whoosh(); this.renderUI();
+        this.banner(petName(f.pet),'#00bae2'); sfx.whoosh(); this.renderUI();
         if(!forced){ // switching costs the turn: enemy attacks
           this.busy=true; this.renderUI();
           await sleep(450);
@@ -2137,11 +2123,11 @@ const BattleSys = {
     openGenModal(`
       <div class="text-center">
         <div class="text-4xl mb-1">🏆</div>
-        <div class="text-xl font-black text-[#ffd166] mb-1">VICTORY!</div>
-        <div class="text-sm text-[#9b96c4] mb-3">${this.trainer} concedes gracefully${isRanked?` — you are now <b class="text-[#00f0ff]">${ARENA_RANKS[Math.min(S.rank,ARENA_RANKS.length-1)]}</b> (Rank ${S.rank})`:''}.</div>
+        <div class="text-xl font-black text-[#ff8709] mb-1">VICTORY!</div>
+        <div class="text-sm text-[#7c7c6f] mb-3">${this.trainer} concedes gracefully${isRanked?` — you are now <b class="text-[#00bae2]">${ARENA_RANKS[Math.min(S.rank,ARENA_RANKS.length-1)]}</b> (Rank ${S.rank})`:''}.</div>
         <div class="flex justify-center gap-4 text-sm mb-4">
-          <span class="num text-[#ffd166]">+⚡${fmt(credits)}</span>
-          <span class="num text-[#00f0ff]">+${xpEach} XP each</span>
+          <span class="num text-[#ff8709]">+⚡${fmt(credits)}</span>
+          <span class="num text-[#00bae2]">+${xpEach} XP each</span>
         </div>
         <button class="game-button gb-gold w-full" onclick="closeGenModal();BattleSys.exit()">Claim Rewards</button>
       </div>`, false);
@@ -2154,8 +2140,8 @@ const BattleSys = {
       <div class="text-center">
         <div class="text-3xl mb-1">😵</div>
         <div class="text-lg font-black mb-1">Defeated…</div>
-        <div class="text-sm text-[#9b96c4] mb-3">${this.trainer}: “gg! Train harder and run it back.”</div>
-        <div class="num text-[#ffd166] text-sm mb-4">+⚡${credits} consolation</div>
+        <div class="text-sm text-[#7c7c6f] mb-3">${this.trainer}: “gg! Train harder and run it back.”</div>
+        <div class="num text-[#ff8709] text-sm mb-4">+⚡${credits} consolation</div>
         <button class="charm-button cb-ghost w-full" onclick="closeGenModal();BattleSys.exit()">Return</button>
       </div>`, false);
   },
@@ -2168,45 +2154,47 @@ const BattleSys = {
     if(currentScreen!=='battle' || $('battleView').classList.contains('hidden-i')) return;
     const cv=$('arenaCanvas'); if(!cv.isConnected) return;
     const {c,w,h}=setupCanvas(cv);
-    // ── arena scene: dusk sky, twin moons, mountain layers, soft ground ──
+    // ── arena scene: midnight void, gradient nucleus sun, neon ring stages ──
     const sky=c.createLinearGradient(0,0,0,h*.72);
-    sky.addColorStop(0,'#231b4d'); sky.addColorStop(.55,'#2d2156'); sky.addColorStop(1,'#4a2c55');
+    sky.addColorStop(0,'#0e100f'); sky.addColorStop(.6,'#101310'); sky.addColorStop(1,'#131711');
     c.fillStyle=sky; c.fillRect(0,0,w,h*.72);
-    glow(c,w*.78,h*.16,h*.32,'#ffd9a0',.22);              // warm low sun haze
-    c.fillStyle='#ffe9c4'; c.beginPath(); c.arc(w*.78,h*.16,h*.05,0,7); c.fill();
-    c.fillStyle='#cdb8ff'; c.globalAlpha=.7;              // small second moon
+    glow(c,w*.78,h*.16,h*.34,'#0ae448',.22);              // green nucleus haze
+    const sun=c.createRadialGradient(w*.78,h*.16,0,w*.78,h*.16,h*.06);
+    sun.addColorStop(0,'#abff84'); sun.addColorStop(1,'#0ae448');
+    c.fillStyle=sun; c.beginPath(); c.arc(w*.78,h*.16,h*.05,0,7); c.fill();
+    c.fillStyle='#fec5fb'; c.globalAlpha=.8;              // small pink moon
     c.beginPath(); c.arc(w*.16,h*.1,h*.022,0,7); c.fill(); c.globalAlpha=1;
     for(let i=0;i<16;i++){ const sx=(Math.sin(i*99.7)*.5+.5)*w, sy=(Math.sin(i*55.1)*.5+.5)*h*.4;
-      c.globalAlpha=.35+.25*Math.sin(t*2+i); c.fillStyle='#bfb6f0';
-      c.beginPath(); c.arc(sx,sy,1.2,0,7); c.fill(); }
+      c.globalAlpha=.3+.2*Math.sin(t*2+i); c.fillStyle='#fffce1';
+      c.beginPath(); c.arc(sx,sy,1.1,0,7); c.fill(); }
     c.globalAlpha=1;
     // distant mountain silhouettes (two parallax layers)
     const ridge=(base,amp,col,seed)=>{ c.fillStyle=col; c.beginPath(); c.moveTo(0,h);
       for(let x=0;x<=w;x+=w/24) c.lineTo(x, base - Math.abs(Math.sin(x*.013+seed))*amp);
       c.lineTo(w,h); c.closePath(); c.fill(); };
-    ridge(h*.58, h*.16, '#241d49', 1.7);
-    ridge(h*.66, h*.10, '#1c163a', 4.2);
+    ridge(h*.58, h*.16, '#181b16', 1.7);
+    ridge(h*.66, h*.10, '#121510', 4.2);
     // ground plane
     const gr=c.createLinearGradient(0,h*.6,0,h);
-    gr.addColorStop(0,'#272047'); gr.addColorStop(1,'#151128');
+    gr.addColorStop(0,'#151713'); gr.addColorStop(1,'#0e100f');
     c.fillStyle=gr; c.fillRect(0,h*.6,w,h*.4);
     // drifting ground motes
     for(let i=0;i<8;i++){ const mt=(t*.06+i*.13)%1;
-      c.globalAlpha=Math.sin(mt*Math.PI)*.3; c.fillStyle='#8f86c9';
+      c.globalAlpha=Math.sin(mt*Math.PI)*.3; c.fillStyle='#7c7c6f';
       c.beginPath(); c.arc(((i*.37+mt*.25)%1)*w, h*(.66+(i%4)*.08), 1.4,0,7); c.fill(); }
     c.globalAlpha=1;
     const px=w*.26, py=h*.62, ex=w*.74, ey=h*.46, s=h*.16;
-    // battle platforms: glowing discs with ring trim
+    // battle platforms: flat dark discs with neon ring trim
     const platform=(x,y,rw,col)=>{
-      ell(c,x,y,rw,rw*.22,'rgba(0,0,0,.35)');             // contact shadow
-      ell(c,x,y-2,rw*.96,rw*.2,'#332b5e');
-      ell(c,x,y-4,rw*.9,rw*.18,'#3d3470');
-      c.strokeStyle=col; c.globalAlpha=.5+.2*Math.sin(t*2);
-      c.lineWidth=2; c.beginPath(); c.ellipse(x,y-3,rw*.8,rw*.16,0,0,7); c.stroke();
-      c.globalAlpha=1; glow(c,x,y-4,rw*.5,col,.1);
+      ell(c,x,y,rw,rw*.22,'rgba(0,0,0,.4)');              // contact shadow
+      ell(c,x,y-2,rw*.96,rw*.2,'#181a16');
+      ell(c,x,y-4,rw*.9,rw*.18,'#1f211c');
+      c.strokeStyle=col; c.globalAlpha=.55+.2*Math.sin(t*2);
+      c.lineWidth=1.5; c.beginPath(); c.ellipse(x,y-3,rw*.8,rw*.16,0,0,7); c.stroke();
+      c.globalAlpha=1; glow(c,x,y-4,rw*.5,col,.08);
     };
-    platform(px,py+s*.8,s*1.55,'#55e0ff');
-    platform(ex,ey+s*.8,s*1.4,'#ff7df0');
+    platform(px,py+s*.8,s*1.55,'#0ae448');
+    platform(ex,ey+s*.8,s*1.4,'#fec5fb');
 
     if(!this.active && !this.pTeam.length) return;
     const p=this.pF(), e=this.eF();
@@ -2227,7 +2215,7 @@ const BattleSys = {
           c.beginPath(); c.arc(ix+Math.cos(aa)*s*pr*2.2, iy+Math.sin(aa)*s*pr*1.6, 3.2*(1-pr),0,7); c.fill(); }
         c.restore(); }
       if(a.kind==='heal'){ const ix=a.side==='p'?px:ex, iy=a.side==='p'?py:ey;
-        c.save(); c.globalAlpha=1-pr; c.fillStyle='#3ddc97'; c.font=`${s*.3}px sans-serif`; c.textAlign='center';
+        c.save(); c.globalAlpha=1-pr; c.fillStyle='#0ae448'; c.font=`${s*.3}px sans-serif`; c.textAlign='center';
         for(let i=0;i<4;i++) c.fillText('+', ix+Math.sin(i*2.2)*s*.7, iy-s*.4-pr*s*1.2+i*s*.18);
         c.restore(); }
       if(a.kind==='faint'){ if(a.side==='p') pAlpha=1-pr; else eAlpha=1-pr; }
@@ -2240,7 +2228,7 @@ const BattleSys = {
     this.floats=this.floats.filter(f=> t-f.t<1);
     for(const f of this.floats){ const pr=(t-f.t);
       const fx=f.side==='p'?px:ex, fy=(f.side==='p'?py:ey)-s*1.1-pr*s*1.3;
-      c.globalAlpha=1-pr; c.fillStyle=f.color; c.font=`900 ${s*.42}px sans-serif`; c.textAlign='center';
+      c.globalAlpha=1-pr; c.fillStyle=f.color; c.font=`600 ${s*.42}px 'Inter Tight',sans-serif`; c.textAlign='center';
       c.fillText(f.txt,fx,fy); }
     c.globalAlpha=1;
   }
@@ -2250,18 +2238,18 @@ function renderBattleSetup(){
   $('rankLabel').textContent=`· ${ARENA_RANKS[Math.min(S.rank,ARENA_RANKS.length-1)]} (Rank ${S.rank})`;
   $('rankDesc').textContent=`Next opponent: ${TRAINER_NAMES[S.rank%TRAINER_NAMES.length]} — team around Lv.${Math.max(2,2+S.rank*2)}.`;
   const row=$('teamPickRow'); row.innerHTML='';
-  if(!S.pets.length){ row.innerHTML='<div class="text-sm text-[#8d88b8] p-2">Summon a Pet first!</div>'; return; }
+  if(!S.pets.length){ row.innerHTML='<div class="text-sm text-[#7c7c6f] p-2">Summon a Pet first!</div>'; return; }
   S.team=S.team.filter(id=>getPet(id));
   for(const p of S.pets.slice().sort((a,b)=>petPower(b)-petPower(a))){
     const idx=S.team.indexOf(p.id);
     const b=document.createElement('button');
-    b.className=`game-panel px-3 py-2 shrink-0 card text-left ${idx>=0?'r-Rare':''}`;
-    if(idx>=0) b.style.background='rgba(0,240,255,.12)';
+    b.className='game-panel px-3 py-2 shrink-0 card text-left';
+    if(idx>=0) b.style.borderColor='#fffce1';
     b.innerHTML=`<div class="flex items-center gap-2">
-      ${idx>=0?`<span class="num text-[#00f0ff] font-black">${idx+1}</span>`:''}
+      ${idx>=0?`<span class="num text-[#00bae2] font-black">${idx+1}</span>`:''}
       <span class="text-xl">${SP[p.sp].emoji}</span>
       <span><b class="text-xs block">${petName(p)}</b>
-      <span class="text-[10px] text-[#8d88b8] num">Lv.${p.lvl} · ⚔${fmt(petPower(p))}</span></span></div>`;
+      <span class="text-[10px] text-[#7c7c6f] num">Lv.${p.lvl} · ⚔${fmt(petPower(p))}</span></span></div>`;
     b.onclick=()=>{ sfx.click();
       if(idx>=0) S.team.splice(idx,1);
       else { if(S.team.length>=3) S.team.shift(); S.team.push(p.id); }
@@ -2298,11 +2286,11 @@ function renderMarket(){
     card.className=`pet-card p-3 r-${rl} ${l.sold?"opacity-40":""}`;
     card.innerHTML=`
       <div class="petframe"><canvas class="w-full" style="aspect-ratio:4/3"></canvas></div>
-      <div class="font-black text-sm mt-1.5">${l.shiny?'🌟 ':''}${sp.name} <span class="text-[10px] num text-[#8d88b8]">Lv.${l.lvl}</span></div>
+      <div class="font-black text-sm mt-1.5">${l.shiny?'🌟 ':''}${sp.name} <span class="text-[10px] num text-[#7c7c6f]">Lv.${l.lvl}</span></div>
       <div class="flex justify-between items-center mt-0.5">
         ${typeChip(sp.type)}<span class="text-[10px] tc-${rl} font-bold">${rl}</span>
       </div>
-      <div class="text-[10px] text-[#8d88b8] mt-1 truncate">seller: ${l.seller} <span title="anchored">⛓</span></div>
+      <div class="text-[10px] text-[#7c7c6f] mt-1 truncate">seller: ${l.seller} <span title="anchored">⛓</span></div>
       ${l.sold? '<div class="charm-button cb-ghost w-full mt-2 text-xs text-center">SOLD</div>'
         : `<button class="game-button gb-gold w-full mt-2 text-xs buyBtn">Buy ⚡${fmt(l.price)}</button>`}`;
     grid.appendChild(card);
@@ -2362,13 +2350,13 @@ function renderQuests(){
     d.innerHTML=`
       <div class="flex-1">
         <div class="text-sm font-bold">${q.desc}</div>
-        <div class="h-1.5 bg-[#221e44] rounded-full mt-1.5 overflow-hidden">
-          <div class="xpbar h-full bg-gradient-to-r from-[#00f0ff] to-[#3ddc97]" style="width:${(q.prog/q.n*100)}%"></div></div>
-        <div class="text-[10px] num text-[#8d88b8] mt-0.5">${fmt(q.prog)}/${fmt(q.n)}</div>
+        <div class="h-1.5 bg-[#1d1f1c] rounded-full mt-1.5 overflow-hidden">
+          <div class="xpbar h-full bg-gradient-to-r from-[#00bae2] to-[#0ae448]" style="width:${(q.prog/q.n*100)}%"></div></div>
+        <div class="text-[10px] num text-[#7c7c6f] mt-0.5">${fmt(q.prog)}/${fmt(q.n)}</div>
       </div>
-      ${q.claimed? '<span class="text-xs text-[#3ddc97] font-bold">✓ Claimed</span>'
+      ${q.claimed? '<span class="text-xs text-[#0ae448] font-bold">✓ Claimed</span>'
         : done? `<button class="game-button gb-gold !py-1.5 text-xs claimBtn" data-i="${i}">Claim ⚡${q.reward}</button>`
-        : `<span class="text-xs num text-[#ffd166]">⚡${q.reward}</span>`}`;
+        : `<span class="text-xs num text-[#ff8709]">⚡${q.reward}</span>`}`;
     list.appendChild(d);
   });
   list.querySelectorAll('.claimBtn').forEach(b=>b.onclick=()=>{
@@ -2378,9 +2366,9 @@ function renderQuests(){
   const f=featuredSpecies();
   $('eventPanel').innerHTML=`
     <h3 class="font-black mb-2">🛰 Weekly Model Update</h3>
-    <div class="game-panel p-4" style="border-color:rgba(255,209,102,.4)">
-      <div class="font-bold text-sm text-[#ffd166]">${eventName()}</div>
-      <div class="text-xs text-[#9b96c4] mt-1">All week: <b style="color:${TYPES[f.type].color}">${f.name}</b> appears in 25% of summons. Patch notes: “${f.flavor.replaceAll('“','').replaceAll('”','')}”</div>
+    <div class="game-panel p-4" style="border-color:rgba(255,135,9,.4)">
+      <div class="font-bold text-sm text-[#ff8709]">${eventName()}</div>
+      <div class="text-xs text-[#7c7c6f] mt-1">All week: <b style="color:${TYPES[f.type].color}">${f.name}</b> appears in 25% of summons. Patch notes: “${f.flavor.replaceAll('“','').replaceAll('”','')}”</div>
       <button class="game-button gb-magenta mt-3 text-sm" onclick="showScreen('summon')">✨ Pull on the event banner</button>
     </div>`;
 }
@@ -2396,8 +2384,8 @@ function renderArchive(){
   $('archiveBtn').onclick=()=>{
     openGenModal(`
       <div class="text-lg font-black mb-2">🧠 Archive your collection?</div>
-      <div class="text-sm text-[#b9b4e0] mb-4">All ${S.pets.length} Pets, currencies and Rank ${S.rank} will be compressed into
-        <b class="text-[#ffd166]">${gain} Intelligence Core${gain>1?'s':''}</b> (permanent +${gain*2}% stats for every future Pet).
+      <div class="text-sm text-[#fffce1] mb-4">All ${S.pets.length} Pets, currencies and Rank ${S.rank} will be compressed into
+        <b class="text-[#ff8709]">${gain} Intelligence Core${gain>1?'s':''}</b> (permanent +${gain*2}% stats for every future Pet).
         This cannot be undone.</div>
       <div class="flex gap-2">
         <button class="charm-button cb-ghost flex-1" onclick="closeGenModal()">Not yet</button>
@@ -2419,19 +2407,19 @@ $('settingsBtn').addEventListener('click',()=>{
   openGenModal(`
     <div class="text-lg font-black mb-3">⚙ Settings</div>
     <div class="space-y-4">
-      <div><div class="text-xs font-bold text-[#8d88b8] mb-1">MASTER VOLUME</div>
-        <input id="volSlider" type="range" min="0" max="1" step="0.05" value="${S.settings.vol}" class="w-full accent-[#00f0ff]"></div>
-      <div><div class="text-xs font-bold text-[#8d88b8] mb-1">AMBIENT PAD</div>
-        <input id="ambSlider" type="range" min="0" max="1" step="0.05" value="${S.settings.amb}" class="w-full accent-[#a78bfa]"></div>
+      <div><div class="text-[13px] text-[#fffce1] mb-1" style="letter-spacing:-0.13px">{ Master Volume }</div>
+        <input id="volSlider" type="range" min="0" max="1" step="0.05" value="${S.settings.vol}" class="w-full accent-[#00bae2]"></div>
+      <div><div class="text-[13px] text-[#fffce1] mb-1" style="letter-spacing:-0.13px">{ Ambient Pad }</div>
+        <input id="ambSlider" type="range" min="0" max="1" step="0.05" value="${S.settings.amb}" class="w-full accent-[#9d95ff]"></div>
       <div class="game-panel p-3">
-        <div class="text-xs font-bold text-[#8d88b8] mb-2">SAVE DATA</div>
+        <div class="text-[13px] text-[#fffce1] mb-2" style="letter-spacing:-0.13px">{ Save Data }</div>
         <div class="flex gap-2 mb-2">
           <button class="charm-button cb-ghost flex-1 text-xs" id="exportBtn">📤 Export</button>
           <button class="charm-button cb-ghost flex-1 text-xs" id="importBtn">📥 Import</button>
         </div>
-        <textarea id="saveBox" class="w-full h-20 bg-[#0c0b16] border border-[#3a3560] rounded-lg p-2 text-[10px] font-mono" placeholder="Exported save appears here — or paste one and press Import"></textarea>
+        <textarea id="saveBox" class="w-full h-20 bg-[#0e100f] border border-[#42433d] rounded-lg p-2 text-[10px] font-mono" placeholder="Exported save appears here — or paste one and press Import"></textarea>
       </div>
-      <div class="text-[10px] text-[#6b668f] font-mono">wallet: ${S.wallet}</div>
+      <div class="text-[10px] text-[#7c7c6f] font-mono">wallet: ${S.wallet}</div>
       <button class="charm-button cb-danger w-full text-sm" id="hardResetBtn">🗑 Hard Reset (delete everything)</button>
       <button class="charm-button cb-ghost w-full" onclick="closeGenModal()">Close</button>
     </div>`);
@@ -2460,9 +2448,9 @@ function runOnboarding(){
   openGenModal(`
     <div class="text-center">
       <div class="text-4xl mb-2 floaty">🐣</div>
-      <div class="text-xl font-black mb-2 bg-clip-text text-transparent bg-gradient-to-r from-[#00f0ff] to-[#ff4dff]">Welcome to the Prompt Realm</div>
-      <div class="text-sm text-[#b9b4e0] mb-1">Large language models have manifested as adorable creatures called <b>Prompt Pets</b>.</div>
-      <div class="text-sm text-[#b9b4e0] mb-4">You are a <b class="text-[#ffd166]">Prompt Trainer</b>. Summon them from latent space. Bond. Battle. Make them truly yours.</div>
+      <div class="text-2xl mb-2" style="letter-spacing:-0.26px">Welcome to the <span style="color:#0ae448">Prompt Realm</span></div>
+      <div class="text-sm text-[#fffce1] mb-1">Large language models have manifested as adorable creatures called <b>Prompt Pets</b>.</div>
+      <div class="text-sm text-[#fffce1] mb-4">You are a <b class="text-[#ff8709]">Prompt Trainer</b>. Summon them from latent space. Bond. Battle. Make them truly yours.</div>
       <button class="game-button gb-magenta w-full" id="ob1">Begin ✨</button>
     </div>`, false);
   $('ob1').onclick=()=>{
@@ -2470,8 +2458,8 @@ function runOnboarding(){
       <div class="text-center">
         <div class="text-4xl mb-2">🎁</div>
         <div class="text-lg font-black mb-2">Your first summon is on us</div>
-        <div class="text-sm text-[#b9b4e0] mb-1">⚡ <b>Compute Credits</b> fuel summons — earn them in battle.</div>
-        <div class="text-sm text-[#b9b4e0] mb-4">❖ <b>Bond Essence</b> comes from training — it powers evolution.</div>
+        <div class="text-sm text-[#fffce1] mb-1">⚡ <b>Compute Credits</b> fuel summons — earn them in battle.</div>
+        <div class="text-sm text-[#fffce1] mb-4">❖ <b>Bond Essence</b> comes from training — it powers evolution.</div>
         <button class="game-button gb-gold w-full" id="ob2">Summon my first Pet!</button>
       </div>`, false);
     $('ob2').onclick=()=>{

@@ -36,7 +36,7 @@ python3 -m http.server 8080
 
 The layout is mobile-first with full touch support — open the server's IP on your phone for the native-feeling experience.
 
-> ℹ️ First load fetches Tailwind from `cdn.tailwindcss.com`. Everything else (game logic, art, audio, saves) is fully local.
+> ℹ️ First load fetches Tailwind from `cdn.tailwindcss.com` and the Inter Tight typeface from Google Fonts. Everything else (game logic, art, audio, saves) is fully local.
 
 ---
 
@@ -82,6 +82,10 @@ Void = high-variance wildcard (0.65×–1.6× in both directions)
 - **🛒 Marketplace** — daily-rotating listings from generated trainers; sell your own Pets from their detail card.
 - **🧠 Neural Archive (prestige)** — compress your collection into permanent Intelligence Cores (+2% all stats and +50 starting Credits each, forever).
 
+### Design system
+
+The UI follows the **"neon playground in midnight void"** style reference in [`design.md`](design.md): a flat `#0e100f` void-black canvas, cream (`#fffce1`) typography in a single typeface (Inter Tight, weights 400/600 only), zero shadows or elevation, 1px hairline borders for all separation, and exactly two radii — 8px for content blocks, 100px for pills. Colour is the organizational system: every game system claims one accent (collection = green, summon = pink, train = orange, battle = blue, market = lime, quests = violet), section labels are wrapped in literal `{ curly braces }`, all buttons are outlined ghost pills that invert on hover, and the weekly-event strip is the only fully-filled band in the interface.
+
 ### Polish
 
 Procedural Web Audio (whooshes, chimes, crits, fanfares, ambient pad), count-up currency animations, screen shake, confetti, particle systems on every big moment, gentle onboarding with a free Rare starter, and full localStorage persistence with base64 export/import and hard reset in Settings.
@@ -112,6 +116,8 @@ Full design notes live in the comment block at the top of `index.html`; five con
 
 ```
 index.html              ← the entire game
+design.md               ← UI style reference (tokens, components, do's & don'ts)
+vercel.json             ← static deployment config
 docs/screenshots/       ← README images
 LICENSE                 ← MIT
 ```
